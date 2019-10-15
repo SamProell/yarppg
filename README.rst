@@ -1,6 +1,10 @@
 Yet another rPPG
 ================
 
+*\* This is a work in progress! \**
+-----------------------------------
+
+
 **yarppg** is yet another implementation of remote photoplethysmography in
 Python.  Remote photoplethysmography (rPPG) refers to the camera-based
 measurement of a (blood volume) pulse signal.  It works by detecting small
