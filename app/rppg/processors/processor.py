@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 
 
 class Processor:
@@ -16,8 +17,11 @@ class Processor:
     def __call__(self, roi):
         return self.calculate(roi)
 
-    def spatial_pooling(self, roi, append_rgb=False):
-        b, r, g, a = cv2.mean(roi)
+    def spatial_pooling(self, roi_pixels, append_rgb=False):
+        if roi_pixels.shape[:2] == (0, 0):
+            r, g, b = np.nan, np.nan, np.nan
+        else:
+            b, r, g, a = cv2.mean(roi_pixels)
 
         if append_rgb:
             self._rs.append(r)
@@ -28,9 +32,14 @@ class Processor:
 
     @staticmethod
     def moving_average_update(xold, xs, winsize):
+        if len(xs) == 0:
+            return np.nan
+        '''
         n = len(xs)
         if n == 0:
             return 0
         if n < winsize:
             return sum(xs) / len(xs)
         return xold + (xs[-1] - xs[max(0, n - winsize)]) / min(n, winsize)
+        '''
+        return np.nanmean(xs[-winsize:])
