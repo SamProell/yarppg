@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QMainWindow, QGridLayout
 import pyqtgraph as pg
 
 from .rppg import RPPG
+from .utils.multiple_axes_plot import add_plot
 
 
 class MainWindow(QMainWindow):
@@ -17,7 +18,8 @@ class MainWindow(QMainWindow):
         self.ts = [0]
 
         self.img = None
-        self.main_line = None
+        self.lines = []
+
         self.init_ui(winsize=winsize)
 
     def init_ui(self, winsize):
@@ -29,13 +31,21 @@ class MainWindow(QMainWindow):
         # layout = pg.GraphicsLayout()
         # view.setCentralItem(layout)
         self.img = pg.ImageItem(axisOrder="row-major")
-        vb = layout.addViewBox(col=0, row=0, rowspan=1, invertX=True,
+        vb = layout.addViewBox(col=0, row=0, rowspan=2, invertX=True,
                                invertY=True, lockAspect=True)
         vb.addItem(self.img)
 
         p1 = layout.addPlot(row=0, col=1, colspan=1)
         p1.hideAxis("left")
-        self.main_line = p1.plot(antialias=True)
+        p1.hideAxis("bottom")
+        self.lines.append(p1.plot(antialias=True))
+
+        if self.rppg.num_processors > 1:
+            p2 = layout.addPlot(row=1, col=1, colspan=1)
+            p2.hideAxis("left")
+            self.lines.append(p2.plot(antialias=True))
+            for processor in range(2, self.rppg.num_processors):
+                self.lines.append(add_plot(p2, antialias=True))
 
         # self.setCentralWidget(view)
         self.setCentralWidget(layout)
@@ -45,13 +55,12 @@ class MainWindow(QMainWindow):
         img = self.rppg.output_frame
 
         for pi, vs in enumerate(self.rppg.get_vs(self.graphwin)):
-            if pi == 0:
-                self.main_line.setData(x=self.ts[-len(vs):], y=vs)
+            self.lines[pi].setData(x=self.ts[-len(vs):], y=vs)
 
         cv2.rectangle(img, self.rppg.roi[:2], self.rppg.roi[2:], (255, 0, 0), 3)
         self.img.setImage(img)
 
-        print(dt, self.geometry())
+        print(dt)
 
     def execute(self):
         self.show()

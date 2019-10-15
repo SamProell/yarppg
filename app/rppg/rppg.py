@@ -41,7 +41,7 @@ class RPPG(QObject):
         self.output_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
         self.update_roi(frame)
-        
+
         for processor in self._processors:
             processor(frame[self.roi[1]:self.roi[3], self.roi[0]:self.roi[2]])
 
