@@ -25,3 +25,12 @@ class Processor:
             self._bs.append(b)
 
         return r, g, b
+
+    @staticmethod
+    def moving_average_update(xold, xs, winsize):
+        n = len(xs)
+        if n == 0:
+            return 0
+        if n < winsize:
+            return sum(xs) / len(xs)
+        return xold + (xs[-1] - xs[max(0, n - winsize)]) / min(n, winsize)

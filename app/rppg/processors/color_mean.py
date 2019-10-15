@@ -2,7 +2,7 @@
 from .processor import Processor
 
 
-class ColorMean(Processor):
+class ColorMeanProcessor(Processor):
     channel_dict = dict(r=0, g=1, b=2)
 
     def __init__(self, channel="g"):
