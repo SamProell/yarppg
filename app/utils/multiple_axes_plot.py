@@ -17,4 +17,4 @@ def add_plot(p1, **kwargs):
     update_view()
     p1.vb.sigResized.connect(update_view)
 
-    return line
+    return line, p2

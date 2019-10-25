@@ -21,7 +21,8 @@ if __name__ == "__main__":
 
     win = MainWindow(app=app,
                      rppg=rppg,
-                     winsize=(800, 300)
+                     winsize=(1000, 400),
+                     legend=True,
                      )
     for i in range(2):
         win.set_pen(index=i+1, color="grb"[i], width=1)
