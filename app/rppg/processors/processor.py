@@ -12,7 +12,7 @@ class Processor:
         self.vs = []
 
     def calculate(self, roi):
-        self.vs.append(0)
+        self.vs.append(np.nan)
         return self.vs[-1]
 
     def __call__(self, roi):
@@ -22,7 +22,7 @@ class Processor:
         if roi_pixels.shape[:2] == (0, 0):
             r, g, b = np.nan, np.nan, np.nan
         else:
-            b, r, g, a = cv2.mean(roi_pixels)
+            b, g, r, a = cv2.mean(roi_pixels)
 
         if append_rgb:
             self._rs.append(r)

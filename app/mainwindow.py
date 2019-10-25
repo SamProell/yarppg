@@ -34,9 +34,7 @@ class MainWindow(QMainWindow):
 
         layout = pg.GraphicsLayoutWidget()
         self.setCentralWidget(layout)
-        # view = pg.GraphicsView()
-        # layout = pg.GraphicsLayout()
-        # view.setCentralItem(layout)
+
         self.img = pg.ImageItem(axisOrder="row-major")
         vb = layout.addViewBox(col=0, row=0, rowspan=3, invertX=True,
                                invertY=True, lockAspect=True)
@@ -73,19 +71,11 @@ class MainWindow(QMainWindow):
         p = layout.addPlot(row=2, col=1)
         p.hideAxis("left")
         p.hideAxis("bottom")
-        leg1, leg2 = pg.LegendItem(), pg.LegendItem()
-        self._customize_legend(leg1)
-        self._customize_legend(leg2)
+        legend = pg.LegendItem()
+        self._customize_legend(legend)
+        legend.setParentItem(p)
         for l, n in zip(self.lines, self.rppg.processor_names):
-            leg1.addItem(l, n)
-            """if l == self.lines[0]:
-                leg1.addItem(l, n)
-                leg1.setParentItem(self.plots[0])
-            else:
-                leg2.addItem(l, n)
-                leg2.setParentItem(self.plots[-1])
-            """
-        leg1.setParentItem(p)
+            legend.addItem(l, n)
 
     def updated(self, dt):
         self.ts.append(self.ts[-1] + dt)
@@ -108,7 +98,9 @@ class MainWindow(QMainWindow):
         self.lines[index].setPen(pen)
 
     def get_range(self, data):
-        x1, x2 = np.min(data), np.max(data)
+        if np.all(np.isnan(data)):
+            return 0, 1
+        x1, x2 = np.nanmin(data), np.nanmax(data)
         pad = (x2 - x1)*self.auto_range_factor
         return x1 - pad, x2 + pad
 

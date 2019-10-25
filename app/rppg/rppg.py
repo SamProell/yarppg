@@ -10,9 +10,9 @@ from .camera import Camera
 class RPPG(QObject):
     new_update = pyqtSignal(float)
 
-    def __init__(self, roi_detector, smooth_roi=0, parent=None, video=0):
+    def __init__(self, roi_detector, roi_smooth=0, parent=None, video=0):
         QObject.__init__(self, parent)
-        self.smooth_roi = smooth_roi
+        self.roi_smooth = roi_smooth
         self.roi = None
         self._processors = []
         self._roi_detector = roi_detector
@@ -34,8 +34,9 @@ class RPPG(QObject):
         if self.roi is None:
             self.roi = roi
         else:
-            self.roi = tuple((np.multiply(roi, 1 - self.smooth_roi)
-                             + np.multiply(self.roi, self.smooth_roi)).astype(int))
+            self.roi = tuple((np.multiply(roi, 1 - self.roi_smooth)
+                              + np.multiply(self.roi, self.roi_smooth)
+                              ).astype(int))
 
     def frame_received(self, frame):
         self.output_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)

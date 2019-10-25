@@ -8,6 +8,7 @@ import numpy as np
 class CaffeDNNFaceDetector:
     prototxt = "resources/deploy.prototxt"
     caffemodel = "resources/res10_300x300_ssd_iter_140000_fp16.caffemodel"
+    color_mean = (128, 128, 128)
 
     def __init__(self, prototxt=None, caffemodel=None,
                  blob_size=(300, 300),
@@ -22,9 +23,8 @@ class CaffeDNNFaceDetector:
         self.model = cv2.dnn.readNetFromCaffe(prototxt, caffemodel)
 
     def detect(self, frame):
-        # frame = cv2.resize(frame, self.blob_size)
         h, w = frame.shape[:2]
-        blob = cv2.dnn.blobFromImage(frame, 1.0, self.blob_size, (128, 128, 128))
+        blob = cv2.dnn.blobFromImage(frame, 1.0, self.blob_size, self.color_mean)
         self.model.setInput(blob)
         detections = self.model.forward()[0, 0, ...]
         for det in detections:

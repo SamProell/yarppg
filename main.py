@@ -10,20 +10,21 @@ if __name__ == "__main__":
     roi_detector = CaffeDNNFaceDetector(blob_size=(150, 150))
 
     rppg = RPPG(roi_detector=roi_detector,
-                smooth_roi=0.9,
+                roi_smooth=0.9,
                 video=0,
                 parent=app,
                 )
-    winsize = 10
+    rppg.add_processor(ChromProcessor(winsize=5, method="xovery"))
     rppg.add_processor(ColorMeanProcessor(channel="r", winsize=1))
-    rppg.add_processor(ChromProcessor(winsize=winsize))
-    rppg.add_processor(ChromProcessor(winsize=winsize, method="fixed"))
+    rppg.add_processor(ColorMeanProcessor(channel="g", winsize=1))
+    rppg.add_processor(ColorMeanProcessor(channel="b", winsize=1))
 
     win = MainWindow(app=app,
                      rppg=rppg,
                      winsize=(1000, 400),
                      legend=True,
+                     graphwin=300,
                      )
-    for i in range(2):
-        win.set_pen(index=i+1, color="grb"[i], width=1)
+    for i in range(3):
+        win.set_pen(index=i+1, color="rgb"[i], width=1)
     sys.exit(win.execute())
