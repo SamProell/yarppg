@@ -60,6 +60,10 @@ class RPPG(QObject):
     def num_processors(self):
         return len(self._processors)
 
+    @property
+    def processor_names(self):
+        return [str(p) for p in self._processors]
+
     def start(self):
         self._cam.start()
 

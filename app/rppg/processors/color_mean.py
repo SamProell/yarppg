@@ -4,6 +4,7 @@ from .processor import Processor
 
 class ColorMeanProcessor(Processor):
     channel_dict = dict(r=0, g=1, b=2)
+    channel_dict_reverse = {0: "r", 1: "g", 2: "b"}
 
     def __init__(self, channel="g", winsize=1):
         Processor.__init__(self)
@@ -22,3 +23,9 @@ class ColorMeanProcessor(Processor):
         self.vs.append(self.moving_average_update(0, self._tmp, self.winsize))
 
         return self.vs[-1]
+
+    def __str__(self):
+        if self.name is None:
+            channel = self.channel_dict_reverse[self.channel]
+            return "ColorMean(winsize={},c={})".format(self.winsize, channel)
+        return self.name

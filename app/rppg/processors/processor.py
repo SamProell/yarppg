@@ -4,6 +4,7 @@ import numpy as np
 
 class Processor:
     def __init__(self):
+        self.name = None
         self._rs = []
         self._gs = []
         self._bs = []
@@ -29,6 +30,12 @@ class Processor:
             self._bs.append(b)
 
         return r, g, b
+
+    def __str__(self):
+        if self.name is None:
+            return "Processor"
+        else:
+            return self.name
 
     @staticmethod
     def moving_average_update(xold, xs, winsize):

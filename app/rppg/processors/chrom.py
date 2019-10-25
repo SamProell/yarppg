@@ -51,3 +51,10 @@ class ChromProcessor(Processor):
             self.vs.append(np.nan)
 
         return self.vs[-1]
+
+    def __str__(self):
+        if self.name is None:
+            return "ChromProcessor(winsize={},method={})".format(self.winsize,
+                                                                 self.method)
+        return self.name
+
