@@ -1,11 +1,14 @@
 import sys
 
-from PyQt5.QtWidgets import QApplication
 
-from app import MainWindow, RPPG, HaarCascadeDetector, CaffeDNNFaceDetector
-from app.rppg.processors import ColorMeanProcessor, ChromProcessor
+def main():
+    from PyQt5.QtWidgets import QApplication
 
-if __name__ == "__main__":
+    from yarppg.ui import MainWindow
+    from yarppg.rppg import RPPG
+    from yarppg.rppg.roi_detect import HaarCascadeDetector, CaffeDNNFaceDetector
+    from yarppg.rppg.processors import ColorMeanProcessor, ChromProcessor
+
     app = QApplication(sys.argv)
     roi_detector = CaffeDNNFaceDetector(blob_size=(150, 150))
 
@@ -27,4 +30,9 @@ if __name__ == "__main__":
                      )
     for i in range(3):
         win.set_pen(index=i+1, color="rgb"[i], width=1)
-    sys.exit(win.execute())
+
+    return win.execute()
+
+
+if __name__ == "__main__":
+    exit(main())

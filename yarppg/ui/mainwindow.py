@@ -3,8 +3,9 @@ import numpy as np
 from PyQt5.QtWidgets import QMainWindow, QGridLayout, QHBoxLayout
 import pyqtgraph as pg
 
-from .rppg import RPPG
-from .utils.multiple_axes_plot import add_plot
+from yarppg.rppg import RPPG
+
+from .multiple_axes_plot import add_plot
 
 
 class MainWindow(QMainWindow):

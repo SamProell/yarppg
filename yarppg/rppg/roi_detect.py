@@ -6,8 +6,11 @@ import numpy as np
 
 
 class CaffeDNNFaceDetector:
-    prototxt = "resources/deploy.prototxt"
-    caffemodel = "resources/res10_300x300_ssd_iter_140000_fp16.caffemodel"
+    prototxt = os.path.join(os.path.dirname(__file__),
+                            "_resources/deploy.prototxt")
+    caffemodel = os.path.join(os.path.dirname(__file__),
+                              "_resources/res10_300x300_ssd_iter_140000_fp16"
+                              ".caffemodel")
     color_mean = (128, 128, 128)
 
     def __init__(self, prototxt=None, caffemodel=None,
