@@ -2,3 +2,4 @@ numpy
 opencv-python
 PyQt5
 pyqtgraph
+scipy

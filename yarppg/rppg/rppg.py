@@ -5,12 +5,14 @@ import numpy as np
 from PyQt5.QtCore import pyqtSignal, QObject
 
 from .camera import Camera
+from .hr import from_peaks
 
 
 class RPPG(QObject):
     new_update = pyqtSignal(float)
 
-    def __init__(self, roi_detector, roi_smooth=0, parent=None, video=0):
+    def __init__(self, roi_detector, roi_smooth=0, parent=None, video=0,
+                 hr_calculator=None):
         QObject.__init__(self, parent)
         self.roi_smooth = roi_smooth
         self.roi = None
@@ -19,8 +21,11 @@ class RPPG(QObject):
 
         self._set_camera(video)
 
+        self._dts = []
         self.last_update = datetime.now()
         self.output_frame = None
+        self.hr_calculator = hr_calculator
+        self.new_hr = self.hr_calculator.new_hr
 
     def _set_camera(self, video):
         self._cam = Camera(video=video, parent=self)
@@ -45,9 +50,11 @@ class RPPG(QObject):
 
         for processor in self._processors:
             processor(frame[self.roi[1]:self.roi[3], self.roi[0]:self.roi[2]])
+        self.hr_calculator.update(self)
 
         dt = (datetime.now() - self.last_update).total_seconds()
         self.last_update = datetime.now()
+        self._dts.append(dt)
         self.new_update.emit(dt)
 
     def get_vs(self, n=None):
@@ -56,6 +63,16 @@ class RPPG(QObject):
                 yield np.array(processor.vs, copy=True)
             else:
                 yield np.array(processor.vs[-n:], copy=True)
+
+    def get_ts(self, n=None):
+        if n is None:
+            dts = self._dts
+        else:
+            dts = self._dts[-n:]
+        return np.cumsum(dts)
+
+    def get_fps(self, n=5):
+        return 1/np.mean(self._dts[-n:])
 
     @property
     def num_processors(self):

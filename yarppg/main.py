@@ -8,13 +8,15 @@ def main():
     from yarppg.rppg import RPPG
     from yarppg.rppg.roi_detect import HaarCascadeDetector, CaffeDNNFaceDetector
     from yarppg.rppg.processors import ColorMeanProcessor, ChromProcessor
+    from yarppg.rppg.hr import HRCalculator
 
     app = QApplication(sys.argv)
     roi_detector = CaffeDNNFaceDetector(blob_size=(150, 150))
-
+    hr_calc = HRCalculator(parent=app, update_interval=30, winsize=200)
     rppg = RPPG(roi_detector=roi_detector,
                 roi_smooth=0.9,
                 video=0,
+                hr_calculator=hr_calc,
                 parent=app,
                 )
     rppg.add_processor(ChromProcessor(winsize=5, method="xovery"))

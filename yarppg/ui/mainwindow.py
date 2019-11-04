@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from PyQt5.QtWidgets import QMainWindow, QGridLayout, QHBoxLayout
+from PyQt5.QtWidgets import QMainWindow, QGridLayout, QHBoxLayout, QLabel
 import pyqtgraph as pg
 
 from yarppg.rppg import RPPG
@@ -15,7 +15,8 @@ class MainWindow(QMainWindow):
         self._app = app
 
         self.rppg = rppg
-        self.rppg.new_update.connect(lambda code: self.updated(code))
+        self.rppg.new_update.connect(self.updated)
+        self.rppg.new_hr.connect(self.update_hr)
 
         self.graphwin = graphwin
         self.ts = [0]
@@ -24,6 +25,8 @@ class MainWindow(QMainWindow):
         self.lines = []
         self.plots = []
         self.auto_range_factor = 0.05
+
+        self.hr_label = None
 
         self.init_ui(winsize=winsize)
         if legend:
@@ -59,6 +62,9 @@ class MainWindow(QMainWindow):
         for p in self.plots:
             p.disableAutoRange()
 
+        self.hr_label = layout.addLabel(text="Heart rate:", row=4, col=0,
+                                        size="20pt")
+
     @staticmethod
     def _customize_legend(l, fs="10pt", spacing=0, margins=(5, 0, 5, 0)):
         l.layout.setSpacing(spacing)
@@ -78,18 +84,22 @@ class MainWindow(QMainWindow):
         for l, n in zip(self.lines, self.rppg.processor_names):
             legend.addItem(l, n)
 
+    def update_hr(self, hr):
+        self.hr_label.setText("Heart rate: {:5.1f} beat/min".format(hr))
+
     def updated(self, dt):
-        self.ts.append(self.ts[-1] + dt)
+        # self.ts.append(self.ts[-1] + dt)
         img = self.rppg.output_frame
 
+        ts = self.rppg.get_ts(self.graphwin)
         for pi, vs in enumerate(self.rppg.get_vs(self.graphwin)):
-            self.lines[pi].setData(x=self.ts[-len(vs):], y=vs)
-            self.plots[pi].setXRange(self.ts[-len(vs)], self.ts[-1])
+            self.lines[pi].setData(x=ts, y=vs)
+            self.plots[pi].setXRange(ts[0], ts[-1])
             self.plots[pi].setYRange(*self.get_range(vs))
 
         cv2.rectangle(img, self.rppg.roi[:2], self.rppg.roi[2:], (255, 0, 0), 3)
         self.img.setImage(img)
-        print("%.3f" % dt, self.rppg.roi, "FPS:", int(self.get_fps()))
+        print("%.3f" % dt, self.rppg.roi, "FPS:", int(self.rppg.get_fps()))
 
     def set_pen(self, color=None, width=1, index=0):
         if index > len(self.lines):
@@ -104,9 +114,6 @@ class MainWindow(QMainWindow):
         x1, x2 = np.nanmin(data), np.nanmax(data)
         pad = (x2 - x1)*self.auto_range_factor
         return x1 - pad, x2 + pad
-
-    def get_fps(self, n=5):
-        return 1/np.mean(np.diff(self.ts[-n:]))
 
     def execute(self):
         self.show()
