@@ -35,6 +35,7 @@ def main():
                      winsize=(1000, 400),
                      legend=True,
                      graphwin=300,
+                     blur_roi=25,
                      )
     for i in range(3):
         win.set_pen(index=i+1, color="rgb"[i], width=1)

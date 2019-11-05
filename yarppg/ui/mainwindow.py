@@ -10,7 +10,7 @@ from .multiple_axes_plot import add_plot
 
 class MainWindow(QMainWindow):
     def __init__(self, app, rppg, winsize=(1000, 400), graphwin=150,
-                 legend=False):
+                 legend=False, blur_roi=-1):
         QMainWindow.__init__(self)
         self._app = app
 
@@ -31,8 +31,10 @@ class MainWindow(QMainWindow):
         self.init_ui(winsize=winsize)
         if legend:
             self._add_legend()
+        self.blur_roi = blur_roi
 
     def init_ui(self, winsize):
+        pg.setConfigOptions(antialias=True, foreground="k", background="w")
         self.setWindowTitle("yet another rPPG")
         self.setGeometry(0, 0, winsize[0], winsize[1])
 
@@ -47,7 +49,7 @@ class MainWindow(QMainWindow):
         p1 = layout.addPlot(row=0, col=1, colspan=1)
         p1.hideAxis("left")
         p1.hideAxis("bottom")
-        self.lines.append(p1.plot(antialias=True))
+        self.lines.append(p1.plot(antialias=True, pen=pg.mkPen("k", width=3)))
         self.plots.append(p1)
 
         if self.rppg.num_processors > 1:
@@ -56,7 +58,7 @@ class MainWindow(QMainWindow):
             self.lines.append(p2.plot(antialias=True))
             self.plots.append(p2)
             for processor in range(2, self.rppg.num_processors):
-                l, p = add_plot(p2, antialias=True)
+                l, p = add_plot(p2, antialias=True, pen=pg.mkPen(width=3))
                 self.lines.append(l)
                 self.plots.append(p)
         for p in self.plots:
@@ -97,15 +99,32 @@ class MainWindow(QMainWindow):
             self.plots[pi].setXRange(ts[0], ts[-1])
             self.plots[pi].setYRange(*self.get_range(vs))
 
-        cv2.rectangle(img, self.rppg.roi[:2], self.rppg.roi[2:], (255, 0, 0), 3)
+        roi = self.rppg.roi
+        cv2.rectangle(img, roi[:2], roi[2:], (255, 0, 0), 3)
+
+        self._pixelate_roi(img, roi)
         self.img.setImage(img)
         print("%.3f" % dt, self.rppg.roi, "FPS:", int(self.rppg.get_fps()))
+
+    def _pixelate_roi(self, img, roi):
+        blursize = self.blur_roi
+        if blursize > 0:
+            roiw, roih = roi[2] - roi[0], roi[3] - roi[1]
+            if roiw <= self.blur_roi or roih <= self.blur_roi:
+                return
+            slicey = slice(roi[1], roi[3])
+            slicex = slice(roi[0], roi[2])
+            tmp = cv2.resize(img[slicey, slicex],
+                             (int(roiw/blursize), int(roih/blursize)),
+                             interpolation=cv2.INTER_LINEAR)
+            img[slicey, slicex] = cv2.resize(tmp, (roiw, roih),
+                                             interpolation=cv2.INTER_NEAREST)
 
     def set_pen(self, color=None, width=1, index=0):
         if index > len(self.lines):
             raise IndexError("index={} is to high for {} lines"
                              "".format(index, len(self.lines)))
-        pen = pg.mkPen(color or "w", width=width)
+        pen = pg.mkPen(color or "k", width=width)
         self.lines[index].setPen(pen)
 
     def get_range(self, data):
