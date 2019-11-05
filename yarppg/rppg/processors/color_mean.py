@@ -20,9 +20,7 @@ class ColorMeanProcessor(Processor):
     def calculate(self, roi_pixels):
         rgb = self.spatial_pooling(roi_pixels, append_rgb=False)
         self._tmp.append(rgb[self.channel])
-        self.vs.append(self.moving_average_update(0, self._tmp, self.winsize))
-
-        return self.vs[-1]
+        return self.moving_average_update(0, self._tmp, self.winsize)
 
     def __str__(self):
         if self.name is None:

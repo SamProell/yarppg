@@ -26,12 +26,14 @@ def from_peaks(vs, ts, mindist=0.35):
 class HRCalculator(QObject):
     new_hr = pyqtSignal(float)
 
-    def __init__(self, parent=None, update_interval=30, winsize=300):
+    def __init__(self, parent=None, update_interval=30, winsize=300,
+                 filt_fun=None):
         QObject.__init__(self, parent)
 
         self._counter = 0
         self.update_interval = update_interval
         self.winsize = winsize
+        self.filt_fun = filt_fun
 
     def update(self, rppg):
         self._counter += 1
@@ -39,4 +41,6 @@ class HRCalculator(QObject):
             self._counter = 0
             ts = rppg.get_ts(self.winsize)
             vs = next(rppg.get_vs(self.winsize))
+            if self.filt_fun is not None and callable(self.filt_fun):
+                vs = self.filt_fun(vs)
             self.new_hr.emit(from_peaks(vs, ts))

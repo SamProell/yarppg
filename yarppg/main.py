@@ -6,20 +6,26 @@ def main():
 
     from yarppg.ui import MainWindow
     from yarppg.rppg import RPPG
-    from yarppg.rppg.roi_detect import HaarCascadeDetector, CaffeDNNFaceDetector
-    from yarppg.rppg.processors import ColorMeanProcessor, ChromProcessor
+    from yarppg.rppg.roi_detect import CaffeDNNFaceDetector
+    from yarppg.rppg.processors import (ColorMeanProcessor, ChromProcessor,
+                                        FilteredProcessor)
     from yarppg.rppg.hr import HRCalculator
+    from yarppg.rppg.filters import DigitalFilter, get_butterworth_filter
 
     app = QApplication(sys.argv)
     roi_detector = CaffeDNNFaceDetector(blob_size=(150, 150))
+
+    digital_lowpass = get_butterworth_filter(30, 1.5)
     hr_calc = HRCalculator(parent=app, update_interval=30, winsize=200)
+
     rppg = RPPG(roi_detector=roi_detector,
                 roi_smooth=0.9,
                 video=0,
                 hr_calculator=hr_calc,
                 parent=app,
                 )
-    rppg.add_processor(ChromProcessor(winsize=5, method="xovery"))
+    processor = ChromProcessor(winsize=5, method="xovery")
+    rppg.add_processor(FilteredProcessor(processor, digital_lowpass))
     rppg.add_processor(ColorMeanProcessor(channel="r", winsize=1))
     rppg.add_processor(ColorMeanProcessor(channel="g", winsize=1))
     rppg.add_processor(ColorMeanProcessor(channel="b", winsize=1))

@@ -12,11 +12,12 @@ class Processor:
         self.vs = []
 
     def calculate(self, roi):
-        self.vs.append(np.nan)
-        return self.vs[-1]
+        return np.nan
 
     def __call__(self, roi):
-        return self.calculate(roi)
+        v = self.calculate(roi)
+        self.vs.append(v)
+        return v
 
     def spatial_pooling(self, roi_pixels, append_rgb=False):
         if roi_pixels.shape[:2] == (0, 0):
@@ -50,3 +51,15 @@ class Processor:
         return xold + (xs[-1] - xs[max(0, n - winsize)]) / min(n, winsize)
         '''
         return np.nanmean(xs[-winsize:])
+
+
+class FilteredProcessor(Processor):
+    def __init__(self, processor, filtfun):
+        Processor.__init__(self)
+        self._processor = processor
+        self._filtfun = filtfun
+        self.name = "Filtered" + str(processor)
+
+    def calculate(self, roi):
+        v = self._filtfun(self._processor.calculate(roi))
+        return v

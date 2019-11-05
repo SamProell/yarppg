@@ -28,6 +28,7 @@ class ChromProcessor(Processor):
     def calculate(self, roi_pixels):
         self.n += 1
         r, g, b = self.spatial_pooling(roi_pixels, append_rgb=True)
+        v = np.nan
 
         if self.method == "fixed":
             self.rmean = self.moving_average_update(self.rmean, self._rs, self.winsize)
@@ -39,18 +40,16 @@ class ChromProcessor(Processor):
             self._xs.append(3*rn - 2*gn)
             self._ys.append(1.5*rn + gn - 1.5*bn)
 
-            self.vs.append(self._xs[-1] / (self._ys[-1] or 1.) - 1)
+            v = self._xs[-1] / (self._ys[-1] or 1.) - 1
         elif self.method == "xovery":
             self._xs.append(r - g)
             self._ys.append(0.5*r + 0.5*g - b)
             self.xmean = self.moving_average_update(self.xmean, self._xs, self.winsize)
             self.ymean = self.moving_average_update(self.ymean, self._ys, self.winsize)
 
-            self.vs.append(self.xmean / (self.ymean or 1) - 1)
-        else:
-            self.vs.append(np.nan)
+            v = self.xmean / (self.ymean or 1) - 1
 
-        return self.vs[-1]
+        return v
 
     def __str__(self):
         if self.name is None:

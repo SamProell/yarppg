@@ -1,3 +1,3 @@
-from .processor import Processor
+from .processor import Processor, FilteredProcessor
 from .color_mean import ColorMeanProcessor
 from .chrom import ChromProcessor
