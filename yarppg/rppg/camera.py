@@ -6,9 +6,24 @@ from PyQt5.QtCore import QThread, pyqtSignal
 
 
 class Camera(QThread):
+    """Wraps an OpenCV VideoCapture and provides a Qt signal with new
+    frames.
+
+    The :py:`run` function launches a loop that waits for new frames in
+    the VideoCapture and emits them with a `new_frame` signal. Calling
+    :py:`stop` stops the loop and releases the camera.
+    """
+
     new_frame = pyqtSignal(np.ndarray)
 
     def __init__(self, video=0, parent=None):
+        """Initialize Camera instance
+
+        Args:
+            video (int or string): ID of camera or video filename
+            parent (QObject): parent object in Qt context
+        """
+
         QThread.__init__(self, parent=parent)
         self._cap = cv2.VideoCapture(video)
         self._running = False
