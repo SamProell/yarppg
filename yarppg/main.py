@@ -16,9 +16,10 @@ def main():
     roi_detector = CaffeDNNFaceDetector(blob_size=(150, 150))
 
     digital_lowpass = get_butterworth_filter(30, 1.5)
-    digital_bandpass = get_butterworth_filter(30, cutoff=(0.5, 1.5),
+    digital_bandpass = get_butterworth_filter(30, cutoff=(0.5, 4),
                                               btype="bandpass")
-    hr_calc = HRCalculator(parent=app, update_interval=30, winsize=300)
+    hr_calc = HRCalculator(parent=app, update_interval=30, winsize=300,
+                           filt_fun=lambda vs: [digital_lowpass(v) for v in vs])
 
     rppg = RPPG(roi_detector=roi_detector,
                 roi_smooth=0.9,
@@ -31,6 +32,8 @@ def main():
     rppg.add_processor(ColorMeanProcessor(channel="r", winsize=1))
     rppg.add_processor(ColorMeanProcessor(channel="g", winsize=1))
     rppg.add_processor(ColorMeanProcessor(channel="b", winsize=1))
+
+    # rppg.output_filename = "outputs.csv"
 
     win = MainWindow(app=app,
                      rppg=rppg,

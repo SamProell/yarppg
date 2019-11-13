@@ -1,15 +1,17 @@
 from datetime import datetime
+import pathlib
 
 import cv2
 import numpy as np
+import pandas as pd
 from PyQt5.QtCore import pyqtSignal, QObject
 
-from .camera import Camera
-from .hr import from_peaks
+from yarppg.rppg.camera import Camera
 
 
 class RPPG(QObject):
     new_update = pyqtSignal(float)
+    _dummy_signal = pyqtSignal(float)
 
     def __init__(self, roi_detector, roi_smooth=0, parent=None, video=0,
                  hr_calculator=None):
@@ -25,7 +27,13 @@ class RPPG(QObject):
         self.last_update = datetime.now()
         self.output_frame = None
         self.hr_calculator = hr_calculator
-        self.new_hr = self.hr_calculator.new_hr
+
+        if self.hr_calculator is not None:
+            self.new_hr = self.hr_calculator.new_hr
+        else:
+            self.new_hr = self._dummy_signal
+
+        self.output_filename = None
 
     def _set_camera(self, video):
         self._cam = Camera(video=video, parent=self)
@@ -74,6 +82,24 @@ class RPPG(QObject):
     def get_fps(self, n=5):
         return 1/np.mean(self._dts[-n:])
 
+    def save_signals(self):
+        path = pathlib.Path(self.output_filename)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        names = ["ts"] + ["p%d" % i for i in range(self.num_processors)]
+        data = np.vstack((self.get_ts(),) + tuple(self.get_vs())).T
+
+        df = pd.DataFrame(data=data, columns=names)
+        if path.suffix == ".csv":
+            df.to_csv(path, float_format="%.7f", index=False)
+        elif path.suffix in {".pkl", ".pickle"}:
+            df.to_pickle(path)
+        elif path.suffix == ".np":
+            np.save(path, data)
+        elif path.suffix == ".npz":
+            np.savez_compressed(path, data=data)
+        else:
+            raise IOError("Unknown file extension '{}'".format(path.suffix))
+
     @property
     def num_processors(self):
         return len(self._processors)
@@ -87,4 +113,6 @@ class RPPG(QObject):
 
     def finish(self):
         print("finishing up...")
+        if self.output_filename is not None:
+            self.save_signals()
         self._cam.stop()
