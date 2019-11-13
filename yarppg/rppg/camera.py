@@ -10,7 +10,7 @@ class Camera(QThread):
     frames.
 
     The :py:`run` function launches a loop that waits for new frames in
-    the VideoCapture and emits them with a `new_frame` signal. Calling
+    the VideoCapture and emits them with a `new_frame` signal.  Calling
     :py:`stop` stops the loop and releases the camera.
     """
 
