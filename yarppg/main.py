@@ -1,19 +1,30 @@
 import sys
+import argparse
 
+
+from PyQt5.QtWidgets import QApplication
+from yarppg.ui import MainWindow
+from yarppg.rppg import RPPG
+from yarppg.rppg.roi_detect import CaffeDNNFaceDetector, NoDetector
+from yarppg.rppg.processors import (ColorMeanProcessor, ChromProcessor,
+                                    FilteredProcessor)
+from yarppg.rppg.hr import HRCalculator, from_fft
+from yarppg.rppg.filters import DigitalFilter, get_butterworth_filter
+
+
+_mainparser = argparse.ArgumentParser(description="Use your Webcam to measure"
+                                                  "your heart rate")
+_mainparser.add_argument("--blobsize", default=150, type=int,
+                         help="quadratic blob size of DNN Face Detector")
+_mainparser.add_argument("--blur", default=25, type=int,
+                         help="pixelation size of detected ROI")
 
 def main():
-    from PyQt5.QtWidgets import QApplication
-
-    from yarppg.ui import MainWindow
-    from yarppg.rppg import RPPG
-    from yarppg.rppg.roi_detect import CaffeDNNFaceDetector
-    from yarppg.rppg.processors import (ColorMeanProcessor, ChromProcessor,
-                                        FilteredProcessor)
-    from yarppg.rppg.hr import HRCalculator, from_fft
-    from yarppg.rppg.filters import DigitalFilter, get_butterworth_filter
-
+    args = _mainparser.parse_args(sys.argv[1:])
     app = QApplication(sys.argv)
-    roi_detector = CaffeDNNFaceDetector(blob_size=(150, 150))
+
+    roi_detector = NoDetector()
+    # roi_detector = CaffeDNNFaceDetector(blob_size=(args.blobsize, args.blobsize))
 
     digital_lowpass = get_butterworth_filter(30, 1.5)
     digital_bandpass = get_butterworth_filter(30, cutoff=(0.5, 4),
@@ -40,7 +51,7 @@ def main():
                      winsize=(1000, 400),
                      legend=True,
                      graphwin=300,
-                     blur_roi=25,
+                     blur_roi=args.blur,
                      )
     for i in range(3):
         win.set_pen(index=i+1, color="rgb"[i], width=1)
@@ -49,4 +60,4 @@ def main():
 
 
 if __name__ == "__main__":
-    exit(main())
+    sys.exit(main())

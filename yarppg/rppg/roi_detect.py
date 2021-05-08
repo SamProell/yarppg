@@ -5,7 +5,25 @@ import cv2
 import numpy as np
 
 
-class CaffeDNNFaceDetector:
+class ROIDetector:
+    def __init__(self):
+        pass
+
+    def detect(self, frame):
+        raise NotImplementedError("detect method needs to be overwritten.")
+
+    def __call__(self, frame):
+        return self.detect(frame)
+
+class NoDetector(ROIDetector):
+    def __init__(self):
+        ROIDetector.__init__(self)
+
+    def detect(self, frame):
+        h, w = frame.shape[:2]
+        return 0, 0, w, h
+
+class CaffeDNNFaceDetector(ROIDetector):
     prototxt = os.path.join(os.path.dirname(__file__),
                             "_resources/deploy.prototxt")
     caffemodel = os.path.join(os.path.dirname(__file__),
@@ -17,6 +35,7 @@ class CaffeDNNFaceDetector:
                  blob_size=(300, 300),
                  min_confidence=0.3,
                  ):
+        super().__init__()
         self.blob_size = blob_size
         self.min_confidence = min_confidence
         if prototxt is None:
@@ -37,11 +56,8 @@ class CaffeDNNFaceDetector:
                 return x1, y1, x2, y2
         return 0, 0, 0, 0
 
-    def __call__(self, frame):
-        return self.detect(frame)
 
-
-class HaarCascadeDetector:
+class HaarCascadeDetector(ROIDetector):
     default_cascade = "resources/haarcascade_frontalface_default.xml"
 
     def __init__(self,
@@ -50,6 +66,7 @@ class HaarCascadeDetector:
                  min_neighbors=5,
                  min_size=(30, 30),
                  ):
+        super().__init__()
         self.scale_factor = scale_factor
         self.min_neighbors = min_neighbors
         self.min_size = min_size
@@ -66,9 +83,6 @@ class HaarCascadeDetector:
             return x, y, x+w, y+h
 
         return 0, 0, 0, 0
-
-    def __call__(self, frame):
-        return self.detect(frame)
 
     @classmethod
     def _get_classifier(cls, casc_file):
