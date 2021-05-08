@@ -37,7 +37,7 @@ class RPPG(QObject):
 
     def _set_camera(self, video):
         self._cam = Camera(video=video, parent=self)
-        self._cam.new_frame.connect(lambda frame: self.frame_received(frame))
+        self._cam.new_frame.connect(self.frame_received)
 
     def add_processor(self, processor):
         self._processors.append(processor)

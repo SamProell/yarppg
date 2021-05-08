@@ -1,3 +1,5 @@
+import sys
+
 if __name__ == "__main__":
     from yarppg.main import main
-    exit(main())
+    sys.exit(main())

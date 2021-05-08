@@ -3,7 +3,7 @@ import numpy as np
 from PyQt5.QtWidgets import QMainWindow, QGridLayout, QHBoxLayout, QLabel
 import pyqtgraph as pg
 
-from yarppg.rppg import RPPG
+# from yarppg.rppg import RPPG
 
 from .multiple_axes_plot import add_plot
 
@@ -68,8 +68,7 @@ class MainWindow(QMainWindow):
                                         size="20pt")
 
     @staticmethod
-    def _customize_legend(l, fs="10pt", spacing=0, margins=(5, 0, 5, 0)):
-        l.layout.setSpacing(spacing)
+    def _customize_legend(l, fs="10pt", margins=(5, 0, 5, 0)):
         l.layout.setContentsMargins(*margins)
         if fs is not None:
             for _, label in l.items:
@@ -80,7 +79,7 @@ class MainWindow(QMainWindow):
         p = layout.addPlot(row=2, col=1)
         p.hideAxis("left")
         p.hideAxis("bottom")
-        legend = pg.LegendItem()
+        legend = pg.LegendItem(verSpacing=2)
         self._customize_legend(legend)
         legend.setParentItem(p)
         for l, n in zip(self.lines, self.rppg.processor_names):
