@@ -5,19 +5,34 @@ import cv2
 import numpy as np
 
 
+def exponential_smooth(new_roi, old_roi, factor):
+    if factor <= 0.0 or old_roi is None:
+        return new_roi
+
+    smooth_roi = np.multiply(new_roi, 1 - factor) + np.multiply(old_roi, factor)
+    return tuple(smooth_roi.astype(int))
+
 class ROIDetector:
-    def __init__(self):
-        pass
+    def __init__(self, smooth_factor=0.0, **kwargs):
+        self.oldroi = None
+        self.smooth_factor = smooth_factor
+        super().__init__(**kwargs)
 
     def detect(self, frame):
         raise NotImplementedError("detect method needs to be overwritten.")
 
+    def get_roi(self, frame):
+        roi = self.detect(frame)
+        self.oldroi = exponential_smooth(roi, self.oldroi, self.smooth_factor)
+
+        return self.oldroi
+
     def __call__(self, frame):
-        return self.detect(frame)
+        return self.get_roi(frame)
 
 class NoDetector(ROIDetector):
-    def __init__(self):
-        ROIDetector.__init__(self)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def detect(self, frame):
         h, w = frame.shape[:2]
@@ -34,8 +49,9 @@ class CaffeDNNFaceDetector(ROIDetector):
     def __init__(self, prototxt=None, caffemodel=None,
                  blob_size=(300, 300),
                  min_confidence=0.3,
+                 **kwargs
                  ):
-        super().__init__()
+        super().__init__(**kwargs)
         self.blob_size = blob_size
         self.min_confidence = min_confidence
         if prototxt is None:
@@ -65,8 +81,8 @@ class HaarCascadeDetector(ROIDetector):
                  scale_factor=1.1,
                  min_neighbors=5,
                  min_size=(30, 30),
-                 ):
-        super().__init__()
+                 **kwargs):
+        super().__init__(**kwargs)
         self.scale_factor = scale_factor
         self.min_neighbors = min_neighbors
         self.min_size = min_size

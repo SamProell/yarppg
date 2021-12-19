@@ -13,10 +13,9 @@ class RPPG(QObject):
     new_update = pyqtSignal(float)
     _dummy_signal = pyqtSignal(float)
 
-    def __init__(self, roi_detector, roi_smooth=0, parent=None, video=0,
+    def __init__(self, roi_detector, parent=None, video=0,
                  hr_calculator=None):
         QObject.__init__(self, parent)
-        self.roi_smooth = roi_smooth
         self.roi = None
         self._processors = []
         self._roi_detector = roi_detector
@@ -42,19 +41,10 @@ class RPPG(QObject):
     def add_processor(self, processor):
         self._processors.append(processor)
 
-    def update_roi(self, frame):
-        roi = self._roi_detector(frame)
-        if self.roi is None:
-            self.roi = roi
-        else:
-            self.roi = tuple((np.multiply(roi, 1 - self.roi_smooth)
-                              + np.multiply(self.roi, self.roi_smooth)
-                              ).astype(int))
-
     def frame_received(self, frame):
         self.output_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-        self.update_roi(frame)
+        self.roi = self._roi_detector(frame)
 
         for processor in self._processors:
             processor(frame[self.roi[1]:self.roi[3], self.roi[0]:self.roi[2]])

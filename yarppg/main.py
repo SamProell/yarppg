@@ -18,13 +18,16 @@ _mainparser.add_argument("--blobsize", default=150, type=int,
                          help="quadratic blob size of DNN Face Detector")
 _mainparser.add_argument("--blur", default=25, type=int,
                          help="pixelation size of detected ROI")
+_mainparser.add_argument("--video", default=0, type=int,
+                         help="video input device number")
 
 def main():
     args = _mainparser.parse_args(sys.argv[1:])
     app = QApplication(sys.argv)
 
-    roi_detector = NoDetector()
-    # roi_detector = CaffeDNNFaceDetector(blob_size=(args.blobsize, args.blobsize))
+    # roi_detector = NoDetector()
+    roi_detector = CaffeDNNFaceDetector(blob_size=(args.blobsize, args.blobsize),
+                                        smooth_factor=0.9)
 
     digital_lowpass = get_butterworth_filter(30, 1.5)
     digital_bandpass = get_butterworth_filter(30, cutoff=(0.5, 4),
@@ -33,8 +36,7 @@ def main():
                            filt_fun=lambda vs: [digital_lowpass(v) for v in vs])
 
     rppg = RPPG(roi_detector=roi_detector,
-                roi_smooth=0.9,
-                video=0,
+                video=args.video,
                 hr_calculator=hr_calc,
                 parent=app,
                 )
