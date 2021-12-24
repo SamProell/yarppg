@@ -23,12 +23,23 @@ repository and make sure all requirements are installed.
    cd yarppg
    pip install -r requirements.txt
 
-Now you can simply run the yarppg subfolder as a python package using the `-m`
+Now you can simply run the yarppg subfolder as a python package using the ``-m``
 flag:
 
 .. code:: bash
 
    python -m yarppg  # from yarppg top-level directory
+
+
+Camera setup
+------------
+For rPPG to work as intended it might be required to tweak the camera
+settings. For example auto white-balancing and auto-exposure could be
+disabled, to avoid small adjustments in RGB values.
+One possibility to change the camera settings is via the ``ffmpeg``
+commandline tool. See the discussion here:
+https://superuser.com/questions/1287366/open-webcam-settings-dialog-in-windows/1511657
+
 
 .. [1] W Verkruysse, L O Svaasand and J S Nelson. Remote plethysmographic
    imaging using ambient light. *Optics Express*. 2008;16(26):21434–21445.
