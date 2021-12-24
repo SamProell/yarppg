@@ -5,7 +5,7 @@ import argparse
 from PyQt5.QtWidgets import QApplication
 from yarppg.ui import MainWindow
 from yarppg.rppg import RPPG
-from yarppg.rppg.roi_detect import CaffeDNNFaceDetector, NoDetector, ForeheadDetector
+from yarppg.rppg.roi_detect import CaffeDNNFaceDetector, NoDetector
 from yarppg.rppg.processors import (ColorMeanProcessor, ChromProcessor,
                                     FilteredProcessor, PosProcessor)
 from yarppg.rppg.hr import HRCalculator, from_fft
@@ -18,31 +18,18 @@ _mainparser.add_argument("--blobsize", default=150, type=int,
                          help="quadratic blob size of DNN Face Detector")
 _mainparser.add_argument("--blur", default=-1, type=int,
                          help="pixelation size of detected ROI")
-<<<<<<< Updated upstream
 _mainparser.add_argument("--video", default=0, type=int,
                          help="video input device number")
-=======
-_mainparser.add_argument("--select-forehead", help="select forehead as ROI",
-                         action="store_true")
 _mainparser.add_argument("--savepath", default="", type=str,
                          help="store generated signals as data frame")
->>>>>>> Stashed changes
 
 def main():
     args = _mainparser.parse_args(sys.argv[1:])
     app = QApplication(sys.argv)
 
-<<<<<<< Updated upstream
     # roi_detector = NoDetector()
     roi_detector = CaffeDNNFaceDetector(blob_size=(args.blobsize, args.blobsize),
                                         smooth_factor=0.9)
-=======
-    if args.select_forehead:
-        roi_detector = ForeheadDetector(blob_size=(args.blobsize, args.blobsize))        
-    else:
-        # roi_detector = NoDetector()
-        roi_detector = CaffeDNNFaceDetector(blob_size=(args.blobsize, args.blobsize))
->>>>>>> Stashed changes
 
     digital_lowpass = get_butterworth_filter(30, 1.5)
     digital_bandpass = get_butterworth_filter(30, cutoff=(0.5, 10),
