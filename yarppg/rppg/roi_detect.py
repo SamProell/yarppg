@@ -72,29 +72,6 @@ class CaffeDNNFaceDetector(ROIDetector):
                     det[3:7], (w, h, w, h)).astype(int)
                 return x1, y1, x2, y2
         return 0, 0, 0, 0
-
-
-class ForeheadDetector(ROIDetector):
-    def __init__(self, prototxt=None, caffemodel=None,
-                 blob_size=(300, 300),
-                 min_confidence=0.3,
-                 ):
-        super().__init__()
-        self.dnn_detector = CaffeDNNFaceDetector(prototxt=prototxt,
-                                                 caffemodel=caffemodel,
-                                                 blob_size=blob_size,
-                                                 min_confidence=min_confidence)
-    def detect(self, frame):
-        x1, y1, x2, y2 = self.dnn_detector.detect(frame)
-        if sum([x1, x2, y1, y2]) == 0:
-            return x1, y1, x2, y2
-        
-        w, h = x2 - x1, y2 - y1
-        
-        nx1, nx2 = x1 + 0.2*w, x2 - 0.2*w
-        ny1, ny2 = y1 + 0.05*h, y1 + 0.2*h
-        
-        return nx1, ny1, nx2, ny2    
         
 
 class HaarCascadeDetector(ROIDetector):
