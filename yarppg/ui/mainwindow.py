@@ -5,7 +5,7 @@ import pyqtgraph as pg
 
 # from yarppg.rppg import RPPG
 
-from .multiple_axes_plot import add_plot
+from .helpers import add_plot
 
 
 class MainWindow(QMainWindow):
@@ -89,7 +89,6 @@ class MainWindow(QMainWindow):
         self.hr_label.setText("Heart rate: {:5.1f} beat/min".format(hr))
 
     def updated(self, dt):
-        # self.ts.append(self.ts[-1] + dt)
         img = self.rppg.output_frame
 
         ts = self.rppg.get_ts(self.graphwin)
