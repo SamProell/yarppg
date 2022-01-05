@@ -24,6 +24,7 @@ class RPPG(QObject):
 
         self._dts = []
         self.last_update = datetime.now()
+
         self.output_frame = None
         self.hr_calculator = hr_calculator
 
@@ -42,18 +43,24 @@ class RPPG(QObject):
         self._processors.append(processor)
 
     def frame_received(self, frame):
-        self.output_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
+        self.output_frame = frame
         self.roi = self._roi_detector(frame)
 
         for processor in self._processors:
             processor(frame[self.roi[1]:self.roi[3], self.roi[0]:self.roi[2]])
-        self.hr_calculator.update(self)
 
+        if self.hr_calculator is not None:
+            self.hr_calculator.update(self)
+
+        dt = self._update_time()
+        self.new_update.emit(dt)
+
+    def _update_time(self):
         dt = (datetime.now() - self.last_update).total_seconds()
         self.last_update = datetime.now()
         self._dts.append(dt)
-        self.new_update.emit(dt)
+
+        return dt
 
     def get_vs(self, n=None):
         for processor in self._processors:

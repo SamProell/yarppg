@@ -6,8 +6,7 @@ from PyQt5.QtCore import QThread, pyqtSignal
 
 
 class Camera(QThread):
-    """Wraps an OpenCV VideoCapture and provides a Qt signal with new
-    frames.
+    """Wraps cv2.VideoCapture and emits signals with frames in RGB format.
 
     The :py:`run` function launches a loop that waits for new frames in
     the VideoCapture and emits them with a `new_frame` signal.  Calling
@@ -37,7 +36,7 @@ class Camera(QThread):
                 self._running = False
                 raise RuntimeError("No frame received")
             else:
-                self.new_frame.emit(frame)
+                self.new_frame.emit(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
 
     def stop(self):
         self._running = False
