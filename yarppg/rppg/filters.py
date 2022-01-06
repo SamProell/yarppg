@@ -16,6 +16,9 @@ class DigitalFilter:
         self._ys = [0]*(len(a)-1)
 
     def process(self, x):
+        if np.isnan(x):  # ignore nans, and return as is
+            return x
+
         self._xs.insert(0, x)
         self._xs.pop()
         y = (np.dot(self._bs, self._xs) / self._as[0]
