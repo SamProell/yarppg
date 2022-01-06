@@ -23,7 +23,7 @@ class Processor:
         if roi_pixels.shape[:2] == (0, 0):
             r, g, b = np.nan, np.nan, np.nan
         else:
-            b, g, r, a = cv2.mean(roi_pixels)
+            r, g, b, a = cv2.mean(roi_pixels)
 
         if append_rgb:
             self._rs.append(r)
