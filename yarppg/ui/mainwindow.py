@@ -90,19 +90,18 @@ class MainWindow(QMainWindow):
         self.hr_label.setText("Heart rate: {:5.1f} beat/min".format(hr))
 
     def updated(self, dt):
-        img = self.rppg.output_frame
-
         ts = self.rppg.get_ts(self.graphwin)
         for pi, vs in enumerate(self.rppg.get_vs(self.graphwin)):
-            if pi == 0: print("Number of NaNs:", np.isnan(vs).sum(), vs)
             self.lines[pi].setData(x=ts, y=vs)
             self.plots[pi].setXRange(ts[0], ts[-1])
             self.plots[pi].setYRange(*helpers.get_autorange(vs, self.auto_range_factor))
-        roi = self.rppg.roi
-        cv2.rectangle(img, roi[:2], roi[2:], (255, 0, 0), 3)
 
+        img = self.rppg.output_frame
+        roi = self.rppg.roi
         helpers.pixelate_roi(img, roi, self.blur_roi)
+        cv2.rectangle(img, roi[:2], roi[2:], (255, 0, 0), 3)
         self.img.setImage(img)
+
         print("%.3f" % dt, self.rppg.roi, "FPS:", int(self.rppg.get_fps()))
 
     def set_pen(self, color=None, width=1, index=0):
