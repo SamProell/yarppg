@@ -9,6 +9,18 @@ from PyQt5.QtCore import pyqtSignal, QObject
 from yarppg.rppg.camera import Camera
 
 
+def write_dataframe(path, df):
+    path = pathlib.Path(path)
+    if path.suffix.lower() == ".csv":
+        df.to_csv(path, float_format="%.7f", index=False)
+    elif path.suffix.lower() in {".pkl", ".pickle"}:
+        df.to_pickle(path)
+    elif path.suffix.lower() in {".feather"}:
+        df.to_feather(path)
+    else:
+        raise IOError("Unknown file extension '{}'".format(path.suffix))
+
+
 class RPPG(QObject):
     new_update = pyqtSignal(float)
     _dummy_signal = pyqtSignal(float)
@@ -82,20 +94,15 @@ class RPPG(QObject):
     def save_signals(self):
         path = pathlib.Path(self.output_filename)
         path.parent.mkdir(parents=True, exist_ok=True)
+
+        df = self.get_dataframe()
+        write_dataframe(path)
+
+    def get_dataframe(self):
         names = ["ts"] + ["p%d" % i for i in range(self.num_processors)]
         data = np.vstack((self.get_ts(),) + tuple(self.get_vs())).T
 
-        df = pd.DataFrame(data=data, columns=names)
-        if path.suffix == ".csv":
-            df.to_csv(path, float_format="%.7f", index=False)
-        elif path.suffix in {".pkl", ".pickle"}:
-            df.to_pickle(path)
-        elif path.suffix == ".np":
-            np.save(path, data)
-        elif path.suffix == ".npz":
-            np.savez_compressed(path, data=data)
-        else:
-            raise IOError("Unknown file extension '{}'".format(path.suffix))
+        return pd.DataFrame(data=data, columns=names)
 
     @property
     def num_processors(self):
