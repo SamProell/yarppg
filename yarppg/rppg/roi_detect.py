@@ -72,7 +72,7 @@ class CaffeDNNFaceDetector(ROIDetector):
                     det[3:7], (w, h, w, h)).astype(int)
                 return x1, y1, x2, y2
         return 0, 0, 0, 0
-        
+
 
 class HaarCascadeDetector(ROIDetector):
     default_cascade = "resources/haarcascade_frontalface_default.xml"

@@ -14,23 +14,23 @@ from .processor import Processor
 class PosProcessor(Processor):
     def __init__(self, winsize=45):
         Processor.__init__(self)
-        
+
         self.winsize = winsize
-        
+
         self.hs = []
         self.rmean, self.gmean, self.bmean = 0, 0, 0
-        
+
         self.n = 0
 
     def calculate(self, roi_pixels):
         self.n += 1
-        r, g, b = self.spatial_pooling(roi_pixels, append_rgb=True)
-        
+        self.spatial_pooling(roi_pixels, append_rgb=True)
+
         # spatial averaging
         self.rmean = self.moving_average_update(self.rmean, self._rs, self.winsize)
         self.gmean = self.moving_average_update(self.gmean, self._gs, self.winsize)
         self.bmean = self.moving_average_update(self.bmean, self._bs, self.winsize)
-        
+
         if self.n >= self.winsize:
             # temporal normalization
             rn = np.divide(self._rs[-self.winsize:], self.rmean or 1.)
@@ -42,13 +42,13 @@ class PosProcessor(Processor):
             s2 = -2*rn + gn + bn
 
             # tuning
-            h = s1 + np.nanstd(s1) / np.nanstd(s2) * s2 
+            h = s1 + np.nanstd(s1) / np.nanstd(s2) * s2
             self.hs.append(0.)
             self.hs[-self.winsize:] = self.hs[-self.winsize:] + (h-np.nanmean(h))
             return self.hs[-self.winsize]
         self.hs.append(0)
         return 0
-    
+
     def __str__(self):
         if self.name is None:
             return "PosProcessor(winsize={})".format(self.winsize)

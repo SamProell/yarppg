@@ -5,7 +5,7 @@ import pyqtgraph as pg
 
 # from yarppg.rppg import RPPG
 
-from .multiple_axes_plot import add_plot
+from . import helpers
 
 
 class MainWindow(QMainWindow):
@@ -58,7 +58,8 @@ class MainWindow(QMainWindow):
             self.lines.append(p2.plot(antialias=True))
             self.plots.append(p2)
             for processor in range(2, self.rppg.num_processors):
-                l, p = add_plot(p2, antialias=True, pen=pg.mkPen(width=3))
+                l, p = helpers.add_multiaxis_plot(p2, antialias=True,
+                                                  pen=pg.mkPen(width=3))
                 self.lines.append(l)
                 self.plots.append(p)
         for p in self.plots:
@@ -89,49 +90,25 @@ class MainWindow(QMainWindow):
         self.hr_label.setText("Heart rate: {:5.1f} beat/min".format(hr))
 
     def updated(self, dt):
-        # self.ts.append(self.ts[-1] + dt)
-        img = self.rppg.output_frame
-
         ts = self.rppg.get_ts(self.graphwin)
         for pi, vs in enumerate(self.rppg.get_vs(self.graphwin)):
             self.lines[pi].setData(x=ts, y=vs)
             self.plots[pi].setXRange(ts[0], ts[-1])
-            self.plots[pi].setYRange(*self.get_range(vs))
+            self.plots[pi].setYRange(*helpers.get_autorange(vs, self.auto_range_factor))
 
+        img = self.rppg.output_frame
         roi = self.rppg.roi
+        helpers.pixelate_roi(img, roi, self.blur_roi)
         cv2.rectangle(img, roi[:2], roi[2:], (255, 0, 0), 3)
-
-        self._pixelate_roi(img, roi)
         self.img.setImage(img)
-        print("%.3f" % dt, self.rppg.roi, "FPS:", int(self.rppg.get_fps()))
 
-    def _pixelate_roi(self, img, roi):
-        blursize = self.blur_roi
-        if blursize > 0:
-            roiw, roih = roi[2] - roi[0], roi[3] - roi[1]
-            if roiw <= self.blur_roi or roih <= self.blur_roi:
-                return
-            slicey = slice(roi[1], roi[3])
-            slicex = slice(roi[0], roi[2])
-            tmp = cv2.resize(img[slicey, slicex],
-                             (int(roiw/blursize), int(roih/blursize)),
-                             interpolation=cv2.INTER_LINEAR)
-            img[slicey, slicex] = cv2.resize(tmp, (roiw, roih),
-                                             interpolation=cv2.INTER_NEAREST)
+        print("%.3f" % dt, self.rppg.roi, "FPS:", int(self.rppg.get_fps()))
 
     def set_pen(self, color=None, width=1, index=0):
         if index > len(self.lines):
-            raise IndexError("index={} is to high for {} lines"
-                             "".format(index, len(self.lines)))
+            raise IndexError(f"index {index} too high for {len(self.lines)} lines")
         pen = pg.mkPen(color or "k", width=width)
         self.lines[index].setPen(pen)
-
-    def get_range(self, data):
-        if np.all(np.isnan(data)):
-            return 0, 1
-        x1, x2 = np.nanmin(data), np.nanmax(data)
-        pad = (x2 - x1)*self.auto_range_factor
-        return x1 - pad, x2 + pad
 
     def execute(self):
         self.show()

@@ -9,6 +9,18 @@ from PyQt5.QtCore import pyqtSignal, QObject
 from yarppg.rppg.camera import Camera
 
 
+def write_dataframe(path, df):
+    path = pathlib.Path(path)
+    if path.suffix.lower() == ".csv":
+        df.to_csv(path, float_format="%.7f", index=False)
+    elif path.suffix.lower() in {".pkl", ".pickle"}:
+        df.to_pickle(path)
+    elif path.suffix.lower() in {".feather"}:
+        df.to_feather(path)
+    else:
+        raise IOError("Unknown file extension '{}'".format(path.suffix))
+
+
 class RPPG(QObject):
     new_update = pyqtSignal(float)
     _dummy_signal = pyqtSignal(float)
@@ -24,6 +36,7 @@ class RPPG(QObject):
 
         self._dts = []
         self.last_update = datetime.now()
+
         self.output_frame = None
         self.hr_calculator = hr_calculator
 
@@ -42,18 +55,24 @@ class RPPG(QObject):
         self._processors.append(processor)
 
     def frame_received(self, frame):
-        self.output_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
+        self.output_frame = frame
         self.roi = self._roi_detector(frame)
 
         for processor in self._processors:
             processor(frame[self.roi[1]:self.roi[3], self.roi[0]:self.roi[2]])
-        self.hr_calculator.update(self)
 
+        if self.hr_calculator is not None:
+            self.hr_calculator.update(self)
+
+        dt = self._update_time()
+        self.new_update.emit(dt)
+
+    def _update_time(self):
         dt = (datetime.now() - self.last_update).total_seconds()
         self.last_update = datetime.now()
         self._dts.append(dt)
-        self.new_update.emit(dt)
+
+        return dt
 
     def get_vs(self, n=None):
         for processor in self._processors:
@@ -75,20 +94,15 @@ class RPPG(QObject):
     def save_signals(self):
         path = pathlib.Path(self.output_filename)
         path.parent.mkdir(parents=True, exist_ok=True)
+
+        df = self.get_dataframe()
+        write_dataframe(path)
+
+    def get_dataframe(self):
         names = ["ts"] + ["p%d" % i for i in range(self.num_processors)]
         data = np.vstack((self.get_ts(),) + tuple(self.get_vs())).T
 
-        df = pd.DataFrame(data=data, columns=names)
-        if path.suffix == ".csv":
-            df.to_csv(path, float_format="%.7f", index=False)
-        elif path.suffix in {".pkl", ".pickle"}:
-            df.to_pickle(path)
-        elif path.suffix == ".np":
-            np.save(path, data)
-        elif path.suffix == ".npz":
-            np.savez_compressed(path, data=data)
-        else:
-            raise IOError("Unknown file extension '{}'".format(path.suffix))
+        return pd.DataFrame(data=data, columns=names)
 
     @property
     def num_processors(self):

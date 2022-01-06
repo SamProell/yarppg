@@ -44,7 +44,7 @@ def main():
                 )
     processor = PosProcessor(winsize=32)
     rppg.add_processor(FilteredProcessor(processor, digital_bandpass))
-    # processor = ChromProcessor(winsize=15, method="fixed") 
+    # processor = ChromProcessor(winsize=15, method="fixed")
     # rppg.add_processor(FilteredProcessor(processor, digital_bandpass))
     rppg.add_processor(ColorMeanProcessor(channel="r", winsize=1))
     rppg.add_processor(ColorMeanProcessor(channel="g", winsize=1))
