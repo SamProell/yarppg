@@ -14,6 +14,7 @@ def exponential_smooth(new_roi, old_roi, factor):
     smooth_roi = np.multiply(new_roi, 1 - factor) + np.multiply(old_roi, factor)
     return tuple(smooth_roi.astype(int))
 
+
 class ROIDetector:
     def __init__(self, smooth_factor=0.0, **kwargs):
         self.oldroi = None
@@ -103,7 +104,7 @@ class HaarCascadeDetector(ROIDetector):
         return 0, 0, 0, 0
 
     @classmethod
-    def _get_classifier(cls, casc_file: str) -> cv2.CascadeClassifier:
+    def _get_classifier(cls, casc_file: str):
         if casc_file is not None and Path(casc_file).is_file():
             cascade = cv2.CascadeClassifier(casc_file)
         elif Path(cls.default_cascade).is_file():
@@ -114,3 +115,42 @@ class HaarCascadeDetector(ROIDetector):
             raise IOError("cascade file '{}' not found".format(casc_file))
 
         return cascade
+
+
+class FaceLandmarkDetector(ROIDetector):
+    # https://medium.com/analytics-vidhya/facial-landmarks-and-face-detection-in-python-with-opencv-73979391f30e
+
+    default_lbf = resource_path / "lbfmodel.yaml"
+
+    def __init__(self, face_detector=None, lbf_modelpath=None,
+                 draw_landmarks=False, **kwargs):
+        super().__init__(**kwargs)
+        if face_detector is None:
+            self.face_detector = CaffeDNNFaceDetector()
+        else:
+            self.face_detector = face_detector
+
+        self.lbf_modelpath = lbf_modelpath or self.default_lbf
+
+        self.facemark = cv2.face.createFacemarkLBF()
+        self.facemark.loadModel(str(self.lbf_modelpath))
+
+        self.draw_landmarks = draw_landmarks
+
+    def detect(self, frame):
+        x1, y1, x2, y2 = self.face_detector.detect(frame)
+        if sum([x1, y1, x2, y2]) == 0:
+            return 0, 0, 0, 0
+
+        _, landmarks = self.facemark.fit(frame, np.array([[x1, y1, x2-x1, y2-y1]]))
+
+
+        x1, y1 = np.min(landmarks[0][0, ...], axis=0).astype(int)
+        x2, y2 = np.max(landmarks[0][0, ...], axis=0).astype(int)
+
+        if self.draw_landmarks:
+            for x,y in landmarks[0][0]:
+                cv2.circle(frame, (int(x), int(y)), 2, (255, 255, 255), 1)
+
+        return x1, y1, x2, y2
+

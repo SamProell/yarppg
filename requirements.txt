@@ -1,6 +1,6 @@
 numpy
-opencv-python
-PyQt5
+opencv_contrib_python
 pandas
+PyQt5
 pyqtgraph
 scipy
