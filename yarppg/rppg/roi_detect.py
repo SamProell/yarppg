@@ -1,8 +1,10 @@
-import os
+from pathlib import Path
 import warnings
 
 import cv2
 import numpy as np
+
+resource_path = Path(__file__).parent / "_resources"
 
 
 def exponential_smooth(new_roi, old_roi, factor):
@@ -40,11 +42,9 @@ class NoDetector(ROIDetector):
 
 
 class CaffeDNNFaceDetector(ROIDetector):
-    prototxt = os.path.join(os.path.dirname(__file__),
-                            "_resources/deploy.prototxt")
-    caffemodel = os.path.join(os.path.dirname(__file__),
-                              "_resources/res10_300x300_ssd_iter_140000_fp16"
-                              ".caffemodel")
+    prototxt = resource_path / "deploy.prototxt"
+    caffemodel = resource_path / "res10_300x300_ssd_iter_140000_fp16.caffemodel"
+
     color_mean = (128, 128, 128)
 
     def __init__(self, prototxt=None, caffemodel=None,
@@ -53,13 +53,14 @@ class CaffeDNNFaceDetector(ROIDetector):
                  **kwargs
                  ):
         super().__init__(**kwargs)
+        print(self.caffemodel)
         self.blob_size = blob_size
         self.min_confidence = min_confidence
         if prototxt is None:
             prototxt = self.prototxt
         if caffemodel is None:
             caffemodel = self.caffemodel
-        self.model = cv2.dnn.readNetFromCaffe(prototxt, caffemodel)
+        self.model = cv2.dnn.readNetFromCaffe(str(prototxt), str(caffemodel))
 
     def detect(self, frame):
         h, w = frame.shape[:2]
@@ -75,7 +76,7 @@ class CaffeDNNFaceDetector(ROIDetector):
 
 
 class HaarCascadeDetector(ROIDetector):
-    default_cascade = "resources/haarcascade_frontalface_default.xml"
+    default_cascade = resource_path / "haarcascade_frontalface_default.xml"
 
     def __init__(self,
                  casc_file,
@@ -102,13 +103,13 @@ class HaarCascadeDetector(ROIDetector):
         return 0, 0, 0, 0
 
     @classmethod
-    def _get_classifier(cls, casc_file):
-        if os.path.isfile(casc_file):
+    def _get_classifier(cls, casc_file: str) -> cv2.CascadeClassifier:
+        if casc_file is not None and Path(casc_file).is_file():
             cascade = cv2.CascadeClassifier(casc_file)
-        elif os.path.isfile(cls.default_cascade):
+        elif Path(cls.default_cascade).is_file():
             warnings.warn("cascade file '{}' not found, using default instead"
                           "".format(casc_file))
-            cascade = cv2.CascadeClassifier(cls.default_cascade)
+            cascade = cv2.CascadeClassifier(str(cls.default_cascade))
         else:
             raise IOError("cascade file '{}' not found".format(casc_file))
 
