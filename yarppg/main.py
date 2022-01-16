@@ -5,7 +5,7 @@ import argparse
 from PyQt5.QtWidgets import QApplication
 from yarppg.ui import MainWindow
 from yarppg.rppg import RPPG
-from yarppg.rppg.roi_detect import CaffeDNNFaceDetector, NoDetector, FaceLandmarkDetector
+from yarppg.rppg.roi.roi_detect import CaffeDNNFaceDetector, NoDetector, FaceLandmarkDetector
 from yarppg.rppg.processors import (ColorMeanProcessor, ChromProcessor,
                                     FilteredProcessor, PosProcessor)
 from yarppg.rppg.hr import HRCalculator, from_fft

@@ -4,7 +4,7 @@ import warnings
 import cv2
 import numpy as np
 
-resource_path = Path(__file__).parent / "_resources"
+resource_path = Path(__file__).parent.parent / "_resources"
 
 
 def exponential_smooth(new_roi, old_roi, factor):
@@ -150,7 +150,7 @@ class FaceLandmarkDetector(ROIDetector):
 
         if self.draw_landmarks:
             for x,y in landmarks[0][0]:
-                cv2.circle(frame, (int(x), int(y)), 2, (255, 255, 255), 1)
+                cv2.drawMarker(frame, (int(x), int(y)), (21, 21, 179))
 
         return x1, y1, x2, y2
 
