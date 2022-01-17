@@ -1,8 +1,15 @@
 from pathlib import Path
 import warnings
+import time
 
 import cv2
 import numpy as np
+import mediapipe as mp
+mp_drawing = mp.solutions.drawing_utils
+mp_drawing_styles = mp.solutions.drawing_styles
+mp_face_mesh = mp.solutions.face_mesh
+
+from yarppg.rppg.roi.region_of_interest import RegionOfInterest
 
 resource_path = Path(__file__).parent.parent / "_resources"
 
@@ -26,9 +33,10 @@ class ROIDetector:
 
     def get_roi(self, frame):
         roi = self.detect(frame)
-        self.oldroi = exponential_smooth(roi, self.oldroi, self.smooth_factor)
+        return roi
+        # self.oldroi = exponential_smooth(roi, self.oldroi, self.smooth_factor)
 
-        return self.oldroi
+        # return self.oldroi
 
     def __call__(self, frame):
         return self.get_roi(frame)
@@ -39,7 +47,7 @@ class NoDetector(ROIDetector):
 
     def detect(self, frame):
         h, w = frame.shape[:2]
-        return 0, 0, w, h
+        return RegionOfInterest.from_rectangle(frame, (0, 0), (h, w))
 
 
 class CaffeDNNFaceDetector(ROIDetector):
@@ -72,8 +80,8 @@ class CaffeDNNFaceDetector(ROIDetector):
             if det[2] > self.min_confidence:
                 x1, y1, x2, y2 = np.multiply(
                     det[3:7], (w, h, w, h)).astype(int)
-                return x1, y1, x2, y2
-        return 0, 0, 0, 0
+                return RegionOfInterest.from_rectangle(frame, (x1, y1), (x2, y2))
+        return RegionOfInterest(frame)
 
 
 class HaarCascadeDetector(ROIDetector):
@@ -99,9 +107,9 @@ class HaarCascadeDetector(ROIDetector):
                                               )# minSize=self.min_size)
         if len(faces) > 0:
             x, y, w, h = faces[0]
-            return x, y, x+w, y+h
+            return RegionOfInterest.from_rectangle(frame, (x, y), (x+w, y+h))
 
-        return 0, 0, 0, 0
+        return RegionOfInterest(frame, mask=None)
 
     @classmethod
     def _get_classifier(cls, casc_file: str):
@@ -117,40 +125,72 @@ class HaarCascadeDetector(ROIDetector):
         return cascade
 
 
-class FaceLandmarkDetector(ROIDetector):
-    # https://medium.com/analytics-vidhya/facial-landmarks-and-face-detection-in-python-with-opencv-73979391f30e
+def get_facemesh_coords(landmark_list, frame):
+    h, w = frame.shape[:2]
+    xys = [(landmark.x, landmark.y) for landmark in landmark_list.landmark]
 
-    default_lbf = resource_path / "lbfmodel.yaml"
+    return np.multiply(xys, [w, h]).astype(int)
 
-    def __init__(self, face_detector=None, lbf_modelpath=None,
-                 draw_landmarks=False, **kwargs):
+class FaceMeshDetector(ROIDetector):
+    _lower_face = [200, 431, 411, 340, 349, 120, 111, 187, 211]
+
+    def __init__(self, draw_landmarks=False, **kwargs):
         super().__init__(**kwargs)
-        if face_detector is None:
-            self.face_detector = CaffeDNNFaceDetector()
-        else:
-            self.face_detector = face_detector
+        self.face_mesh = mp.solutions.face_mesh.FaceMesh(
+            max_num_faces=1,
+            refine_landmarks=True,
+            min_detection_confidence=0.5,
+            min_tracking_confidence=0.5
+        )
+        self.draw_landmarks=draw_landmarks
 
-        self.lbf_modelpath = lbf_modelpath or self.default_lbf
-
-        self.facemark = cv2.face.createFacemarkLBF()
-        self.facemark.loadModel(str(self.lbf_modelpath))
-
-        self.draw_landmarks = draw_landmarks
+    def __del__(self):
+        self.face_mesh.close()
 
     def detect(self, frame):
-        x1, y1, x2, y2 = self.face_detector.detect(frame)
-        if sum([x1, y1, x2, y2]) == 0:
-            return 0, 0, 0, 0
+        rawimg = frame.copy()
 
-        _, landmarks = self.facemark.fit(frame, np.array([[x1, y1, x2-x1, y2-y1]]))
+        frame.flags.writeable = False
+        results = self.face_mesh.process(frame)
+        frame.flags.writeable = True
 
-
-        x1, y1 = np.min(landmarks[0][0, ...], axis=0).astype(int)
-        x2, y2 = np.max(landmarks[0][0, ...], axis=0).astype(int)
+        if results.multi_face_landmarks is None:
+            return RegionOfInterest(frame, mask=None)
 
         if self.draw_landmarks:
-            for x,y in landmarks[0][0]:
-                cv2.drawMarker(frame, (int(x), int(y)), (21, 21, 179))
+            self.draw_facemesh(frame, results.multi_face_landmarks,
+                               tesselate=True)
 
-        return x1, y1, x2, y2
+        landmarks = get_facemesh_coords(results.multi_face_landmarks[0], frame)
+        return RegionOfInterest.from_contour(rawimg, landmarks[self._lower_face])
 
+    def draw_facemesh(self, img, multi_face_landmarks, tesselate=False,
+                      contour=False, irises=False):
+        if multi_face_landmarks is None:
+            return
+
+        for face_landmarks in multi_face_landmarks:
+            if tesselate:
+                mp.solutions.drawing_utils.draw_landmarks(
+                    image=img,
+                    landmark_list=face_landmarks,
+                    connections=mp_face_mesh.FACEMESH_TESSELATION,
+                    landmark_drawing_spec=None,
+                    connection_drawing_spec=mp_drawing_styles
+                    .get_default_face_mesh_tesselation_style())
+            if contour:
+                mp.solutions.drawing_utils.draw_landmarks(
+                    image=img,
+                    landmark_list=face_landmarks,
+                    connections=mp.solutions.face_mesh.FACEMESH_CONTOURS,
+                    landmark_drawing_spec=None,
+                    connection_drawing_spec=mp.solutions.drawing_styles
+                    .get_default_face_mesh_contours_style())
+            if irises:
+                mp.solutions.drawing_utils.draw_landmarks(
+                    image=img,
+                    landmark_list=face_landmarks,
+                    connections=mp_face_mesh.FACEMESH_IRISES,
+                    landmark_drawing_spec=None,
+                    connection_drawing_spec=mp_drawing_styles
+                    .get_default_face_mesh_iris_connections_style())
