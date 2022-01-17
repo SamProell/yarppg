@@ -5,7 +5,7 @@ import argparse
 from PyQt5.QtWidgets import QApplication
 from yarppg.ui import MainWindow
 from yarppg.rppg import RPPG
-from yarppg.rppg.roi.roi_detect import CaffeDNNFaceDetector, NoDetector, FaceLandmarkDetector
+from yarppg.rppg.roi.roi_detect import CaffeDNNFaceDetector, FaceMeshDetector, NoDetector
 from yarppg.rppg.processors import (ColorMeanProcessor, ChromProcessor,
                                     FilteredProcessor, PosProcessor)
 from yarppg.rppg.hr import HRCalculator, from_fft
@@ -30,8 +30,7 @@ def main():
     # roi_detector = NoDetector()
     # roi_detector = CaffeDNNFaceDetector(blob_size=(args.blobsize, args.blobsize),
     #                                     smooth_factor=0.9)
-    roi_detector = FaceLandmarkDetector(face_detector=None, smooth_factor=0.9,
-                                        draw_landmarks=True)
+    roi_detector = FaceMeshDetector()
 
     digital_lowpass = get_butterworth_filter(30, 1.5)
     digital_bandpass = get_butterworth_filter(30, cutoff=(0.5, 10),

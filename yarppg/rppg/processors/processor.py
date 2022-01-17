@@ -19,11 +19,8 @@ class Processor:
         self.vs.append(v)
         return v
 
-    def spatial_pooling(self, roi_pixels, append_rgb=False):
-        if roi_pixels.shape[:2] == (0, 0):
-            r, g, b = np.nan, np.nan, np.nan
-        else:
-            r, g, b, a = cv2.mean(roi_pixels)
+    def spatial_pooling(self, roi, append_rgb=False):
+        r, g, b = roi.get_mean_rgb()
 
         if append_rgb:
             self._rs.append(r)

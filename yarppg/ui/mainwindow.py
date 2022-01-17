@@ -98,8 +98,9 @@ class MainWindow(QMainWindow):
 
         img = self.rppg.output_frame
         roi = self.rppg.roi
-        helpers.pixelate_roi(img, roi, self.blur_roi)
-        cv2.rectangle(img, roi[:2], roi[2:], (255, 0, 0), 3)
+        roi.draw_roi(img)
+        # helpers.pixelate_roi(img, roi, self.blur_roi)
+        # cv2.rectangle(img, roi[:2], roi[2:], (255, 0, 0), 3)
         self.img.setImage(img)
 
         print("%.3f" % dt, self.rppg.roi, "FPS:", int(self.rppg.get_fps()))
