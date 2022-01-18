@@ -9,7 +9,7 @@ mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_face_mesh = mp.solutions.face_mesh
 
-from yarppg.rppg.roi.region_of_interest import RegionOfInterest
+from yarppg.rppg.roi.region_of_interest import RegionOfInterest, get_default_bgmask
 
 resource_path = Path(__file__).parent.parent / "_resources"
 
@@ -21,6 +21,11 @@ def exponential_smooth(new_roi, old_roi, factor):
     smooth_roi = np.multiply(new_roi, 1 - factor) + np.multiply(old_roi, factor)
     return tuple(smooth_roi.astype(int))
 
+def get_boundingbox_from_landmarks(lms):
+    xy = np.min(lms, axis=0)
+    wh = np.subtract(np.max(lms, axis=0), xy)
+
+    return np.r_[xy, wh]
 
 class ROIDetector:
     def __init__(self, smooth_factor=0.0, **kwargs):
@@ -134,11 +139,11 @@ def get_facemesh_coords(landmark_list, frame):
 class FaceMeshDetector(ROIDetector):
     _lower_face = [200, 431, 411, 340, 349, 120, 111, 187, 211]
 
-    def __init__(self, draw_landmarks=False, **kwargs):
+    def __init__(self, draw_landmarks=False, refine=False, **kwargs):
         super().__init__(**kwargs)
         self.face_mesh = mp.solutions.face_mesh.FaceMesh(
             max_num_faces=1,
-            refine_landmarks=True,
+            refine_landmarks=refine,
             min_detection_confidence=0.5,
             min_tracking_confidence=0.5
         )
@@ -162,7 +167,12 @@ class FaceMeshDetector(ROIDetector):
                                tesselate=True)
 
         landmarks = get_facemesh_coords(results.multi_face_landmarks[0], frame)
-        return RegionOfInterest.from_contour(rawimg, landmarks[self._lower_face])
+        facerect = get_boundingbox_from_landmarks(landmarks)
+        bgmask = get_default_bgmask(frame.shape[1], frame.shape[0])
+        print(cv2.boundingRect(bgmask))
+
+        return RegionOfInterest.from_contour(rawimg, landmarks[self._lower_face],
+                                             facerect=facerect, bgmask=bgmask)
 
     def draw_facemesh(self, img, multi_face_landmarks, tesselate=False,
                       contour=False, irises=False):
@@ -186,7 +196,7 @@ class FaceMeshDetector(ROIDetector):
                     landmark_drawing_spec=None,
                     connection_drawing_spec=mp.solutions.drawing_styles
                     .get_default_face_mesh_contours_style())
-            if irises:
+            if irises and len(face_landmarks) > 468:
                 mp.solutions.drawing_utils.draw_landmarks(
                     image=img,
                     landmark_list=face_landmarks,

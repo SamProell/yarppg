@@ -6,7 +6,7 @@ from PyQt5.QtCore import QThread, pyqtSignal
 
 
 class Camera(QThread):
-    """Wraps cv2.VideoCapture and emits signals with frames in RGB format.
+    """Wraps cv2.VideoCapture and emits Qt signals with frames in RGB format.
 
     The :py:`run` function launches a loop that waits for new frames in
     the VideoCapture and emits them with a `new_frame` signal.  Calling

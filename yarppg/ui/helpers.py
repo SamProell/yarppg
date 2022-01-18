@@ -22,20 +22,6 @@ def add_multiaxis_plot(p1, **kwargs):
     return line, p2
 
 
-def pixelate_roi(img, roi, blursize):
-    if blursize > 0:
-        roiw, roih = roi[2] - roi[0], roi[3] - roi[1]
-        if roiw <= blursize or roih <= blursize:
-            return
-        slicey = slice(roi[1], roi[3])
-        slicex = slice(roi[0], roi[2])
-        tmp = cv2.resize(img[slicey, slicex],
-                            (int(roiw/blursize), int(roih/blursize)),
-                            interpolation=cv2.INTER_LINEAR)
-        img[slicey, slicex] = cv2.resize(tmp, (roiw, roih),
-                                            interpolation=cv2.INTER_NEAREST)
-
-
 def get_autorange(data, factor):
     if np.all(np.isnan(data)):
         return 0, 1
