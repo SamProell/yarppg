@@ -28,13 +28,12 @@ def main():
     app = QApplication(sys.argv)
 
     # roi_detector = NoDetector()
-    # roi_detector = CaffeDNNFaceDetector(blob_size=(args.blobsize, args.blobsize),
-    #                                     smooth_factor=0.9)
     roi_detector = FaceMeshDetector()
 
     digital_lowpass = get_butterworth_filter(30, 1.5)
     digital_bandpass = get_butterworth_filter(30, cutoff=(0.5, 2),
                                               btype="bandpass")
+
     hr_calc = HRCalculator(parent=app, update_interval=30, winsize=300,
                            filt_fun=lambda vs: [digital_lowpass(v) for v in vs])
 
@@ -43,11 +42,10 @@ def main():
                 hr_calculator=hr_calc,
                 parent=app,
                 )
-    processor = PosProcessor(winsize=32)
-    rppg.add_processor(LiCvprProcessor(winsize=1))
+    # processor = PosProcessor(winsize=32)
     # rppg.add_processor(FilteredProcessor(processor, digital_bandpass))
-    # processor = ChromProcessor(winsize=15, method="fixed")
-    # rppg.add_processor(FilteredProcessor(processor, digital_bandpass))
+
+    rppg.add_processor(FilteredProcessor(LiCvprProcessor(winsize=1), digital_bandpass))
     rppg.add_processor(ColorMeanProcessor(channel="r", winsize=1))
     rppg.add_processor(ColorMeanProcessor(channel="g", winsize=1))
     rppg.add_processor(ColorMeanProcessor(channel="b", winsize=1))
