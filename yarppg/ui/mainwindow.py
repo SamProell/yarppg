@@ -19,7 +19,6 @@ class MainWindow(QMainWindow):
         self.rppg.new_hr.connect(self.update_hr)
 
         self.graphwin = graphwin
-        self.ts = [0]
 
         self.img = None
         self.lines = []
@@ -49,17 +48,16 @@ class MainWindow(QMainWindow):
         p1 = layout.addPlot(row=0, col=1, colspan=1)
         p1.hideAxis("left")
         p1.hideAxis("bottom")
-        self.lines.append(p1.plot(antialias=True, pen=pg.mkPen("k", width=3)))
+        self.lines.append(p1.plot(pen=pg.mkPen("k", width=3)))
         self.plots.append(p1)
 
         if self.rppg.num_processors > 1:
             p2 = layout.addPlot(row=1, col=1, colspan=1)
             p2.hideAxis("left")
-            self.lines.append(p2.plot(antialias=True))
+            self.lines.append(p2.plot())
             self.plots.append(p2)
-            for processor in range(2, self.rppg.num_processors):
-                l, p = helpers.add_multiaxis_plot(p2, antialias=True,
-                                                  pen=pg.mkPen(width=3))
+            for _ in range(2, self.rppg.num_processors):
+                l, p = helpers.add_multiaxis_plot(p2, pen=pg.mkPen(width=3))
                 self.lines.append(l)
                 self.plots.append(p)
         for p in self.plots:
@@ -98,8 +96,9 @@ class MainWindow(QMainWindow):
 
         img = self.rppg.output_frame
         roi = self.rppg.roi
-        helpers.pixelate_roi(img, roi, self.blur_roi)
-        cv2.rectangle(img, roi[:2], roi[2:], (255, 0, 0), 3)
+        roi.pixelate_face(img, self.blur_roi)
+        roi.draw_roi(img)
+
         self.img.setImage(img)
 
         print("%.3f" % dt, self.rppg.roi, "FPS:", int(self.rppg.get_fps()))

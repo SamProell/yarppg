@@ -59,7 +59,7 @@ class RPPG(QObject):
         self.roi = self._roi_detector(frame)
 
         for processor in self._processors:
-            processor(frame[self.roi[1]:self.roi[3], self.roi[0]:self.roi[2]])
+            processor(self.roi)
 
         if self.hr_calculator is not None:
             self.hr_calculator.update(self)
