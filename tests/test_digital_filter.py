@@ -14,4 +14,5 @@ def test_process():
 
     yfilt = [lfilter(y) for y in ys]
     yfilt_scipy = scipy.signal.lfilter(*ba, ys)
+
     assert np.mean(np.abs(yfilt - yfilt_scipy)) < 1e-7
