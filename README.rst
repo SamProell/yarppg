@@ -22,7 +22,7 @@ The current default implementation uses the bandpass-filtered green channel
 averaged across a custom ROI suggested by Li et al. [2]_ Other features of
 their algorithm are a work in progress.
 
-.. image:: doc/images/yarppg-screenshot.png
+.. image:: docs/images/yarppg-screenshot.png
 
 Installation and usage
 ----------------------
@@ -42,18 +42,6 @@ flag:
 .. code:: bash
 
    python -m yarppg  # from yarppg top-level directory
-
-
-Camera setup
-------------
-For rPPG to work as intended it might be required to tweak the camera
-settings. For example auto white-balancing and auto-exposure could be
-disabled, to avoid small adjustments in RGB values.
-One possibility to change the camera settings is via the ``ffmpeg``
-commandline tool. See the discussion here:
-https://superuser.com/questions/1287366/open-webcam-settings-dialog-in-windows/1511657
-
-
 
 Options
 -------
@@ -82,6 +70,16 @@ There are a number of options available, when running yarppg:
 | --savepath      |  ''      |  store generated signals as data frame to disk                 |
 +-----------------+----------+----------------------------------------------------------------+
 
+Camera setup
+------------
+For rPPG to work as intended it might be required to tweak the camera
+settings. For example auto white-balancing and auto-exposure could be
+disabled, to avoid small adjustments in RGB values.
+One possibility to change the camera settings is via the ``ffmpeg``
+commandline tool. See the discussion here:
+https://superuser.com/questions/1287366/open-webcam-settings-dialog-in-windows/1511657
+
+------
 
 .. [1] W Verkruysse, L O Svaasand and J S Nelson. Remote plethysmographic
    imaging using ambient light. *Optics Express*. 2008;16(26):21434–21445.
