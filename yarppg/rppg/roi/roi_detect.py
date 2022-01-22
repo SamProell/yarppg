@@ -93,7 +93,7 @@ class HaarCascadeDetector(ROIDetector):
     default_cascade = resource_path / "haarcascade_frontalface_default.xml"
 
     def __init__(self,
-                 casc_file,
+                 casc_file=None,
                  scale_factor=1.1,
                  min_neighbors=5,
                  min_size=(30, 30),
