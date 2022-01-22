@@ -1,5 +1,6 @@
+mediapipe
 numpy
-opencv_contrib_python
+opencv_python
 pandas
 PyQt5
 pyqtgraph
