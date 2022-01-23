@@ -14,7 +14,7 @@ Some other open-source implementations of rPPG:
 
 * **heartbeat**: Live heart rate measurements. Written in C++ with a number of
   customization options (https://github.com/prouast/heartbeat)
-* **Bob’s implementation of different rPPG algorithms**: Python implementation
+* **Bob's implementation of different rPPG algorithms**: Python implementation
   of different publications for offline evaluation.
   (https://www.idiap.ch/software/bob/docs/bob/bob.rppg.base/master/)
 
@@ -28,23 +28,27 @@ Installation and usage
 ----------------------
 
 In order to run this rPPG implementation, you first have to clone the
-repository and make sure all requirements are installed.
+repository and make sure all requirements are installed. Afterwards you
+can run the yarppg subfolder as a python package using the ``-m`` flag:
 
 .. code:: bash
 
    git clone https://github.com/SamProell/yarppg.git
    cd yarppg
    pip install -r requirements.txt
+   python -m yarppg  # from yarppg top-level directory
 
-Now you can simply run the yarppg subfolder as a python package using the ``-m``
-flag:
+Alternatively, install the package using pip (from the top-level directory).
+After installing, you can simply call the provided entry point ``run-yarppg``.
 
 .. code:: bash
 
-   python -m yarppg  # from yarppg top-level directory
+   pip install -e .
+   run-yarppg
 
-Options
--------
+
+Command line options
+--------------------
 There are a number of options available, when running yarppg:
 
 +-----------------+----------+----------------------------------------------------------------+

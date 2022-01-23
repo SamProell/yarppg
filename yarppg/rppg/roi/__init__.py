@@ -1,1 +1,1 @@
-from region_of_interest import RegionOfInterest
+from .region_of_interest import RegionOfInterest
