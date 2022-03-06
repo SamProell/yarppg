@@ -1,3 +1,4 @@
+from collections import namedtuple
 from datetime import datetime
 import pathlib
 
@@ -20,9 +21,18 @@ def write_dataframe(path, df):
     else:
         raise IOError("Unknown file extension '{}'".format(path.suffix))
 
+RppgResults = namedtuple("RppgResults", ["dt",
+                                         "rawimg",
+                                         "roi",
+                                         "hr",
+                                         "vs_iter",
+                                         "ts",
+                                         "fps",
+                                         ])
+
 
 class RPPG(QObject):
-    new_update = pyqtSignal(float)
+    rppg_updated = pyqtSignal(RppgResults)
     _dummy_signal = pyqtSignal(float)
 
     def __init__(self, roi_detector, parent=None, video=0,
@@ -49,12 +59,12 @@ class RPPG(QObject):
 
     def _set_camera(self, video):
         self._cam = Camera(video=video, parent=self)
-        self._cam.new_frame.connect(self.frame_received)
+        self._cam.frame_received.connect(self.on_frame_received)
 
     def add_processor(self, processor):
         self._processors.append(processor)
 
-    def frame_received(self, frame):
+    def on_frame_received(self, frame):
         self.output_frame = frame
         self.roi = self._roi_detector(frame)
 
@@ -65,7 +75,9 @@ class RPPG(QObject):
             self.hr_calculator.update(self)
 
         dt = self._update_time()
-        self.new_update.emit(dt)
+        self.rppg_updated.emit(RppgResults(dt=dt, rawimg=frame, roi=self.roi,
+                                           hr=np.nan, vs_iter=self.get_vs,
+                                           ts=self.get_ts, fps=self.get_fps()))
 
     def _update_time(self):
         dt = (datetime.now() - self.last_update).total_seconds()

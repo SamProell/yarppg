@@ -169,7 +169,6 @@ class FaceMeshDetector(ROIDetector):
         landmarks = get_facemesh_coords(results.multi_face_landmarks[0], frame)
         facerect = get_boundingbox_from_landmarks(landmarks)
         bgmask = get_default_bgmask(frame.shape[1], frame.shape[0])
-        print(cv2.boundingRect(bgmask))
 
         return RegionOfInterest.from_contour(rawimg, landmarks[self._lower_face],
                                              facerect=facerect, bgmask=bgmask)

@@ -15,7 +15,7 @@ class MainWindow(QMainWindow):
         self._app = app
 
         self.rppg = rppg
-        self.rppg.new_update.connect(self.updated)
+        self.rppg.rppg_updated.connect(self.on_rppg_updated)
         self.rppg.new_hr.connect(self.update_hr)
 
         self.graphwin = graphwin
@@ -87,21 +87,21 @@ class MainWindow(QMainWindow):
     def update_hr(self, hr):
         self.hr_label.setText("Heart rate: {:5.1f} beat/min".format(hr))
 
-    def updated(self, dt):
-        ts = self.rppg.get_ts(self.graphwin)
-        for pi, vs in enumerate(self.rppg.get_vs(self.graphwin)):
+    def on_rppg_updated(self, results):
+        ts = results.ts(self.graphwin)
+        for pi, vs in enumerate(results.vs_iter(self.graphwin)):
             self.lines[pi].setData(x=ts, y=vs)
             self.plots[pi].setXRange(ts[0], ts[-1])
             self.plots[pi].setYRange(*helpers.get_autorange(vs, self.auto_range_factor))
 
-        img = self.rppg.output_frame
-        roi = self.rppg.roi
+        img = results.rawimg
+        roi = results.roi
         roi.pixelate_face(img, self.blur_roi)
         roi.draw_roi(img)
 
         self.img.setImage(img)
 
-        print("%.3f" % dt, self.rppg.roi, "FPS:", int(self.rppg.get_fps()))
+        print("%.3f" % results.dt, results.roi, "FPS:", int(results.fps))
 
     def set_pen(self, color=None, width=1, index=0):
         if index > len(self.lines):

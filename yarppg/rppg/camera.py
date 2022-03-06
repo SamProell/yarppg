@@ -13,7 +13,7 @@ class Camera(QThread):
     :py:`stop` stops the loop and releases the camera.
     """
 
-    new_frame = pyqtSignal(np.ndarray)
+    frame_received = pyqtSignal(np.ndarray)
 
     def __init__(self, video=0, parent=None):
         """Initialize Camera instance
@@ -36,7 +36,7 @@ class Camera(QThread):
                 self._running = False
                 raise RuntimeError("No frame received")
             else:
-                self.new_frame.emit(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+                self.frame_received.emit(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
 
     def stop(self):
         self._running = False
