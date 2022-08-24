@@ -25,8 +25,7 @@ def get_mainparser():
                         help="draw landmarks when using facemesh detector")
     parser.add_argument("--blur", default=-1, type=int,
                         help="pixelation size of detected ROI")
-    parser.add_argument("--video", default=0, type=int,
-                        help="video input device number")
+    parser.add_argument("--video", default=0, help="video input device number")
     parser.add_argument("--savepath", default="", type=str,
                         help="store generated signals as data frame")
 
