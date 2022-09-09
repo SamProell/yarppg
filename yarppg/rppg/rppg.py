@@ -2,12 +2,11 @@ from collections import namedtuple
 from datetime import datetime
 import pathlib
 
-import cv2
 import numpy as np
 import pandas as pd
-from PyQt5.QtCore import pyqtSignal, QObject, QTimer
+from PyQt5.QtCore import pyqtSignal, QObject
 
-from yarppg.rppg.camera import Camera, TimedCamera
+from yarppg.rppg.camera import Camera
 
 
 def write_dataframe(path, df):
@@ -58,12 +57,8 @@ class RPPG(QObject):
         self.output_filename = None
 
     def _set_camera(self, camera):
-        # self._cam = TimedCamera(video=video, parent=None)
         self._cam = camera or Camera(video=0, parent=self)
         self._cam.frame_received.connect(self.on_frame_received)
-        # self._timer = QTimer()
-        # self._timer.timeout.connect(self._cam.emit_frame)
-        # self._cam.invalid_read.connect(self._timer.stop)
 
     def add_processor(self, processor):
         self._processors.append(processor)
@@ -130,7 +125,6 @@ class RPPG(QObject):
 
     def start(self):
         self._cam.start()
-        # self._timer.start(int(1000/15))
 
     def finish(self):
         print("finishing up...")
