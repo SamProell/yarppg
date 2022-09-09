@@ -30,9 +30,18 @@ def get_mainparser():
                         help="store generated signals as data frame")
     parser.add_argument("--limitfps", type=float, default=None,
                         help="limit FPS to specified maximum")
+    parser.add_argument("--delay-frames", type=float, default=None,
+                        help=("add a delay of specified number of milliseconds"
+                              " (overrides --limitfps)"))
 
     return parser
 
+
+def get_delay(args):
+    if args.delay_frames is not None:
+        return 1000.0 / args.delay_frames
+
+    return args.limitfps
 
 def get_detector(args):
     name = args.detector.lower()

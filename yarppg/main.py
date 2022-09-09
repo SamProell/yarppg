@@ -11,7 +11,7 @@ from yarppg.rppg.processors import ColorMeanProcessor, FilteredProcessor
 from yarppg.rppg.hr import HRCalculator
 from yarppg.rppg.filters import get_butterworth_filter
 from yarppg.ui.cli import (get_detector, get_mainparser, get_processor,
-                           parse_frequencies)
+                           parse_frequencies, get_delay)
 
 
 def main():
@@ -32,7 +32,7 @@ def main():
         digital_bandpass = get_butterworth_filter(30, cutoff, "bandpass")
         processor = FilteredProcessor(processor, digital_bandpass)
 
-    cam = Camera(video=args.video, limit_fps=args.limitfps)
+    cam = Camera(video=args.video, limit_fps=get_delay(args))
     rppg = RPPG(roi_detector=roi_detector,
                 camera=cam,
                 hr_calculator=hr_calc,
