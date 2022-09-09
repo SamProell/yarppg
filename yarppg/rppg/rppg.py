@@ -5,9 +5,9 @@ import pathlib
 import cv2
 import numpy as np
 import pandas as pd
-from PyQt5.QtCore import pyqtSignal, QObject
+from PyQt5.QtCore import pyqtSignal, QObject, QTimer
 
-from yarppg.rppg.camera import Camera
+from yarppg.rppg.camera import Camera, TimedCamera
 
 
 def write_dataframe(path, df):
@@ -35,14 +35,14 @@ class RPPG(QObject):
     rppg_updated = pyqtSignal(RppgResults)
     _dummy_signal = pyqtSignal(float)
 
-    def __init__(self, roi_detector, parent=None, video=0,
+    def __init__(self, roi_detector, parent=None, camera=None,
                  hr_calculator=None):
         QObject.__init__(self, parent)
         self.roi = None
         self._processors = []
         self._roi_detector = roi_detector
 
-        self._set_camera(video)
+        self._set_camera(camera)
 
         self._dts = []
         self.last_update = datetime.now()
@@ -57,9 +57,13 @@ class RPPG(QObject):
 
         self.output_filename = None
 
-    def _set_camera(self, video):
-        self._cam = Camera(video=video, parent=self)
+    def _set_camera(self, camera):
+        # self._cam = TimedCamera(video=video, parent=None)
+        self._cam = camera or Camera(video=0, parent=self)
         self._cam.frame_received.connect(self.on_frame_received)
+        # self._timer = QTimer()
+        # self._timer.timeout.connect(self._cam.emit_frame)
+        # self._cam.invalid_read.connect(self._timer.stop)
 
     def add_processor(self, processor):
         self._processors.append(processor)
@@ -126,6 +130,7 @@ class RPPG(QObject):
 
     def start(self):
         self._cam.start()
+        # self._timer.start(int(1000/15))
 
     def finish(self):
         print("finishing up...")

@@ -4,6 +4,7 @@ import argparse
 
 
 from PyQt5.QtWidgets import QApplication
+from yarppg.rppg.camera import Camera
 from yarppg.ui import MainWindow
 from yarppg.rppg import RPPG
 from yarppg.rppg.processors import ColorMeanProcessor, FilteredProcessor
@@ -31,11 +32,11 @@ def main():
         digital_bandpass = get_butterworth_filter(30, cutoff, "bandpass")
         processor = FilteredProcessor(processor, digital_bandpass)
 
-
+    cam = Camera(video=args.video, limit_fps=15)
     rppg = RPPG(roi_detector=roi_detector,
-                video=args.video,
+                camera=cam,
                 hr_calculator=hr_calc,
-                parent=app,
+                parent=None,
                 )
     rppg.add_processor(processor)
     for c in "rgb":

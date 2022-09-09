@@ -15,28 +15,35 @@ class Camera(QThread):
 
     frame_received = pyqtSignal(np.ndarray)
 
-    def __init__(self, video=0, parent=None):
+    def __init__(self, video=0, parent=None, limit_fps=None):
         """Initialize Camera instance
 
         Args:
             video (int or string): ID of camera or video filename
             parent (QObject): parent object in Qt context
+            limit_fps (float): force FPS limit, delay read if necessary.
         """
 
         QThread.__init__(self, parent=parent)
         self._cap = cv2.VideoCapture(video)
         self._running = False
+        self._delay = 1 / limit_fps if limit_fps else np.nan
+        # np.nan will always evaluate to False in a comparison
 
     def run(self):
         self._running = True
         while self._running:
             ret, frame = self._cap.read()
+            last_time = time.perf_counter()
 
             if not ret:
                 self._running = False
                 raise RuntimeError("No frame received")
             else:
                 self.frame_received.emit(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+
+            while (time.perf_counter() - last_time) < self._delay:
+                time.sleep(0.001)
 
     def stop(self):
         self._running = False
