@@ -27,7 +27,8 @@ class Camera(QThread):
         QThread.__init__(self, parent=parent)
         self._cap = cv2.VideoCapture(video)
         self._running = False
-        self._delay = 1 / limit_fps if limit_fps else np.nan
+        self._delay = 1 / limit_fps - 0.012 if limit_fps else np.nan
+        # subtracting a roughly constant delay of 12ms TODO: better way?
         # np.nan will always evaluate to False in a comparison
 
     def run(self):
