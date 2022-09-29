@@ -11,7 +11,7 @@ https://www.cv-foundation.org/openaccess/content_cvpr_2014/html/Li_Remote_Heart_
    Recognition (CVPR), 4264-4271.
 """
 
-import numpy as npa
+import numpy as np
 
 from .processor import Processor
 
