@@ -23,7 +23,7 @@ class LiCvprProcessor(Processor):
         self.winsize = winsize
 
     def calculate(self, roi):
-        r, g, b = self.spatial_pooling(roi)
+        r, g, b, bg_r, bg_g, bg_b = self.spatial_pooling(roi, bg_rgb=True)
 
         return g
 
