@@ -1,8 +1,8 @@
 Yet another rPPG
 ================
 
-*\* This is a work in progress! \**
------------------------------------
+*\* This is a work in progress, do not blindly trust the results \**
+--------------------------------------------------------------------
 
 
 **yarppg** is yet another implementation of remote photoplethysmography in
@@ -67,11 +67,13 @@ There are a number of options available, when running yarppg:
 +-----------------+----------+----------------------------------------------------------------+
 | --draw-facemark | False    |  draw landmarks when using facemesh detector                   |
 +-----------------+----------+----------------------------------------------------------------+
-| --blur          |  -1      |  pixelation size of detected ROI                               |
+| --blur          | -1       |  pixelation size of detected ROI                               |
 +-----------------+----------+----------------------------------------------------------------+
-| --video         |  0       |  video input device number                                     |
+| --video         | 0        |  video input device number or filename                         |
 +-----------------+----------+----------------------------------------------------------------+
-| --savepath      |  ''      |  store generated signals as data frame to disk                 |
+| --limitfps      | None     |  force a delay when reading frames (specified in milliseconds) |
++-----------------+----------+----------------------------------------------------------------+
+| --savepath      | ''       |  store generated signals as data frame to disk                 |
 +-----------------+----------+----------------------------------------------------------------+
 
 Camera setup
