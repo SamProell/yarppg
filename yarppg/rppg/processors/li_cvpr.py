@@ -17,15 +17,14 @@ from .processor import Processor
 
 
 class LiCvprProcessor(Processor):
-    def __init__(self, winsize=1, background=True):
+    def __init__(self, winsize=1):
         super().__init__()
 
         self.winsize = winsize
         self.h = 0
-        self.background = background
 
     def calculate(self, roi):
-        r, g, b, bg_r, bg_g, bg_b = self.spatial_pooling(roi, background=self.background)
+        r, g, b, bg_r, bg_g, bg_b = self.spatial_pooling(roi, background=True)
         
         step_size = 0.05
         matrix = np.matrix(bg_g)
