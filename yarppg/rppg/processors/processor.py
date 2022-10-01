@@ -19,19 +19,20 @@ class Processor:
         self.vs.append(v)
         return v
 
-    def spatial_pooling(self, roi, append_rgb=False, bg_rgb=False):
-        r, g, b = roi.get_mean_rgb()
-        bg_r, bg_g, bg_b = roi.get_mean_background_rgb()
-
-        if append_rgb:
-            self._rs.append(r)
-            self._gs.append(g)
-            self._bs.append(b)
-            
-        if bg_rgb:
+    def spatial_pooling(self, roi, background, append_rgb=False):
+        if background:
+            r, g, b, bg_r, bg_g, bg_b = roi.get_mean_rgb(background)
             return r, g, b, bg_r, bg_g, bg_b
+            
+        else:
+            r, g, b = roi.get_mean_rgb()
 
-        return r, g, b
+            if append_rgb:
+                self._rs.append(r)
+                self._gs.append(g)
+                self._bs.append(b)
+
+            return r, g, b
 
     def __str__(self):
         if self.name is None:
