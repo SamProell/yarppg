@@ -17,15 +17,25 @@ from .processor import Processor
 
 
 class LiCvprProcessor(Processor):
-    def __init__(self, winsize=1):
+    def __init__(self, winsize=1, background=True):
         super().__init__()
 
         self.winsize = winsize
+        self.h = 0
+        self.background = background
 
     def calculate(self, roi):
-        r, g, b, bg_r, bg_g, bg_b = self.spatial_pooling(roi, bg_rgb=True)
-
-        return g
+        r, g, b, bg_r, bg_g, bg_b = self.spatial_pooling(roi, background=self.background)
+        
+        step_size = 0.05
+        matrix = np.matrix(bg_g)
+        bg_g_Htranspose = matrix.getH()
+        h = self.h + (step_size * (g - self.h * bg_g) * bg_g)/(bg_g_Htranspose * bg_g)
+        self.h = h
+        
+        rectified_g = g - (h * bg_g)
+        
+        return np.array(rectified_g)[0][0]
 
     def __str__(self):
         if self.name is None:
