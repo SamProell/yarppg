@@ -2,7 +2,6 @@ from collections import namedtuple
 from datetime import datetime
 import pathlib
 
-import cv2
 import numpy as np
 import pandas as pd
 from PyQt5.QtCore import pyqtSignal, QObject
@@ -35,14 +34,14 @@ class RPPG(QObject):
     rppg_updated = pyqtSignal(RppgResults)
     _dummy_signal = pyqtSignal(float)
 
-    def __init__(self, roi_detector, parent=None, video=0,
+    def __init__(self, roi_detector, parent=None, camera=None,
                  hr_calculator=None):
         QObject.__init__(self, parent)
         self.roi = None
         self._processors = []
         self._roi_detector = roi_detector
 
-        self._set_camera(video)
+        self._set_camera(camera)
 
         self._dts = []
         self.last_update = datetime.now()
@@ -57,8 +56,8 @@ class RPPG(QObject):
 
         self.output_filename = None
 
-    def _set_camera(self, video):
-        self._cam = Camera(video=video, parent=self)
+    def _set_camera(self, camera):
+        self._cam = camera or Camera(video=0, parent=self)
         self._cam.frame_received.connect(self.on_frame_received)
 
     def add_processor(self, processor):
