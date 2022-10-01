@@ -24,7 +24,7 @@ def get_default_bgmask(w, h):
     return mask
 
 class RegionOfInterest:
-    def __init__(self, base_img, mask=None, bgmask=None, facerect=None, mask_bg=None):
+    def __init__(self, base_img, mask=None, bgmask=None, facerect=None):
         self.rawimg = base_img
 
         self._mask = mask
@@ -34,7 +34,6 @@ class RegionOfInterest:
         self._contours = None
         self._bgmask = bgmask
         self._facerect = facerect
-        self._mask_bg = mask_bg
 
         if mask is not None:
             self._rectangle = cv2.boundingRect(mask)
@@ -52,17 +51,13 @@ class RegionOfInterest:
         return roi
 
     @classmethod
-    def from_contour(cls, base_img, pointlist, thresh, **kwargs):
+    def from_contour(cls, base_img, pointlist, bgmask, **kwargs):
         # pointlist with shape nx2
         mask = np.zeros(base_img.shape[:2], dtype="uint8")
         contours = np.reshape(pointlist, (1, -1, 1, 2))
         cv2.drawContours(mask, contours, 0, color=255, thickness=cv2.FILLED)
-        
-        mask_bg = np.zeros(base_img.shape[:2], dtype="uint8")
-        contours_bg, heirarchy_bg = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE) # find contours
-        cv2.drawContours(mask_bg, contours_bg, -1, color=(255, 255, 255), thickness=cv2.FILLED) # draw contours
 
-        roi = RegionOfInterest(base_img, mask, mask_bg=mask_bg, **kwargs)
+        roi = RegionOfInterest(base_img, mask, bgmask, **kwargs)
         roi._contours = contours
 
         return roi
@@ -97,25 +92,20 @@ class RegionOfInterest:
             return (x, y), (x+w, y+h)
         return self._rectangle
 
-    def get_mean_rgb(self, background=False):
+    def get_mean_rgb(self, background):
         mask = self._mask
+        bgmask = self._bgmask
         if background:
             if self._bgmask is None:
                 raise ValueError("Background mask is not specified")
-            mask = self._bgmask
+            r, g, b, a = cv2.mean(self.rawimg, mask)
+            bg_r, bg_g, bg_b, bg_a = cv2.mean(self.rawimg, bgmask)
+            return r, g, b, bg_r, bg_g, bg_b          
+        
+        else:
+            r, g, b, a = cv2.mean(self.rawimg, mask)
+            return r, g, b
 
-        r, g, b, a = cv2.mean(self.rawimg, mask)
-        return r, g, b
-    
-    def get_mean_background_rgb(self, background=False):
-        mask_bg = self._mask_bg
-        if background:
-            if self._bgmask is None:
-                raise ValueError("Background mask is not specified")
-            mask = self._bgmask
-
-        bg_r, bg_g, bg_b, bg_a = cv2.mean(self.rawimg, mask_bg)
-        return bg_r, bg_g, bg_b
     
     def __str__(self):
         if self.is_empty():
