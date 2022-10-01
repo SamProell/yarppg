@@ -5,9 +5,8 @@ import time
 import cv2
 import numpy as np
 import mediapipe as mp
-from tf_bodypix.api import download_model, load_model, BodyPixModelPaths
 
-bodypix_model = load_model(download_model(BodyPixModelPaths.MOBILENET_FLOAT_50_STRIDE_16))
+mp_selfie_segmentation = mp.solutions.selfie_segmentation
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_face_mesh = mp.solutions.face_mesh
@@ -151,20 +150,15 @@ class FaceMeshDetector(ROIDetector):
             min_tracking_confidence=0.5
         )
         self.draw_landmarks=draw_landmarks
+        self.selfie_segmentation = mp.solutions.selfie_segmentation.SelfieSegmentation(model_selection=1)
+        self.BG_COLOR = (0, 0, 0)
 
     def __del__(self):
         self.face_mesh.close()
+        self.selfie_segmentation.close()
 
     def detect(self, frame):
         rawimg = frame.copy()
-        bg_rawimg = frame.copy()
-
-        result = bodypix_model.predict_single(bg_rawimg) # Body Detections
-        mask = result.get_mask(threshold=0.5).numpy().astype(np.uint8) # Body Detections
-        masked_image = cv2.bitwise_and(bg_rawimg, bg_rawimg, mask=mask)  # Get the foreground image
-        bg_image = cv2.subtract(bg_rawimg, masked_image)  # Get the background image
-        gray_bg_image = cv2.cvtColor(bg_image, cv2.COLOR_BGR2GRAY)  # Convert to gray
-        _, thresh = cv2.threshold(gray_bg_image, 10, 255, cv2.THRESH_BINARY)  # Threshold
 
         frame.flags.writeable = False
         results = self.face_mesh.process(frame)
@@ -180,9 +174,26 @@ class FaceMeshDetector(ROIDetector):
         landmarks = get_facemesh_coords(results.multi_face_landmarks[0], frame)
         facerect = get_boundingbox_from_landmarks(landmarks)
         bgmask = get_default_bgmask(frame.shape[1], frame.shape[0])
+        
+        bg_image = None
+        image = cv2.cvtColor(cv2.flip(frame, 1), cv2.COLOR_BGR2RGB)
+        image.flags.writeable = False
+        results = self.selfie_segmentation.process(image)
+        image.flags.writeable = True
+        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+        condition = np.stack((results.segmentation_mask,) * 3, axis=-1) > 0.1
+        if bg_image is None:
+            bg_image = np.zeros(image.shape, dtype=np.uint8)
+            bg_image[:] = self.BG_COLOR
+        foreground_image = np.where(condition, image, bg_image)
+        background_image = cv2.subtract(image, foreground_image)  # Get the background image
+        gray_bg_image = cv2.cvtColor(background_image, cv2.COLOR_BGR2GRAY)  # Convert to gray
+        _, thresh = cv2.threshold(gray_bg_image, 10, 255, cv2.THRESH_BINARY)  # Threshold
+        contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)  # find contours
+        cv2.drawContours(bgmask, contours, -1, color=(255, 255, 255), thickness=cv2.FILLED)  # draw contours
 
         return RegionOfInterest.from_contour(rawimg, landmarks[self._lower_face],
-                                             facerect=facerect, bgmask=bgmask, thresh=thresh)
+                                             facerect=facerect, bgmask=bgmask)
 
     def draw_facemesh(self, img, multi_face_landmarks, tesselate=False,
                       contour=False, irises=False):
