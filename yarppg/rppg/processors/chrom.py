@@ -13,11 +13,12 @@ from .processor import Processor
 
 class ChromProcessor(Processor):
 
-    def __init__(self, winsize=45, method="xovery"):
+    def __init__(self, winsize=45, method="xovery", background=False):
         Processor.__init__(self)
 
         self.winsize = winsize
         self.method = method
+        self.background = background
 
         self._xs, self._ys = [], []
         self.xmean, self.ymean = 0, 0
@@ -27,7 +28,7 @@ class ChromProcessor(Processor):
 
     def calculate(self, roi_pixels):
         self.n += 1
-        r, g, b = self.spatial_pooling(roi_pixels, append_rgb=True)
+        r, g, b = self.spatial_pooling(roi_pixels, append_rgb=True, background=self.background)
         v = np.nan
 
         if self.method == "fixed":
