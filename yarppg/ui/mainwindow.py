@@ -3,13 +3,13 @@ import numpy as np
 from PyQt5.QtWidgets import QMainWindow, QGridLayout, QHBoxLayout, QLabel
 import pyqtgraph as pg
 
-# from yarppg.rppg import RPPG
+from yarppg.rppg import RPPG
 
 from . import helpers
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, app, rppg, winsize=(1000, 400), graphwin=150,
+    def __init__(self, app, rppg: RPPG, winsize=(1000, 400), graphwin=150,
                  legend=False, blur_roi=-1):
         QMainWindow.__init__(self)
         self._app = app

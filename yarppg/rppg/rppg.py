@@ -1,5 +1,6 @@
+from typing import Union
 from collections import namedtuple
-from datetime import datetime
+import time
 import pathlib
 
 import numpy as np
@@ -9,7 +10,7 @@ from PyQt5.QtCore import pyqtSignal, QObject
 from yarppg.rppg.camera import Camera
 
 
-def write_dataframe(path, df):
+def write_dataframe(path: Union[str, pathlib.Path], df: pd.DataFrame) -> None:
     path = pathlib.Path(path)
     if path.suffix.lower() == ".csv":
         df.to_csv(path, float_format="%.7f", index=False)
@@ -44,11 +45,9 @@ class RPPG(QObject):
         self._set_camera(camera)
 
         self._dts = []
-        self.last_update = datetime.now()
-
-        self.output_frame = None
+        self.last_update = time.perf_counter()
+        
         self.hr_calculator = hr_calculator
-
         if self.hr_calculator is not None:
             self.new_hr = self.hr_calculator.new_hr
         else:
@@ -64,7 +63,6 @@ class RPPG(QObject):
         self._processors.append(processor)
 
     def on_frame_received(self, frame):
-        self.output_frame = frame
         self.roi = self._roi_detector(frame)
 
         for processor in self._processors:
@@ -79,8 +77,8 @@ class RPPG(QObject):
                                            ts=self.get_ts, fps=self.get_fps()))
 
     def _update_time(self):
-        dt = (datetime.now() - self.last_update).total_seconds()
-        self.last_update = datetime.now()
+        dt = time.perf_counter()- self.last_update
+        self.last_update = time.perf_counter()
         self._dts.append(dt)
 
         return dt
@@ -103,14 +101,16 @@ class RPPG(QObject):
         return 1/np.mean(self._dts[-n:])
 
     def save_signals(self):
+        if self.output_filename is None:
+            return
+
         path = pathlib.Path(self.output_filename)
         path.parent.mkdir(parents=True, exist_ok=True)
 
-        df = self.get_dataframe()
-        write_dataframe(path)
+        write_dataframe(path, self.get_dataframe())
 
     def get_dataframe(self):
-        names = ["ts"] + ["p%d" % i for i in range(self.num_processors)]
+        names = ["ts"] + [str(p) for p in self._processors]
         data = np.vstack((self.get_ts(),) + tuple(self.get_vs())).T
 
         return pd.DataFrame(data=data, columns=names)
@@ -128,6 +128,5 @@ class RPPG(QObject):
 
     def finish(self):
         print("finishing up...")
-        if self.output_filename is not None:
-            self.save_signals()
+        self.save_signals()  # save if filename was given.
         self._cam.stop()
