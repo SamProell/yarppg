@@ -24,7 +24,7 @@ class PosProcessor(Processor):
 
     def calculate(self, roi_pixels):
         self.n += 1
-        self.spatial_pooling(roi_pixels, append_rgb=True)
+        self.spatial_pooling(roi_pixels, append_rgb=True, background=True)
 
         # spatial averaging
         self.rmean = self.moving_average_update(self.rmean, self._rs, self.winsize)

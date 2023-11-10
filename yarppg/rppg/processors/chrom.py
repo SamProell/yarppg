@@ -27,7 +27,7 @@ class ChromProcessor(Processor):
 
     def calculate(self, roi_pixels):
         self.n += 1
-        r, g, b = self.spatial_pooling(roi_pixels, append_rgb=True)
+        r, g, b = self.spatial_pooling(roi_pixels, append_rgb=True, background=True)
         v = np.nan
 
         if self.method == "fixed":
