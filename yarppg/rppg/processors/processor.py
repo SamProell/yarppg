@@ -19,13 +19,17 @@ class Processor:
         self.vs.append(v)
         return v
 
-    def spatial_pooling(self, roi, append_rgb=False):
+    def spatial_pooling(self, roi, append_rgb=False, bg_rgb=False):
         r, g, b = roi.get_mean_rgb()
+        bg_r, bg_g, bg_b = roi.get_mean_background_rgb()
 
         if append_rgb:
             self._rs.append(r)
             self._gs.append(g)
             self._bs.append(b)
+            
+        if bg_rgb:
+            return r, g, b, bg_r, bg_g, bg_b
 
         return r, g, b
 
