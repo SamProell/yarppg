@@ -37,7 +37,8 @@ if __name__ == "__main__":
     y = np.sin(2*np.pi*x) + 0.2*np.random.normal(size=len(x))
 
     import pyqtgraph as pg
-    app = pg.QtGui.QApplication([])
+    from PyQt5 import QtWidgets
+    app = app = QtWidgets.QApplication([])
     p = pg.plot(title="test")
     p.plot(x, y)
     ba = scipy.signal.butter(2, 3/fs*2)
