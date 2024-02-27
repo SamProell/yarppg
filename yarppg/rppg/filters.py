@@ -3,7 +3,7 @@ import scipy.signal
 
 
 def get_butterworth_filter(f, cutoff, btype="low", order=2):
-    ba = scipy.signal.butter(N=order, Wn=np.divide(cutoff, f/2.), btype=btype)
+    ba = scipy.signal.butter(N=order, Wn=np.divide(cutoff, f / 2.0), btype=btype)
     return DigitalFilter(ba[0], ba[1])
 
 
@@ -12,8 +12,8 @@ class DigitalFilter:
     def __init__(self, b, a):
         self._bs = b
         self._as = a
-        self._xs = [0]*len(b)
-        self._ys = [0]*(len(a)-1)
+        self._xs = [0] * len(b)
+        self._ys = [0] * (len(a) - 1)
 
     def process(self, x):
         if np.isnan(x):  # ignore nans, and return as is
@@ -21,8 +21,7 @@ class DigitalFilter:
 
         self._xs.insert(0, x)
         self._xs.pop()
-        y = (np.dot(self._bs, self._xs) / self._as[0]
-             - np.dot(self._as[1:], self._ys))
+        y = np.dot(self._bs, self._xs) / self._as[0] - np.dot(self._as[1:], self._ys)
         self._ys.insert(0, y)
         self._ys.pop()
         return y
@@ -33,15 +32,16 @@ class DigitalFilter:
 
 if __name__ == "__main__":
     fs = 30
-    x = np.arange(0, 10, 1.0/fs)
-    y = np.sin(2*np.pi*x) + 0.2*np.random.normal(size=len(x))
+    x = np.arange(0, 10, 1.0 / fs)
+    y = np.sin(2 * np.pi * x) + 0.2 * np.random.normal(size=len(x))
 
     import pyqtgraph as pg
     from PyQt5 import QtWidgets
+
     app = app = QtWidgets.QApplication([])
     p = pg.plot(title="test")
     p.plot(x, y)
-    ba = scipy.signal.butter(2, 3/fs*2)
+    ba = scipy.signal.butter(2, 3 / fs * 2)
     yfilt = scipy.signal.lfilter(ba[0], ba[1], y)
     p.plot(x, yfilt, pen=(0, 3))
 
