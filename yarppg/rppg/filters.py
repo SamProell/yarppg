@@ -38,7 +38,7 @@ if __name__ == "__main__":
     import pyqtgraph as pg
     from PyQt5 import QtWidgets
 
-    app = app = QtWidgets.QApplication([])
+    app = QtWidgets.QApplication([])
     p = pg.plot(title="test")
     p.plot(x, y)
     ba = scipy.signal.butter(2, 3 / fs * 2)
