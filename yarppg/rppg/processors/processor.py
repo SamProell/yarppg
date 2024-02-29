@@ -1,4 +1,4 @@
-import cv2
+"""Provides base classes for rPPG processors."""
 import numpy as np
 
 
@@ -11,7 +11,7 @@ class Processor:
 
         self.vs = []
 
-    def calculate(self, roi):
+    def calculate(self, roi):  # noqa: ARG002
         return np.nan
 
     def __call__(self, roi):
@@ -36,17 +36,17 @@ class Processor:
             return self.name
 
     @staticmethod
-    def moving_average_update(xold, xs, winsize):
+    def moving_average_update(xold, xs, winsize):  # noqa: ARG004
         if len(xs) == 0:
             return np.nan
-        '''
+        """
         n = len(xs)
         if n == 0:
             return 0
         if n < winsize:
             return sum(xs) / len(xs)
         return xold + (xs[-1] - xs[max(0, n - winsize)]) / min(n, winsize)
-        '''
+        """
         return np.nanmean(xs[-winsize:])
 
 

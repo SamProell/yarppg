@@ -1,4 +1,4 @@
-"""This processor implements some of the features suggested by Li et al. [1]_
+"""This processor implements some of the features suggested by Li et al. [1]_.
 
 *work in progress* (for now, this simply returns the green channel)
 
@@ -10,8 +10,6 @@ https://www.cv-foundation.org/openaccess/content_cvpr_2014/html/Li_Remote_Heart_
    Proceedings of the IEEE Conference on Computer Vision and Pattern
    Recognition (CVPR), 4264-4271.
 """
-
-import numpy as np
 
 from .processor import Processor
 

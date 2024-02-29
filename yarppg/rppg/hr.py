@@ -1,10 +1,11 @@
+"""Provides functionality for heart rate calculation from (rPPG) signals."""
 import numpy as np
-from PyQt5.QtCore import QObject, pyqtSignal
 import scipy.signal
+from PyQt5.QtCore import QObject, pyqtSignal
 
 
 def bpm_from_inds(inds, ts):
-    """Calculate heart rate (in beat/min) from indices and time vector
+    """Calculate heart rate (in beat/min) from indices and time vector.
 
     Args:
         inds (`1d array-like`): indices of heart beats
@@ -13,21 +14,19 @@ def bpm_from_inds(inds, ts):
     Returns:
         float: heart rate in beats per minute (bpm)
     """
-
     if len(inds) < 2:
         return np.nan
 
-    return 60. / np.mean(np.diff(ts[inds]))
+    return 60.0 / np.mean(np.diff(ts[inds]))
 
 
 def get_sampling_rate(ts):
-    """Calculate sampling rate from time vector
-    """
-    return 1. / np.mean(np.diff(ts))
+    """Calculate sampling rate from time vector."""
+    return 1.0 / np.mean(np.diff(ts))
 
 
 def from_peaks(vs, ts, mindist=0.35):
-    """Calculate heart rate by finding peaks in the given signal
+    """Calculate heart rate by finding peaks in the given signal.
 
     Args:
         vs (`1d array-like`): pulse wave signal
@@ -37,17 +36,16 @@ def from_peaks(vs, ts, mindist=0.35):
     Returns:
         float: heart rate in beats per minute (bpm)
     """
-
     if len(ts) != len(vs) or len(ts) < 2:
         return np.nan
     f = get_sampling_rate(ts)
-    peaks, _ = scipy.signal.find_peaks(vs, distance=int(f*mindist))
+    peaks, _ = scipy.signal.find_peaks(vs, distance=int(f * mindist))
 
     return bpm_from_inds(peaks, ts)
 
 
 def from_fft(vs, ts):
-    """Calculate heart rate as most dominant frequency in pulse signal
+    """Calculate heart rate as most dominant frequency in pulse signal.
 
     Args:
         vs (`1d array-like`): pulse wave signal
@@ -56,18 +54,18 @@ def from_fft(vs, ts):
     Returns:
         float: heart rate in beats per minute (bpm)
     """
-
     f = get_sampling_rate(ts)
     vf = np.fft.fft(vs)
-    xf = np.linspace(0.0, f/2., len(vs)//2)
-    return 60 * xf[np.argmax(np.abs(vf[:len(vf)//2]))]
+    xf = np.linspace(0.0, f / 2.0, len(vs) // 2)
+    return 60 * xf[np.argmax(np.abs(vf[: len(vf) // 2]))]
 
 
 class HRCalculator(QObject):
     new_hr = pyqtSignal(float)
 
-    def __init__(self, parent=None, update_interval=30, winsize=300,
-                 filt_fun=None, hr_fun=None):
+    def __init__(
+        self, parent=None, update_interval=30, winsize=300, filt_fun=None, hr_fun=None
+    ):
         QObject.__init__(self, parent)
 
         self._counter = 0

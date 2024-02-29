@@ -1,7 +1,6 @@
-import cv2
-import numpy as np
-from PyQt5.QtWidgets import QMainWindow, QGridLayout, QHBoxLayout, QLabel
+"""Provides the MainWindow for the rPPG GUI."""
 import pyqtgraph as pg
+from PyQt5.QtWidgets import QMainWindow
 
 from yarppg.rppg import RPPG
 
@@ -9,8 +8,15 @@ from . import helpers
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, app, rppg: RPPG, winsize=(1000, 400), graphwin=150,
-                 legend=False, blur_roi=-1):
+    def __init__(
+        self,
+        app,
+        rppg: RPPG,
+        winsize=(1000, 400),
+        graphwin=150,
+        legend=False,
+        blur_roi=-1,
+    ):
         QMainWindow.__init__(self)
         self._app = app
 
@@ -20,12 +26,9 @@ class MainWindow(QMainWindow):
 
         self.graphwin = graphwin
 
-        self.img = None
         self.lines = []
         self.plots = []
         self.auto_range_factor = 0.05
-
-        self.hr_label = None
 
         self.init_ui(winsize=winsize)
         if legend:
@@ -41,8 +44,9 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(layout)
 
         self.img = pg.ImageItem(axisOrder="row-major")
-        vb = layout.addViewBox(col=0, row=0, rowspan=3, invertX=True,
-                               invertY=True, lockAspect=True)
+        vb = layout.addViewBox(
+            col=0, row=0, rowspan=3, invertX=True, invertY=True, lockAspect=True
+        )
         vb.addItem(self.img)
 
         p1 = layout.addPlot(row=0, col=1, colspan=1)
@@ -57,20 +61,20 @@ class MainWindow(QMainWindow):
             self.lines.append(p2.plot())
             self.plots.append(p2)
             for _ in range(2, self.rppg.num_processors):
-                l, p = helpers.add_multiaxis_plot(p2, pen=pg.mkPen(width=3))
-                self.lines.append(l)
-                self.plots.append(p)
-        for p in self.plots:
-            p.disableAutoRange()
+                pen = pg.mkPen(width=3)
+                line, plot = helpers.add_multiaxis_plot(p2, pen=pen)
+                self.lines.append(line)
+                self.plots.append(plot)
+        for plot in self.plots:
+            plot.disableAutoRange()
 
-        self.hr_label = layout.addLabel(text="Heart rate:", row=4, col=0,
-                                        size="20pt")
+        self.hr_label = layout.addLabel(text="Heart rate:", row=4, col=0, size="20pt")
 
     @staticmethod
-    def _customize_legend(l, fs="10pt", margins=(5, 0, 5, 0)):
-        l.layout.setContentsMargins(*margins)
+    def _customize_legend(line, fs="10pt", margins=(5, 0, 5, 0)):
+        line.layout.setContentsMargins(*margins)
         if fs is not None:
-            for _, label in l.items:
+            for _, label in line.items:
                 label.setText(label.text, size=fs)
 
     def _add_legend(self):
@@ -81,8 +85,8 @@ class MainWindow(QMainWindow):
         legend = pg.LegendItem(verSpacing=2)
         self._customize_legend(legend)
         legend.setParentItem(p)
-        for l, n in zip(self.lines, self.rppg.processor_names):
-            legend.addItem(l, n)
+        for line, name in zip(self.lines, self.rppg.processor_names):
+            legend.addItem(line, name)
 
     def update_hr(self, hr):
         self.hr_label.setText("Heart rate: {:5.1f} beat/min".format(hr))
@@ -114,9 +118,9 @@ class MainWindow(QMainWindow):
         self.rppg.start()
         return self._app.exec_()
 
-    def closeEvent(self, event):
+    def closeEvent(self, event):  # noqa: N802, ARG002
         self.rppg.finish()
 
-    def keyPressEvent(self, e):
+    def keyPressEvent(self, e):  # noqa: N802
         if e.key() == ord("Q"):
             self.close()

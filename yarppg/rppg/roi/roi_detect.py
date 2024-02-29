@@ -1,13 +1,10 @@
-from pathlib import Path
+"""Region of interest (face) detectors."""
 import warnings
-import time
+from pathlib import Path
 
 import cv2
-import numpy as np
 import mediapipe as mp
-mp_drawing = mp.solutions.drawing_utils
-mp_drawing_styles = mp.solutions.drawing_styles
-mp_face_mesh = mp.solutions.face_mesh
+import numpy as np
 
 from yarppg.rppg.roi.region_of_interest import RegionOfInterest, get_default_bgmask
 
@@ -15,17 +12,21 @@ resource_path = Path(__file__).parent.parent / "_resources"
 
 
 def exponential_smooth(new_roi, old_roi, factor):
+    """Exponentially weighted moving average."""
     if factor <= 0.0 or old_roi is None:
         return new_roi
 
     smooth_roi = np.multiply(new_roi, 1 - factor) + np.multiply(old_roi, factor)
     return tuple(smooth_roi.astype(int))
 
+
 def get_boundingbox_from_landmarks(lms):
+    """Calculate the bounding rectangle containing all landmarks."""
     xy = np.min(lms, axis=0)
     wh = np.subtract(np.max(lms, axis=0), xy)
 
     return np.r_[xy, wh]
+
 
 class ROIDetector:
     def __init__(self, smooth_factor=0.0, **kwargs):
@@ -46,6 +47,7 @@ class ROIDetector:
     def __call__(self, frame):
         return self.get_roi(frame)
 
+
 class NoDetector(ROIDetector):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -61,11 +63,14 @@ class CaffeDNNFaceDetector(ROIDetector):
 
     color_mean = (128, 128, 128)
 
-    def __init__(self, prototxt=None, caffemodel=None,
-                 blob_size=(300, 300),
-                 min_confidence=0.3,
-                 **kwargs
-                 ):
+    def __init__(
+        self,
+        prototxt=None,
+        caffemodel=None,
+        blob_size=(300, 300),
+        min_confidence=0.3,
+        **kwargs,
+    ):
         super().__init__(**kwargs)
         print(self.caffemodel)
         self.blob_size = blob_size
@@ -83,8 +88,7 @@ class CaffeDNNFaceDetector(ROIDetector):
         detections = self.model.forward()[0, 0, ...]
         for det in detections:
             if det[2] > self.min_confidence:
-                x1, y1, x2, y2 = np.multiply(
-                    det[3:7], (w, h, w, h)).astype(int)
+                x1, y1, x2, y2 = np.multiply(det[3:7], (w, h, w, h)).astype(int)
                 return RegionOfInterest.from_rectangle(frame, (x1, y1), (x2, y2))
         return RegionOfInterest(frame)
 
@@ -92,12 +96,14 @@ class CaffeDNNFaceDetector(ROIDetector):
 class HaarCascadeDetector(ROIDetector):
     default_cascade = resource_path / "haarcascade_frontalface_default.xml"
 
-    def __init__(self,
-                 casc_file=None,
-                 scale_factor=1.1,
-                 min_neighbors=5,
-                 min_size=(30, 30),
-                 **kwargs):
+    def __init__(
+        self,
+        casc_file=None,
+        scale_factor=1.1,
+        min_neighbors=5,
+        min_size=(30, 30),
+        **kwargs,
+    ):
         super().__init__(**kwargs)
         self.scale_factor = scale_factor
         self.min_neighbors = min_neighbors
@@ -106,23 +112,25 @@ class HaarCascadeDetector(ROIDetector):
 
     def detect(self, frame):
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        faces = self.cascade.detectMultiScale(gray,
-                                              scaleFactor=self.scale_factor,
-                                              minNeighbors=self.min_neighbors,
-                                              )# minSize=self.min_size)
+        faces = self.cascade.detectMultiScale(
+            gray, scaleFactor=self.scale_factor, minNeighbors=self.min_neighbors
+        )  # minSize=self.min_size)
         if len(faces) > 0:
             x, y, w, h = faces[0]
-            return RegionOfInterest.from_rectangle(frame, (x, y), (x+w, y+h))
+            return RegionOfInterest.from_rectangle(frame, (x, y), (x + w, y + h))
 
         return RegionOfInterest(frame, mask=None)
 
     @classmethod
-    def _get_classifier(cls, casc_file: str):
+    def _get_classifier(cls, casc_file: str | None):
         if casc_file is not None and Path(casc_file).is_file():
             cascade = cv2.CascadeClassifier(casc_file)
         elif Path(cls.default_cascade).is_file():
-            warnings.warn("cascade file '{}' not found, using default instead"
-                          "".format(casc_file))
+            warnings.warn(
+                "cascade file '{}' not found, using default instead" "".format(
+                    casc_file
+                )
+            )
             cascade = cv2.CascadeClassifier(str(cls.default_cascade))
         else:
             raise IOError("cascade file '{}' not found".format(casc_file))
@@ -131,10 +139,12 @@ class HaarCascadeDetector(ROIDetector):
 
 
 def get_facemesh_coords(landmark_list, frame):
+    """Get unnormalized coordinates of face mesh landmarks."""
     h, w = frame.shape[:2]
     xys = [(landmark.x, landmark.y) for landmark in landmark_list.landmark]
 
     return np.multiply(xys, [w, h]).astype(int)
+
 
 class FaceMeshDetector(ROIDetector):
     _lower_face = [200, 431, 411, 340, 349, 120, 111, 187, 211]
@@ -145,9 +155,9 @@ class FaceMeshDetector(ROIDetector):
             max_num_faces=1,
             refine_landmarks=refine,
             min_detection_confidence=0.5,
-            min_tracking_confidence=0.5
+            min_tracking_confidence=0.5,
         )
-        self.draw_landmarks=draw_landmarks
+        self.draw_landmarks = draw_landmarks
 
     def __del__(self):
         self.face_mesh.close()
@@ -163,18 +173,27 @@ class FaceMeshDetector(ROIDetector):
             return RegionOfInterest(frame, mask=None)
 
         if self.draw_landmarks:
-            self.draw_facemesh(frame, results.multi_face_landmarks,
-                               tesselate=True)
+            self.draw_facemesh(frame, results.multi_face_landmarks, tesselate=True)
 
         landmarks = get_facemesh_coords(results.multi_face_landmarks[0], frame)
         facerect = get_boundingbox_from_landmarks(landmarks)
         bgmask = get_default_bgmask(frame.shape[1], frame.shape[0])
 
-        return RegionOfInterest.from_contour(rawimg, landmarks[self._lower_face],
-                                             facerect=facerect, bgmask=bgmask)
+        return RegionOfInterest.from_contour(
+            rawimg,
+            landmarks[self._lower_face],
+            facerect=facerect,
+            bgmask=bgmask,
+        )
 
-    def draw_facemesh(self, img, multi_face_landmarks, tesselate=False,
-                      contour=False, irises=False):
+    def draw_facemesh(
+        self,
+        img,
+        multi_face_landmarks,
+        tesselate=False,
+        contour=False,
+        irises=False,
+    ):
         if multi_face_landmarks is None:
             return
 
@@ -183,23 +202,23 @@ class FaceMeshDetector(ROIDetector):
                 mp.solutions.drawing_utils.draw_landmarks(
                     image=img,
                     landmark_list=face_landmarks,
-                    connections=mp_face_mesh.FACEMESH_TESSELATION,
+                    connections=mp.solutions.face_mesh.FACEMESH_TESSELATION,
                     landmark_drawing_spec=None,
-                    connection_drawing_spec=mp_drawing_styles
-                    .get_default_face_mesh_tesselation_style())
+                    connection_drawing_spec=mp.solutions.drawing_styles.get_default_face_mesh_tesselation_style(),
+                )
             if contour:
                 mp.solutions.drawing_utils.draw_landmarks(
                     image=img,
                     landmark_list=face_landmarks,
                     connections=mp.solutions.face_mesh.FACEMESH_CONTOURS,
                     landmark_drawing_spec=None,
-                    connection_drawing_spec=mp.solutions.drawing_styles
-                    .get_default_face_mesh_contours_style())
+                    connection_drawing_spec=mp.solutions.drawing_styles.get_default_face_mesh_contours_style(),
+                )
             if irises and len(face_landmarks) > 468:
                 mp.solutions.drawing_utils.draw_landmarks(
                     image=img,
                     landmark_list=face_landmarks,
-                    connections=mp_face_mesh.FACEMESH_IRISES,
+                    connections=mp.solutions.face_mesh.FACEMESH_IRISES,
                     landmark_drawing_spec=None,
-                    connection_drawing_spec=mp_drawing_styles
-                    .get_default_face_mesh_iris_connections_style())
+                    connection_drawing_spec=mp.solutions.drawing_styles.get_default_face_mesh_iris_connections_style(),
+                )

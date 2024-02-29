@@ -1,4 +1,4 @@
-
+"""Simple processor that calculates the mean color of a single channel."""
 from .processor import Processor
 
 
@@ -10,8 +10,9 @@ class ColorMeanProcessor(Processor):
         Processor.__init__(self)
 
         if channel not in self.channel_dict.keys():
-            raise KeyError("channel has to be one of "
-                           "{}".format(set(self.channel_dict.keys())))
+            raise KeyError(
+                "channel has to be one of " "{}".format(set(self.channel_dict.keys()))
+            )
 
         self.channel = self.channel_dict[channel]
         self.winsize = winsize

@@ -1,5 +1,6 @@
-from .processor import Processor, FilteredProcessor
-from .color_mean import ColorMeanProcessor
+"""Provides different processors for obtaining the rPPG signal."""
 from .chrom import ChromProcessor
-from .pos import PosProcessor
+from .color_mean import ColorMeanProcessor
 from .li_cvpr import LiCvprProcessor
+from .pos import PosProcessor
+from .processor import FilteredProcessor, Processor

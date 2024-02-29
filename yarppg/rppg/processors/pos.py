@@ -1,11 +1,9 @@
-"""Plane-Orthogonal-to-Skin (POS) algorithm introduced by Wang et al. [1]_
-
+"""Plane-Orthogonal-to-Skin (POS) algorithm introduced by Wang et al. [1]_.
 
 .. [1] Wang, W., den Brinker, A. C., Stuijk, S., and de Haan, G. (2017).
    Algorithmic Principles of Remote PPG. IEEE Transactions on Biomedical
-   Engineering, 64(7), 1479–1491. https://doi.org/10.1109/TBME.2016.2609282
+   Engineering, 64(7), 1479-1491. https://doi.org/10.1109/TBME.2016.2609282
 """
-
 import numpy as np
 
 from .processor import Processor
@@ -33,18 +31,18 @@ class PosProcessor(Processor):
 
         if self.n >= self.winsize:
             # temporal normalization
-            rn = np.divide(self._rs[-self.winsize:], self.rmean or 1.)
-            gn = np.divide(self._gs[-self.winsize:], self.gmean or 1.)
-            bn = np.divide(self._bs[-self.winsize:], self.bmean or 1.)
+            rn = np.divide(self._rs[-self.winsize :], self.rmean or 1.0)
+            gn = np.divide(self._gs[-self.winsize :], self.gmean or 1.0)
+            bn = np.divide(self._bs[-self.winsize :], self.bmean or 1.0)
 
             # projection
             s1 = gn - bn
-            s2 = -2*rn + gn + bn
+            s2 = -2 * rn + gn + bn
 
             # tuning
             h = s1 + np.nanstd(s1) / np.nanstd(s2) * s2
-            self.hs.append(0.)
-            self.hs[-self.winsize:] = self.hs[-self.winsize:] + (h-np.nanmean(h))
+            self.hs.append(0.0)
+            self.hs[-self.winsize :] = self.hs[-self.winsize :] + (h - np.nanmean(h))
             return self.hs[-self.winsize]
         self.hs.append(0)
         return 0

@@ -1,27 +1,33 @@
+"""Processing of detected regions of interest."""
 import functools
 
-from multiprocessing.sharedctypes import Value
 import cv2
 import numpy as np
 
 
 def pixelate(img, xywh, blur):
+    """Blur a rectangular region with oversized pixels."""
     if blur > 0:
         x, y, w, h = xywh
-        slicex = slice(x, x+w)
-        slicey = slice(y, y+h)
+        slicex = slice(x, x + w)
+        slicey = slice(y, y + h)
 
-        tmp = cv2.resize(img[slicey, slicex], (w//blur, h//blur),
-                         interpolation=cv2.INTER_LINEAR)
-        img[slicey, slicex] = cv2.resize(tmp, (w, h),
-                                         interpolation=cv2.INTER_NEAREST)
+        tmp = cv2.resize(
+            img[slicey, slicex],
+            (w // blur, h // blur),
+            interpolation=cv2.INTER_LINEAR,
+        )
+        img[slicey, slicex] = cv2.resize(tmp, (w, h), interpolation=cv2.INTER_NEAREST)
+
 
 @functools.lru_cache(maxsize=2)
 def get_default_bgmask(w, h):
+    """Use top 5 rows of the image as default background mask."""
     mask = np.zeros((h, w), dtype="uint8")
     cv2.rectangle(mask, (0, 0), (w, 5), 255, -1)
 
     return mask
+
 
 class RegionOfInterest:
     def __init__(self, base_img, mask=None, bgmask=None, facerect=None):
@@ -37,7 +43,7 @@ class RegionOfInterest:
 
         if mask is not None:
             self._rectangle = cv2.boundingRect(mask)
-            self._empty = (self._rectangle[2] == 0 or self._rectangle[3] == 0)
+            self._empty = self._rectangle[2] == 0 or self._rectangle[3] == 0
 
     @classmethod
     def from_rectangle(cls, base_img, p1, p2, **kwargs):
@@ -70,8 +76,7 @@ class RegionOfInterest:
             p1, p2 = self.get_bounding_box(as_corners=True)
             cv2.rectangle(img, p1, p2, color, thickness)
         else:
-            cv2.drawContours(img, self._contours, 0, color=color,
-                             thickness=thickness)
+            cv2.drawContours(img, self._contours, 0, color=color, thickness=thickness)
 
     def pixelate_face(self, img, blursize):
         if not self.is_empty():
@@ -85,11 +90,10 @@ class RegionOfInterest:
         return self._empty
 
     def get_bounding_box(self, as_corners=False):
-        """Bounding box specified as (x, y, w, h) or min/max corners
-        """
+        """Bounding box specified as (x, y, w, h) or min/max corners."""
         if as_corners:
             x, y, w, h = self._rectangle
-            return (x, y), (x+w, y+h)
+            return (x, y), (x + w, y + h)
         return self._rectangle
 
     def get_mean_rgb(self, background=False):

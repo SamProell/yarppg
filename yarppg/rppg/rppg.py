@@ -1,16 +1,18 @@
-from typing import Union
-from collections import namedtuple
-import time
+"""Orchestrator class for the rPPG application."""
 import pathlib
+import time
+from collections import namedtuple
+from typing import Union
 
 import numpy as np
 import pandas as pd
-from PyQt5.QtCore import pyqtSignal, QObject
+from PyQt5.QtCore import QObject, pyqtSignal
 
 from yarppg.rppg.camera import Camera
 
 
 def write_dataframe(path: Union[str, pathlib.Path], df: pd.DataFrame) -> None:
+    """Write data frame to disk with the format specified by file extension."""
     path = pathlib.Path(path)
     if path.suffix.lower() == ".csv":
         df.to_csv(path, float_format="%.7f", index=False)
@@ -21,22 +23,18 @@ def write_dataframe(path: Union[str, pathlib.Path], df: pd.DataFrame) -> None:
     else:
         raise IOError("Unknown file extension '{}'".format(path.suffix))
 
-RppgResults = namedtuple("RppgResults", ["dt",
-                                         "rawimg",
-                                         "roi",
-                                         "hr",
-                                         "vs_iter",
-                                         "ts",
-                                         "fps",
-                                         ])
+
+RppgResults = namedtuple(
+    "RppgResults",
+    ["dt", "rawimg", "roi", "hr", "vs_iter", "ts", "fps"],
+)
 
 
 class RPPG(QObject):
     rppg_updated = pyqtSignal(RppgResults)
     _dummy_signal = pyqtSignal(float)
 
-    def __init__(self, roi_detector, parent=None, camera=None,
-                 hr_calculator=None):
+    def __init__(self, roi_detector, parent=None, camera=None, hr_calculator=None):
         QObject.__init__(self, parent)
         self.roi = None
         self._processors = []
@@ -46,7 +44,7 @@ class RPPG(QObject):
 
         self._dts = []
         self.last_update = time.perf_counter()
-        
+
         self.hr_calculator = hr_calculator
         if self.hr_calculator is not None:
             self.new_hr = self.hr_calculator.new_hr
@@ -72,12 +70,20 @@ class RPPG(QObject):
             self.hr_calculator.update(self)
 
         dt = self._update_time()
-        self.rppg_updated.emit(RppgResults(dt=dt, rawimg=frame, roi=self.roi,
-                                           hr=np.nan, vs_iter=self.get_vs,
-                                           ts=self.get_ts, fps=self.get_fps()))
+        self.rppg_updated.emit(
+            RppgResults(
+                dt=dt,
+                rawimg=frame,
+                roi=self.roi,
+                hr=np.nan,
+                vs_iter=self.get_vs,
+                ts=self.get_ts,
+                fps=self.get_fps(),
+            )
+        )
 
     def _update_time(self):
-        dt = time.perf_counter()- self.last_update
+        dt = time.perf_counter() - self.last_update
         self.last_update = time.perf_counter()
         self._dts.append(dt)
 
@@ -98,7 +104,7 @@ class RPPG(QObject):
         return np.cumsum(dts)
 
     def get_fps(self, n=5):
-        return 1/np.mean(self._dts[-n:])
+        return 1 / np.mean(self._dts[-n:])
 
     def save_signals(self):
         if self.output_filename is None:

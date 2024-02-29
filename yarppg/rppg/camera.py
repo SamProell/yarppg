@@ -1,3 +1,4 @@
+"""Provides compatible wrappers around the CV2 camera input."""
 import time
 
 import cv2
@@ -16,14 +17,13 @@ class Camera(QThread):
     frame_received = pyqtSignal(np.ndarray)
 
     def __init__(self, video=0, parent=None, limit_fps=None):
-        """Initialize Camera instance
+        """Initialize Camera instance.
 
         Args:
             video (int or string): ID of camera or video filename
             parent (QObject): parent object in Qt context
             limit_fps (float): force FPS limit, delay read if necessary.
         """
-
         QThread.__init__(self, parent=parent)
         self._cap = cv2.VideoCapture(video)
         self._running = False
