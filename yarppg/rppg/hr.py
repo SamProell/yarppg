@@ -1,7 +1,12 @@
 """Provides functionality for heart rate calculation from (rPPG) signals."""
+import dataclasses
+from typing import Optional
+
 import numpy as np
 import scipy.signal
 from PyQt5.QtCore import QObject, pyqtSignal
+
+from .filters import FilterConfig, make_digital_filter
 
 
 def bpm_from_inds(inds, ts):
@@ -60,6 +65,14 @@ def from_fft(vs, ts):
     return 60 * xf[np.argmax(np.abs(vf[: len(vf) // 2]))]
 
 
+@dataclasses.dataclass
+class HRCalculatorConfig:
+    update_interval: int = 30
+    winsize: int = 300
+    filt: Optional[FilterConfig] = None
+    calc: str = "peaks"
+
+
 class HRCalculator(QObject):
     new_hr = pyqtSignal(float)
 
@@ -85,3 +98,14 @@ class HRCalculator(QObject):
             if self.filt_fun is not None and callable(self.filt_fun):
                 vs = self.filt_fun(vs)
             self.new_hr.emit(self.hr_fun(vs, ts))
+
+
+def make_hrcalculator(cfg: HRCalculatorConfig, parent=None) -> HRCalculator:
+    """Create HR calculator from given config."""
+    filt_fun = None
+    if cfg.filt is not None:
+        digitalfilter = make_digital_filter(cfg.filt)
+        filt_fun = lambda ys: [digitalfilter(y) for y in ys]  # noqa: E731
+
+    hr_func = from_fft if cfg.calc == "fft" else from_peaks
+    return HRCalculator(parent, cfg.update_interval, cfg.winsize, filt_fun, hr_func)

@@ -1,12 +1,13 @@
 """Main functionality of the rPPG application."""
 import sys
+from dataclasses import dataclass
 
 from PyQt5.QtWidgets import QApplication
 
 from yarppg.rppg import RPPG
 from yarppg.rppg.camera import Camera
-from yarppg.rppg.filters import get_butterworth_filter
-from yarppg.rppg.hr import HRCalculator
+from yarppg.rppg.filters import FilterConfig, get_butterworth_filter
+from yarppg.rppg.hr import HRCalculatorConfig, make_hrcalculator
 from yarppg.rppg.processors import ColorMeanProcessor, FilteredProcessor
 from yarppg.ui import MainWindow
 from yarppg.ui.cli import (
@@ -18,7 +19,20 @@ from yarppg.ui.cli import (
 )
 
 
-def main():
+@dataclass
+class Settings:
+    video: int = 0
+    hrcalc: HRCalculatorConfig = HRCalculatorConfig(
+        update_interval=30,
+        winsize=300,
+        filt=FilterConfig(
+            fs=30,
+            f1=1.5,
+        ),
+    )
+
+
+def main(cfg: Settings = Settings()):
     """Run the rPPG application."""
     parser = get_mainparser()
     args = parser.parse_args(sys.argv[1:])
@@ -26,13 +40,7 @@ def main():
 
     roi_detector = get_detector(args)
 
-    digital_lowpass = get_butterworth_filter(30, 1.5)
-    hr_calc = HRCalculator(
-        parent=app,
-        update_interval=30,
-        winsize=300,
-        filt_fun=lambda vs: [digital_lowpass(v) for v in vs],
-    )
+    hr_calc = make_hrcalculator(cfg.hrcalc, parent=app)
 
     processor = get_processor(args)
 
@@ -41,7 +49,7 @@ def main():
         digital_bandpass = get_butterworth_filter(30, cutoff, "bandpass")
         processor = FilteredProcessor(processor, digital_bandpass)
 
-    cam = Camera(video=args.video, limit_fps=get_delay(args))
+    cam = Camera(video=cfg.video, limit_fps=get_delay(args))
     rppg = RPPG(
         roi_detector=roi_detector,
         camera=cam,
