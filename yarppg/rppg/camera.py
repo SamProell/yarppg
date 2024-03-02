@@ -22,12 +22,12 @@ class Camera(QThread):
         Args:
             video (int or string): ID of camera or video filename
             parent (QObject): parent object in Qt context
-            limit_fps (float): force FPS limit, delay read if necessary.
+            limit_fps (float): force FPS limit, delay next read if necessary.
         """
         QThread.__init__(self, parent=parent)
         self._cap = cv2.VideoCapture(video)
         self._running = False
-        self._delay = 1 / limit_fps - 0.012 if limit_fps else np.nan
+        self._delay = (limit_fps if limit_fps else np.nan) - 0.012
         # subtracting a roughly constant delay of 12ms TODO: better way?
         # np.nan will always evaluate to False in a comparison
 
