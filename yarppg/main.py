@@ -3,10 +3,12 @@ import sys
 from dataclasses import dataclass
 from typing import Optional
 
+import hydra
+import hydra.core.config_store
 from PyQt5.QtWidgets import QApplication
 
 import yarppg.rppg
-from yarppg.rppg.camera import Camera
+from yarppg import CONFIG_PATH
 from yarppg.rppg.filters import FilterConfig, make_digital_filter
 from yarppg.rppg.hr import HRCalculatorConfig, make_hrcalculator
 from yarppg.rppg.processors import FilteredProcessor, ProcessorConfig, get_processor
@@ -47,9 +49,12 @@ class Settings:
     )
 
 
+cs = hydra.core.config_store.ConfigStore.instance()
+cs.store("yarppg_schema", node=Settings)
 
 
-def main(cfg: Settings = Settings()):
+@hydra.main(CONFIG_PATH, config_name="config", version_base=None)
+def main(cfg: Settings):
     """Run the rPPG application."""
     app = QApplication(sys.argv)
 
