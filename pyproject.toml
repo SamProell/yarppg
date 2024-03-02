@@ -7,6 +7,7 @@ authors = [{ name = "Samuel Pröll", email = "info@samproell.at" }]
 description = "Remote Photoplethysmography in Python"
 dynamic = ["version"]
 dependencies = [
+    "hydra-core",
     "mediapipe",
     "numpy",
     "opencv_python",
@@ -25,8 +26,9 @@ repository = "https://github.com/SamProell/yarppg"
 [project.scripts]
 run-yarppg = "yarppg.main:main"
 
-[tool.setuptools]
-packages = ["yarppg"]
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["yarppg*"]
 
 [tool.setuptools.dynamic]
 version = { attr = "yarppg.__version__" }
