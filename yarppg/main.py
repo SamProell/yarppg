@@ -9,10 +9,10 @@ from yarppg.rppg.camera import Camera
 from yarppg.rppg.filters import FilterConfig, get_butterworth_filter
 from yarppg.rppg.hr import HRCalculatorConfig, make_hrcalculator
 from yarppg.rppg.processors import ColorMeanProcessor, FilteredProcessor
+from yarppg.rppg.roi import ROIDetectorConfig, get_roi_detector
 from yarppg.ui import MainWindow
 from yarppg.ui.cli import (
     get_delay,
-    get_detector,
     get_mainparser,
     get_processor,
     parse_frequencies,
@@ -30,6 +30,9 @@ class Settings:
             f1=1.5,
         ),
     )
+    roidetect: ROIDetectorConfig = ROIDetectorConfig(
+        name="facemesh",
+    )
 
 
 def main(cfg: Settings = Settings()):
@@ -38,7 +41,7 @@ def main(cfg: Settings = Settings()):
     args = parser.parse_args(sys.argv[1:])
     app = QApplication(sys.argv)
 
-    roi_detector = get_detector(args)
+    roi_detector = get_roi_detector(cfg.roidetect)
 
     hr_calc = make_hrcalculator(cfg.hrcalc, parent=app)
 

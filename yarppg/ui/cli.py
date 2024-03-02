@@ -2,12 +2,6 @@
 import argparse
 
 from yarppg.rppg.processors import ChromProcessor, LiCvprProcessor, PosProcessor
-from yarppg.rppg.roi.roi_detect import (
-    CaffeDNNFaceDetector,
-    FaceMeshDetector,
-    HaarCascadeDetector,
-    NoDetector,
-)
 
 
 def get_mainparser():
@@ -79,22 +73,6 @@ def get_delay(args):
         return 1000.0 / args.delay_frames
 
     return args.limitfps
-
-
-def get_detector(args):
-    """Get face detector with given arguments."""
-    name = args.detector.lower()
-
-    if name == "full":
-        return NoDetector()
-    elif name == "facemesh":
-        return FaceMeshDetector(draw_landmarks=args.draw_facemark)
-    elif name == "caffe-dnn":
-        return CaffeDNNFaceDetector(blob_size=args.blobsize)
-    elif name == "haar":
-        return HaarCascadeDetector()
-
-    raise NotImplementedError(f"detector {args.detector!r} not recognized.")
 
 
 def get_processor(args):
