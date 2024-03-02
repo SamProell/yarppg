@@ -5,7 +5,7 @@ from typing import Any, Dict
 
 import numpy as np
 
-from yarppg.rppg.roi.region_of_interest import RegionOfInterest
+from .region_of_interest import RegionOfInterest
 
 resource_path = pathlib.Path(__file__).parent.parent / "_resources"
 

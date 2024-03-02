@@ -2,8 +2,7 @@
 import pyqtgraph as pg
 from PyQt5.QtWidgets import QMainWindow
 
-from yarppg.rppg import RPPG
-
+from ..rppg import RPPG
 from . import helpers
 
 

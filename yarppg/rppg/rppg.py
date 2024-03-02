@@ -2,13 +2,13 @@
 import pathlib
 import time
 from collections import namedtuple
-from typing import Union
+from typing import Optional, Union
 
 import numpy as np
 import pandas as pd
 from PyQt5.QtCore import QObject, pyqtSignal
 
-from yarppg.rppg.camera import Camera
+from .camera import Camera
 
 
 def write_dataframe(path: Union[str, pathlib.Path], df: pd.DataFrame) -> None:
@@ -51,7 +51,7 @@ class RPPG(QObject):
         else:
             self.new_hr = self._dummy_signal
 
-        self.output_filename = None
+        self.output_filename: Optional[str] = None
 
     def _set_camera(self, camera):
         self._cam = camera or Camera(video=0, parent=self)

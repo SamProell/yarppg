@@ -1,27 +1,27 @@
 """Main functionality of the rPPG application."""
 import sys
 from dataclasses import dataclass
+from typing import Optional
 
 from PyQt5.QtWidgets import QApplication
 
-from yarppg.rppg import RPPG
+import yarppg.rppg
 from yarppg.rppg.camera import Camera
-from yarppg.rppg.filters import FilterConfig, get_butterworth_filter
+from yarppg.rppg.filters import FilterConfig, make_digital_filter
 from yarppg.rppg.hr import HRCalculatorConfig, make_hrcalculator
-from yarppg.rppg.processors import ColorMeanProcessor, FilteredProcessor
+from yarppg.rppg.processors import FilteredProcessor, ProcessorConfig, get_processor
 from yarppg.rppg.roi import ROIDetectorConfig, get_roi_detector
 from yarppg.ui import MainWindow
-from yarppg.ui.cli import (
-    get_delay,
-    get_mainparser,
-    get_processor,
-    parse_frequencies,
-)
 
 
+# The below implementation is not 100% technically correct.  Default factories are
+# neglected to highlight the structure of the configuration and set sensible defaults.
 @dataclass
 class Settings:
     video: int = 0
+    blur: int = -1
+    savepath: Optional[str] = None
+    delay_ms: Optional[float] = None
     hrcalc: HRCalculatorConfig = HRCalculatorConfig(
         update_interval=30,
         winsize=300,
@@ -33,38 +33,46 @@ class Settings:
     roidetect: ROIDetectorConfig = ROIDetectorConfig(
         name="facemesh",
     )
+    processor: ProcessorConfig = ProcessorConfig(
+        "LiCvpr",
+        kwargs={
+            "winsize": 30,
+        },
+    )
+    filt: Optional[FilterConfig] = FilterConfig(
+        fs=30,
+        f1=0.4,
+        f2=2,
+        btype="band",
+    )
+
+
 
 
 def main(cfg: Settings = Settings()):
     """Run the rPPG application."""
-    parser = get_mainparser()
-    args = parser.parse_args(sys.argv[1:])
     app = QApplication(sys.argv)
 
     roi_detector = get_roi_detector(cfg.roidetect)
-
     hr_calc = make_hrcalculator(cfg.hrcalc, parent=app)
 
-    processor = get_processor(args)
+    processor = get_processor(cfg.processor)
+    if cfg.filt is not None:
+        digital_filter = make_digital_filter(cfg.filt)
+        processor = FilteredProcessor(processor, digital_filter)
 
-    cutoff = parse_frequencies(args.bandpass)
-    if cutoff is not None:
-        digital_bandpass = get_butterworth_filter(30, cutoff, "bandpass")
-        processor = FilteredProcessor(processor, digital_bandpass)
+    cam = yarppg.rppg.Camera(video=cfg.video, limit_fps=cfg.delay_ms)
 
-    cam = Camera(video=cfg.video, limit_fps=get_delay(args))
-    rppg = RPPG(
-        roi_detector=roi_detector,
-        camera=cam,
-        hr_calculator=hr_calc,
-        parent=None,
+    rppg = yarppg.rppg.RPPG(
+        roi_detector=roi_detector, camera=cam, hr_calculator=hr_calc, parent=None
     )
     rppg.add_processor(processor)
     for c in "rgb":
-        rppg.add_processor(ColorMeanProcessor(channel=c, winsize=1))
+        proc = get_processor(ProcessorConfig("Mean", {"channel": c, "winsize": 1}))
+        rppg.add_processor(proc)
 
-    if args.savepath:
-        rppg.output_filename = args.savepath
+    if cfg.savepath is not None:
+        rppg.output_filename = cfg.savepath
 
     win = MainWindow(
         app=app,
@@ -72,7 +80,7 @@ def main(cfg: Settings = Settings()):
         winsize=(1000, 400),
         legend=True,
         graphwin=300,
-        blur_roi=args.blur,
+        blur_roi=cfg.blur,
     )
     for i in range(3):
         win.set_pen(index=i + 1, color="rgb"[i], width=1)
@@ -81,4 +89,4 @@ def main(cfg: Settings = Settings()):
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    main()

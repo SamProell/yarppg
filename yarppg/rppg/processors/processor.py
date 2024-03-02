@@ -1,5 +1,14 @@
 """Provides base classes for rPPG processors."""
+import dataclasses
+from typing import Any, Dict
+
 import numpy as np
+
+
+@dataclasses.dataclass
+class ProcessorConfig:
+    name: str
+    kwargs: Dict[str, Any] = dataclasses.field(default_factory=dict)
 
 
 class Processor:
