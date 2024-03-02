@@ -9,12 +9,17 @@ from .processor import FilteredProcessor, Processor, ProcessorConfig
 def get_processor(cfg: ProcessorConfig) -> Processor:
     """Initialize rPPG processor."""
     if cfg.name.lower() == "licvpr":
-        return LiCvprProcessor(**cfg.kwargs)
+        return LiCvprProcessor(winsize=cfg.kwargs.get("winsize", 1))
     elif cfg.name.lower() == "pos":
-        return PosProcessor(**cfg.kwargs)
+        return PosProcessor(winsize=cfg.kwargs.get("winsize", 45))
     elif cfg.name.lower() == "chrom":
-        return ChromProcessor(**cfg.kwargs)
+        return ChromProcessor(
+            winsize=cfg.kwargs.get("winsize", 45),
+            method=cfg.kwargs.get("method", "xovery"),
+        )
     elif cfg.name.lower() == "mean":
-        return ColorMeanProcessor(**cfg.kwargs)
+        return ColorMeanProcessor(
+            winsize=cfg.kwargs.get("winsize", 1), channel=cfg.kwargs.get("channel", "r")
+        )
 
     raise NotImplementedError("Configuration not understood: %s", cfg)

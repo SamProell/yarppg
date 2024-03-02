@@ -4,6 +4,11 @@ Yet another rPPG
 *\* This is a work in progress, do not blindly trust the results \**
 --------------------------------------------------------------------
 
+.. attention::
+   The latest rework of yarppg has only been tested with Python 3.10, older versions may
+   not work.  Yarppg now also uses hydra for the command line interface. See the new
+   description further below.
+
 
 **yarppg** is yet another implementation of remote photoplethysmography in
 Python.  Remote photoplethysmography (rPPG) refers to the camera-based
@@ -49,32 +54,48 @@ After installing, you can simply call the provided entry point ``run-yarppg``.
 
 Command line options
 --------------------
-There are a number of options available, when running yarppg:
+There are a number of options available, when running yarppg.
 
-+-----------------+----------+----------------------------------------------------------------+
-| Option          | Default  |  Description                                                   |
-+=================+==========+================================================================+
-| --detector      | facemesh |  ROI (face) detector - choices: {facemesh,caffe-dnn,haar,full} |
-+-----------------+----------+----------------------------------------------------------------+
-| --processor     | LiCvpr   |  Processor translating ROI to pulse signal. LiCvpr currently   |
-|                 |          |  only returns mean green value - choices: {LiCvpr,Pos,Chrom}   |
-+-----------------+----------+----------------------------------------------------------------+
-| --winsize       | 32       |  Window sized used in some processors (in frames)              |
-+-----------------+----------+----------------------------------------------------------------+
-| --bandpass      | 0.5,2    |  bandpass frequencies for processor output                     |
-+-----------------+----------+----------------------------------------------------------------+
-| --blobsize      | 150      |  quadratic blob size of DNN Face Detector                      |
-+-----------------+----------+----------------------------------------------------------------+
-| --draw-facemark | False    |  draw landmarks when using facemesh detector                   |
-+-----------------+----------+----------------------------------------------------------------+
-| --blur          | -1       |  pixelation size of detected ROI                               |
-+-----------------+----------+----------------------------------------------------------------+
-| --video         | 0        |  video input device number or filename                         |
-+-----------------+----------+----------------------------------------------------------------+
-| --limitfps      | None     |  force a delay when reading frames (specified in milliseconds) |
-+-----------------+----------+----------------------------------------------------------------+
-| --savepath      | ''       |  store generated signals as data frame to disk                 |
-+-----------------+----------+----------------------------------------------------------------+
+.. code:: yaml
+
+   video: 0  # camera index or video filename.
+   blur: -1  # pixelate the detected face (size of pixelated pixels).
+   savepath: null  # path where to store the history of detected rPPG signals.
+   delay_ms: null  # delay the next frame by x milliseconds. Necessary when playing videos
+   hrcalc:  # options for HR calculation
+      update_interval: 30  # update every N frames
+      winsize: 300  # number of samples to consider for calculation (~10 seconds)
+      filt:
+         fs: 30.0  # corresponds to FPS of camera
+         f1: 1.5   # first cutoff (for lowpass, highpass or bandpass)
+         f2: null  # second cutoff (required for bandpass)
+         btype: low  # filter type
+         ftype: butter  # filter implementation
+         order: 2
+   roidetect:  # Region of interest detector
+      name: facemesh  # other options are 'haar', 'caffednn', 'full'
+      kwargs: {}  # additional keyword arguments (sensible defaults are configured already)
+   processor:  # Method to calculate heart beat signal from the ROI
+      name: Mean # 'Chrom', 'Pos', 'LiCvpr' (work in progress)
+      kwargs:
+         channel: g
+   filt:  # filter detected heart beat signal, set to null to disable
+      fs: 30.0
+      f1: 0.4
+      f2: 2.0
+      btype: band
+      ftype: butter
+      order: 2
+
+To modify the settings and runtime, you can use
+`Hydra's override syntax <https://hydra.cc/docs/advanced/override_grammar/basic/>`_
+Below are a few examples:
+
+.. code:: bash
+
+   run-yarppg roidetect.name=caffednn
+   run-yarppg video=path/to/video.mp4 delay_ms=30
+   run-yarppg blur=20 hrcalc.update_interval=5 processor.name=pos processor.kwargs="{winsize:30}"
 
 Camera setup
 ------------

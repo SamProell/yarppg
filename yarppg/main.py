@@ -1,7 +1,7 @@
 """Main functionality of the rPPG application."""
 import sys
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, Union
 
 import hydra
 import hydra.core.config_store
@@ -20,7 +20,7 @@ from yarppg.ui import MainWindow
 # neglected to highlight the structure of the configuration and set sensible defaults.
 @dataclass
 class Settings:
-    video: int = 0
+    video: Union[int, str] = 0
     blur: int = -1
     savepath: Optional[str] = None
     delay_ms: Optional[float] = None
@@ -36,9 +36,10 @@ class Settings:
         name="facemesh",
     )
     processor: ProcessorConfig = ProcessorConfig(
-        "LiCvpr",
+        "Mean",
         kwargs={
-            "winsize": 30,
+            "winsize": 1,
+            "channel": "g",
         },
     )
     filt: Optional[FilterConfig] = FilterConfig(
