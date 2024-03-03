@@ -1,13 +1,22 @@
 import numpy as np
 import scipy.signal
 
-from yarppg.rppg.filters import get_butterworth_filter
+from yarppg.rppg import filters
+
+
+def test_filtercoeffs_unchanged():
+    cfg = filters.FilterConfig(10.0, 3.0)
+
+    ba = filters.filtercoeffs_from_config(cfg)
+    scipy_ba = scipy.signal.iirfilter(2, cfg.f1, fs=cfg.fs, btype="low")
+
+    assert np.all(np.equal(ba, scipy_ba))
 
 
 def test_process():
-    fs, cutoff = 10.0, 3.0
-    b, a = scipy.signal.butter(2, Wn=cutoff / fs * 2, btype="low")
-    lfilter = get_butterworth_filter(fs, cutoff)
+    cfg = filters.FilterConfig(10.0, f1=3.0, btype="low")
+    b, a = filters.filtercoeffs_from_config(cfg)
+    lfilter = filters.make_digital_filter(cfg)
 
     xs = np.arange(0, 10, 0.1)
     ys = np.sin(2 * np.pi * xs) + 0.2 * np.random.normal(size=len(xs))

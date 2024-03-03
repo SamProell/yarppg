@@ -16,12 +16,6 @@ class FilterConfig:
     order: int = 2
 
 
-def get_butterworth_filter(f, cutoff, btype="low", order=2):
-    """Create live version of Butterworth filter."""
-    b, a = scipy.signal.butter(N=order, Wn=np.divide(cutoff, f / 2.0), btype=btype)
-    return DigitalFilter(b, a)
-
-
 class DigitalFilter:
     def __init__(self, b, a):
         self._bs = b
