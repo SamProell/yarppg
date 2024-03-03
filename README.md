@@ -1,12 +1,14 @@
 # Yet another rPPG
 
 > [!WARNING]
-> This is a work in progress, do not blindly trust the results.
+> This is a work in progress, do not blindly trust the results. As a demo project, the
+> provided program/code is not suitable to be used in a clinical setup or for any
+> decision making in general.
 
-### Update 2024
-The latest rework of `yarppg` has only been tested with Python 3.10, older versions may
-not work. `yarppg` now also uses hydra for the command line interface. See the new
-description further below.
+> [!NOTE]
+> Update 2024: The latest rework of `yarppg` has only been tested with Python 3.10,
+> older versions may not work. `yarppg` now also uses hydra for the command line
+> interface. See the [description](#command-line-options) further below.
 
 ## About
 `yarppg` is yet another implementation of remote photoplethysmography in
@@ -86,8 +88,13 @@ To modify the settings at runtime, you can use
 Below are a few examples:
 
 ```bash
+# run yarppg with the default Caffe DNN face detector
 run-yarppg roidetect.name=caffednn
+
+# read video file instead of webcam, adjust the delay between frames to get proper FPS
 run-yarppg video=path/to/video.mp4 delay_ms=30
+
+# pixelate the face; update HR every 5 frames; use POS processor with custom args;
 run-yarppg blur=20 hrcalc.update_interval=5 processor.name=pos processor.kwargs="{winsize:30}"
 ```
 
@@ -99,8 +106,6 @@ One possibility to change the camera settings is via the ``ffmpeg``
 command line tool.
 See [this discussion](https://superuser.com/questions/1287366/open-webcam-settings-dialog-in-windows/1511657)
 for more details.
-
----
 
 [^1]: W Verkruysse, L O Svaasand and J S Nelson. Remote plethysmographic
       imaging using ambient light. *Optics Express*. 2008;16(26):21434–21445.
