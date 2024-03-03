@@ -1,6 +1,8 @@
 """Provides the MainWindow for the rPPG GUI."""
+from typing import Tuple
+
 import pyqtgraph as pg
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QApplication, QMainWindow
 
 from ..rppg import RPPG
 from . import helpers
@@ -9,13 +11,23 @@ from . import helpers
 class MainWindow(QMainWindow):
     def __init__(
         self,
-        app,
+        app: QApplication,
         rppg: RPPG,
-        winsize=(1000, 400),
-        graphwin=150,
-        legend=False,
-        blur_roi=-1,
+        winsize: Tuple[int, int] = (1000, 400),
+        graphwin: int = 150,
+        legend: bool = False,
+        blur_roi: int = -1,
     ):
+        """The main window of the rPPG application.
+
+        Args:
+            app: PyQt QApplication which runs the UI.
+            rppg: RPPG orchestrator instance, initialized with processors, etc.
+            winsize: size of the GUI window. Defaults to (1000, 400).
+            graphwin: Number of samples to include in the graph. Defaults to 150.
+            legend: show the graph legend. Defaults to False.
+            blur_roi: if >0, pixelate the detected face. Defaults to -1.
+        """
         QMainWindow.__init__(self)
         self._app = app
 
@@ -78,6 +90,7 @@ class MainWindow(QMainWindow):
 
     def _add_legend(self):
         layout = self.centralWidget()
+        assert layout is not None
         p = layout.addPlot(row=2, col=1)
         p.hideAxis("left")
         p.hideAxis("bottom")

@@ -67,7 +67,7 @@ def main(cfg: Settings):
         digital_filter = make_digital_filter(cfg.filt)
         processor = FilteredProcessor(processor, digital_filter)
 
-    cam = yarppg.rppg.Camera(video=cfg.video, limit_fps=cfg.delay_ms)
+    cam = yarppg.rppg.Camera(video=cfg.video, limit_fps=cfg.delay_ms)  # type: ignore
 
     rppg = yarppg.rppg.RPPG(
         roi_detector=roi_detector, camera=cam, hr_calculator=hr_calc, parent=None
@@ -81,12 +81,7 @@ def main(cfg: Settings):
         rppg.output_filename = cfg.savepath
 
     win = MainWindow(
-        app=app,
-        rppg=rppg,
-        winsize=(1000, 400),
-        legend=True,
-        graphwin=300,
-        blur_roi=cfg.blur,
+        app, rppg, winsize=(1000, 400), legend=True, graphwin=300, blur_roi=cfg.blur
     )
     for i in range(3):
         win.set_pen(index=i + 1, color="rgb"[i], width=1)

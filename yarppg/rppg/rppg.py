@@ -1,14 +1,17 @@
 """Orchestrator class for the rPPG application."""
+import dataclasses
 import pathlib
 import time
-from collections import namedtuple
-from typing import Optional, Union
+from typing import Any, List, Optional, Union
 
 import numpy as np
 import pandas as pd
 from PyQt5.QtCore import QObject, pyqtSignal
 
 from .camera import Camera
+from .hr import HRCalculator
+from .processors import Processor
+from .roi import RegionOfInterest, ROIDetector
 
 
 def write_dataframe(path: Union[str, pathlib.Path], df: pd.DataFrame) -> None:
@@ -24,20 +27,31 @@ def write_dataframe(path: Union[str, pathlib.Path], df: pd.DataFrame) -> None:
         raise IOError("Unknown file extension '{}'".format(path.suffix))
 
 
-RppgResults = namedtuple(
-    "RppgResults",
-    ["dt", "rawimg", "roi", "hr", "vs_iter", "ts", "fps"],
-)
+@dataclasses.dataclass
+class RppgResults:
+    dt: float
+    rawimg: np.ndarray
+    roi: RegionOfInterest
+    hr: float
+    vs_iter: Any
+    ts: Any
+    fps: float
 
 
 class RPPG(QObject):
     rppg_updated = pyqtSignal(RppgResults)
     _dummy_signal = pyqtSignal(float)
 
-    def __init__(self, roi_detector, parent=None, camera=None, hr_calculator=None):
+    def __init__(
+        self,
+        roi_detector: ROIDetector,
+        camera: Optional[Camera] = None,
+        hr_calculator: Optional[HRCalculator] = None,
+        parent=None,
+    ):
         QObject.__init__(self, parent)
         self.roi = None
-        self._processors = []
+        self._processors: List[Processor] = []
         self._roi_detector = roi_detector
 
         self._set_camera(camera)
@@ -57,10 +71,10 @@ class RPPG(QObject):
         self._cam = camera or Camera(video=0, parent=self)
         self._cam.frame_received.connect(self.on_frame_received)
 
-    def add_processor(self, processor):
+    def add_processor(self, processor: Processor):
         self._processors.append(processor)
 
-    def on_frame_received(self, frame):
+    def on_frame_received(self, frame: np.ndarray):
         self.roi = self._roi_detector(frame)
 
         for processor in self._processors:
@@ -103,10 +117,10 @@ class RPPG(QObject):
             dts = self._dts[-n:]
         return np.cumsum(dts)
 
-    def get_fps(self, n=5):
-        return 1 / np.mean(self._dts[-n:])
+    def get_fps(self, n=5) -> float:
+        return 1 / float(np.mean(self._dts[-n:]))
 
-    def save_signals(self):
+    def save_signals(self) -> None:
         if self.output_filename is None:
             return
 
@@ -122,17 +136,17 @@ class RPPG(QObject):
         return pd.DataFrame(data=data, columns=names)
 
     @property
-    def num_processors(self):
+    def num_processors(self) -> int:
         return len(self._processors)
 
     @property
-    def processor_names(self):
+    def processor_names(self) -> List[str]:
         return [str(p) for p in self._processors]
 
-    def start(self):
+    def start(self) -> None:
         self._cam.start()
 
-    def finish(self):
+    def finish(self) -> None:
         print("finishing up...")
         self.save_signals()  # save if filename was given.
         self._cam.stop()
