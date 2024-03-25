@@ -2,7 +2,7 @@
 
 *work in progress* (for now, this simply returns the green channel)
 
-The arcticle can be found here:
+The article can be found here:
 https://www.cv-foundation.org/openaccess/content_cvpr_2014/html/Li_Remote_Heart_Rate_2014_CVPR_paper.html
 
 .. [1] Li, X., Chen, J., Zhao, G., &#38; Pietikainen, M. (2014). Remote

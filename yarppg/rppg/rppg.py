@@ -1,4 +1,5 @@
 """Orchestrator class for the rPPG application."""
+
 import dataclasses
 import pathlib
 import time
@@ -67,7 +68,7 @@ class RPPG(QObject):
 
         self.output_filename: Optional[str] = None
 
-    def _set_camera(self, camera):
+    def _set_camera(self, camera: Optional[Camera]) -> None:
         self._cam = camera or Camera(video=0, parent=self)
         self._cam.frame_received.connect(self.on_frame_received)
 
