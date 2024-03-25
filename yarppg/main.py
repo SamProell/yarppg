@@ -1,4 +1,5 @@
 """Main functionality of the rPPG application."""
+
 import sys
 from dataclasses import dataclass
 from typing import Optional, Union
@@ -7,13 +8,7 @@ import hydra
 import hydra.core.config_store
 from PyQt5.QtWidgets import QApplication
 
-import yarppg.rppg
-from yarppg import CONFIG_PATH
-from yarppg.rppg.filters import FilterConfig, make_digital_filter
-from yarppg.rppg.hr import HRCalculatorConfig, make_hrcalculator
-from yarppg.rppg.processors import FilteredProcessor, ProcessorConfig, get_processor
-from yarppg.rppg.roi import ROIDetectorConfig, get_roi_detector
-from yarppg.ui import MainWindow
+import yarppg
 
 
 # The below implementation is not 100% technically correct.  Default factories are
@@ -24,25 +19,25 @@ class Settings:
     blur: int = -1
     savepath: Optional[str] = None
     delay_ms: Optional[float] = None
-    hrcalc: HRCalculatorConfig = HRCalculatorConfig(
+    hrcalc: yarppg.HRCalculatorConfig = yarppg.HRCalculatorConfig(
         update_interval=30,
         winsize=300,
-        filt=FilterConfig(
+        filt=yarppg.FilterConfig(
             fs=30,
             f1=1.5,
         ),
     )
-    roidetect: ROIDetectorConfig = ROIDetectorConfig(
+    roidetect: yarppg.ROIDetectorConfig = yarppg.ROIDetectorConfig(
         name="facemesh",
     )
-    processor: ProcessorConfig = ProcessorConfig(
+    processor: yarppg.ProcessorConfig = yarppg.ProcessorConfig(
         "Mean",
         kwargs={
             "winsize": 1,
             "channel": "g",
         },
     )
-    filt: Optional[FilterConfig] = FilterConfig(
+    filt: Optional[yarppg.FilterConfig] = yarppg.FilterConfig(
         fs=30,
         f1=0.4,
         f2=2,
@@ -54,33 +49,35 @@ cs = hydra.core.config_store.ConfigStore.instance()
 cs.store("yarppg_schema", node=Settings)
 
 
-@hydra.main(CONFIG_PATH, config_name="config", version_base=None)
+@hydra.main(yarppg.CONFIG_PATH, config_name="config", version_base=None)
 def main(cfg: Settings):
     """Run the rPPG application."""
     app = QApplication(sys.argv)
 
-    roi_detector = get_roi_detector(cfg.roidetect)
-    hr_calc = make_hrcalculator(cfg.hrcalc, parent=app)
+    roi_detector = yarppg.get_roi_detector(cfg.roidetect)
+    hr_calc = yarppg.make_hrcalculator(cfg.hrcalc, parent=app)
 
-    processor = get_processor(cfg.processor)
+    processor = yarppg.get_processor(cfg.processor)
     if cfg.filt is not None:
-        digital_filter = make_digital_filter(cfg.filt)
-        processor = FilteredProcessor(processor, digital_filter)
+        digital_filter = yarppg.make_digital_filter(cfg.filt)
+        processor = yarppg.FilteredProcessor(processor, digital_filter)
 
     cam = yarppg.rppg.Camera(video=cfg.video, limit_fps=cfg.delay_ms)  # type: ignore
 
-    rppg = yarppg.rppg.RPPG(
+    rppg = yarppg.RPPG(
         roi_detector=roi_detector, camera=cam, hr_calculator=hr_calc, parent=None
     )
     rppg.add_processor(processor)
     for c in "rgb":
-        proc = get_processor(ProcessorConfig("Mean", {"channel": c, "winsize": 1}))
+        proc = yarppg.get_processor(
+            yarppg.ProcessorConfig("Mean", {"channel": c, "winsize": 1})
+        )
         rppg.add_processor(proc)
 
     if cfg.savepath is not None:
         rppg.output_filename = cfg.savepath
 
-    win = MainWindow(
+    win = yarppg.ui.MainWindow(
         app, rppg, winsize=(1000, 400), legend=True, graphwin=300, blur_roi=cfg.blur
     )
     for i in range(3):

@@ -10,7 +10,7 @@ def test_filtercoeffs_unchanged():
     ba = filters.filtercoeffs_from_config(cfg)
     scipy_ba = scipy.signal.iirfilter(2, cfg.f1, fs=cfg.fs, btype="low")
 
-    assert np.all(np.equal(ba, scipy_ba))
+    assert np.array_equal(ba, scipy_ba)
 
 
 def test_process():
