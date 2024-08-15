@@ -4,7 +4,7 @@ requires = ["setuptools"]
 
 [project]
 authors = [{ name = "Samuel Pröll", email = "info@samproell.at" }]
-description = "Remote Photoplethysmography in Python"
+description = "Remote Photoplethysmography (rPPG) in Python"
 dynamic = ["version"]
 dependencies = [
     "hydra-core",
