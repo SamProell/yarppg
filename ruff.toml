@@ -1,7 +1,5 @@
 select = ["E", "F", "PL", "N", "D", "ARG", "I"]
 ignore = [
-    "D101",    # undocumented-public-class
-    "D102",    # undocumented-public-method
     "D105",    # undocumented-magic-method,
     "D107",    # undocumented-public-init
     "PLR2004", # magic-value-comparison,

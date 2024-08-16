@@ -1,8 +1,7 @@
-hydra-core
 mediapipe
 numpy
-opencv_python
+opencv-contrib-python
 pandas
-PyQt5
+PyQt6
 pyqtgraph
 scipy
