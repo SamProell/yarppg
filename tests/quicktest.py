@@ -1,3 +1,4 @@
+# ruff: noqa
 # %%
 #! %load_ext autoreload
 #! %autoreload 2
@@ -23,12 +24,21 @@ detector = SelfieDetector()
 roi = detector.detect(frame)
 plt.imshow(roi.mask)
 # %%
-#! %%prun
 from src.yarppg.processors.processor import Processor, RppgResult
+from src.yarppg.processors.chrom import ChromProcessor
 
-processor = Processor()
+from yarppg.rppg.roi.facemesh_detector import FaceMeshDetector as OldFaceMeshDetector
+from yarppg.rppg.processors.chrom import ChromProcessor as OldChromProcessor
+from yarppg.rppg.roi import RegionOfInterest as OldRegionOfInterest
+
+old_detector = OldFaceMeshDetector()
+old_chrom = OldChromProcessor()
+
+# processor = Processor()
+processor = ChromProcessor()
 detector = FaceMeshDetector()
 results: list[RppgResult] = []
+old_results: list[float] = []
 cap = cv2.VideoCapture("video.mp4")
 while True:
     ret, frame = cap.read()
@@ -36,6 +46,9 @@ while True:
         break
     roi = detector.detect(frame)
     results.append(processor.process(frame, roi))
-    print(results[-1].value)
+    # print(results[-1].value)
+    # old_roi = old_detector.detect(frame)
+    old_results.append(old_chrom.calculate(OldRegionOfInterest(frame, roi.mask)))
 plt.plot([r.value for r in results])
+plt.plot(old_results)
 # %%
