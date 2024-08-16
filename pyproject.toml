@@ -18,7 +18,7 @@ dependencies = [
 ]
 license = { file = "LICENSE" }
 name = "yarppg"
-readme = "README.rst"
+readme = "README.md"
 
 [project.urls]
 repository = "https://github.com/SamProell/yarppg"
@@ -32,50 +32,3 @@ include = ["yarppg*"]
 
 [tool.setuptools.dynamic]
 version = { attr = "yarppg.__version__" }
-
-[tool.ruff]
-select = ["E", "F", "PL", "N", "D", "ARG", "I"]
-ignore = [
-    "D101",    # undocumented-public-class
-    "D102",    # undocumented-public-method
-    "D105",    # undocumented-magic-method,
-    "D107",    # undocumented-public-init
-    "PLR2004", # magic-value-comparison,
-]
-ignore-init-module-imports = true
-line-length = 88
-src = ["."]
-exclude = [
-    "__pypackages__",
-    "_build",
-    ".bzr",
-    ".direnv",
-    ".eggs",
-    ".git-rewrite",
-    ".git",
-    ".hg",
-    ".mypy_cache",
-    ".nox",
-    ".pants.d",
-    ".pytest_cache",
-    ".pytype",
-    ".ruff_cache",
-    ".svn",
-    ".tox",
-    ".venv",
-    ".vscode",
-    "buck-out",
-    "build",
-    "dist",
-    "node_modules",
-    "venv",
-]
-[tool.ruff.per-file-ignores]
-"__init__.py" = ["F401"] # unused-import
-"tests/*.py" = ["D"]     # no docs needed in tests.
-
-[tool.ruff.pydocstyle]
-convention = "google"
-
-[tool.ruff.pylint]
-max-args = 10
