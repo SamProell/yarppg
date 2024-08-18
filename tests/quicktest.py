@@ -50,3 +50,23 @@ for frame in src.yarppg.helpers.frames_from_video("video.mp4"):
 plt.plot([r.value for r in results])
 plt.plot(old_results)
 # %%
+
+import scipy.signal
+
+from src.yarppg.rppg import Rppg
+from src.yarppg.digital_filter import DigitalFilter
+from src.yarppg.hr_calculator import PeakBasedHrCalculator
+from src.yarppg.processors import FilteredProcessor
+
+fs = src.yarppg.helpers.get_video_fps("video.mp4")
+
+b, a = scipy.signal.iirfilter(2, [1.5], fs=fs, btype="low")
+livefilter = DigitalFilter(b, a, xi=-1)
+
+hrcalc = PeakBasedHrCalculator(fs, window_seconds=5)
+
+rppg = Rppg(detector, FilteredProcessor(processor, livefilter), hrcalc)
+
+results = rppg.process_video("video.mp4")
+yfilt = np.array([r.value for r in results])
+# %%

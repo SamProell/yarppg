@@ -1,21 +1,36 @@
 """Provides the RPPG orchestrator class."""
 import numpy as np
 
-from . import helpers, processors, roi
+from . import helpers, hr_calculator, processors, roi
 from .rppg_result import RppgResult
 
 
 class Rppg:
-    def __init__(self, roi_detector: roi.ROIDetector, processor: processors.Processor):
+    """Orchestrator for complete rPPG pipeline.
+
+    Args:
+       roi_detector: detector for identifying the region of interest (and background).
+       processor: rPPG signal extraction algorithm.
+       hr_calc: heart rate calculation algorithm.
+    """
+
+    def __init__(
+        self,
+        roi_detector: roi.ROIDetector,
+        processor: processors.Processor,
+        hr_calc: hr_calculator.HrCalculator,
+    ):
         self.roi_detector = roi_detector
         self.processor = processor
-        self.history: list[processors.RppgResult] = []
+        self.hr_calculator = hr_calc
+
+        self.history: list[RppgResult] = []
 
     def process_frame(self, frame: np.ndarray) -> RppgResult:
         """Process a single frame from video or live stream."""
         roi = self.roi_detector.detect(frame)
         result = self.processor.process(frame, roi)
-        # result.hr = self.hr_calculator.update(result)
+        result.hr = self.hr_calculator.update(result)
 
         self.history.append(result)
         return result
