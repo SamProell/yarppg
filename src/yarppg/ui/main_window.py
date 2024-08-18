@@ -1,88 +1,129 @@
+"""Provides a PyQt window for displaying rPPG processing in real-time."""
+
 import sys
+import time
 from collections import deque
-from datetime import datetime
 
 import numpy as np
 import pyqtgraph
-from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget
+import scipy.signal
+from PyQt6 import QtWidgets
 
 import yarppg
 from yarppg.rppg import Rppg
 from yarppg.ui import camera, utils
 
-pyqtgraph.setConfigOptions(
-    imageAxisOrder="row-major", antialias=True, foreground="k", background="w"
-)
 
+class MainWindow(QtWidgets.QMainWindow):
+    """A simple window displaying the webcam feed and processed signals."""
 
-class MainWindow(QMainWindow):
-    def __init__(self, parent=None):
+    def __init__(
+        self, parent: QtWidgets.QWidget | None = None, blursize: int | None = None
+    ):
         super().__init__(parent=parent)
+
+        pyqtgraph.setConfigOptions(
+            imageAxisOrder="row-major", antialias=True, foreground="k", background="w"
+        )
+
+        self.blursize = blursize
+        self.history = deque(maxlen=150)
         self.setWindowTitle("yet another rPPG")
         self._init_ui()
+        self.fps = 30.0
+        self.last_update = time.perf_counter()
 
-        self.history = deque(maxlen=150)
-
-    def _init_ui(self):
-        child = QWidget()
-        layout = pyqtgraph.QtWidgets.QHBoxLayout()
+    def _init_ui(self) -> None:
+        child = QtWidgets.QWidget()
+        layout = QtWidgets.QGridLayout()
         child.setLayout(layout)
         self.setCentralWidget(child)
 
         self.img_item = utils.plain_image_item(np.random.randn(10, 20))
         self.img_item.setMinimumSize(640, 480)
-        layout.addWidget(self.img_item)
+        layout.addWidget(self.img_item, 0, 0)
 
         grid = self._make_plots()
-        layout.addWidget(grid)
+        layout.addWidget(grid, 0, 1)
+
+        self.fps_label = QtWidgets.QLabel("FPS:")
+        layout.addWidget(self.fps_label, 1, 0)
+        self.hr_label = QtWidgets.QLabel("HR:")
+        font = self.hr_label.font()
+        font.setPointSize(32)
+        self.hr_label.setFont(font)
+        layout.addWidget(self.hr_label, 1, 1)
 
     def _make_plots(self) -> pyqtgraph.GraphicsLayoutWidget:
         grid = pyqtgraph.GraphicsLayoutWidget()
         self.main_plot: pyqtgraph.PlotItem = grid.addPlot(row=0, col=0)  # type: ignore
         self.rgb_plot: pyqtgraph.PlotItem = grid.addPlot(row=1, col=0)  # type: ignore
+        self.rgb_plot.setXLink(self.main_plot.vb)  # type: ignore[attr-defined]
+        self.main_plot.hideAxis("bottom")
+        self.main_plot.hideAxis("left")
+        self.rgb_plot.hideAxis("left")
 
         self.main_line = self.main_plot.plot(pen=pyqtgraph.mkPen("k", width=3))
         self.rgb_lines = []
         for c in "rgb":
             pen = pyqtgraph.mkPen(c, width=1.5)
-            self.rgb_lines.append(self.rgb_plot.plot(pen=pen))
+            self.rgb_lines.append(utils.add_multiaxis_plot(self.rgb_plot, pen=pen))
 
-        self.main_plot.hideAxis("bottom")
-        self.main_plot.hideAxis("left")
-        self.rgb_plot.hideAxis("left")
         return grid
 
-    def on_frame(self, frame: np.ndarray) -> None:
+    def update_image(self, frame: np.ndarray) -> None:
+        """Update image plot item with new frame."""
         self.img_item.setImage(frame[:, ::-1])
 
-    def on_result(self, result: yarppg.RppgResult) -> None:
-        frame = result.roi.baseimg.copy()
-        if result.roi.face_rect is not None:
-            yarppg.pixelate(frame, result.roi.face_rect, size=10)
-        self.img_item.setImage(frame)
+    def _handle_roi(self, roi: yarppg.RegionOfInterest) -> np.ndarray:
+        frame = roi.baseimg.copy()
+        if self.blursize is not None and roi.face_rect is not None:
+            yarppg.pixelate(frame, roi.face_rect, size=self.blursize)
 
+        return frame
+
+    def _handle_signals(self, result: yarppg.RppgResult) -> None:
         rgb = result.roi_mean
         self.history.append((result.value, rgb.r, rgb.g, rgb.b))
-
         data = np.asarray(self.history)
 
         self.main_line.setData(np.arange(len(data)), data[:, 0])
         for i in range(3):
             self.rgb_lines[i].setData(np.arange(len(data)), data[:, i + 1])
 
+    def _handle_hrvalue(self, value: float) -> None:
+        """Update user interface with the new HR value."""
+        hr_bpm = self.fps * 60 / value
+        self.hr_label.setText(f"HR: {hr_bpm:.1f}")
+
+    def _update_fps(self):
+        now = time.perf_counter()
+        dt = now - self.last_update
+        self.fps = self.fps * 0.9 + 0.1 / dt
+        self.fps_label.setText(f"FPS: {self.fps:.1f}")
+        self.last_update = now
+
+    def on_result(self, result: yarppg.RppgResult) -> None:
+        """Update user interface with the new rPPG results."""
+        self._update_fps()
+        self.update_image(self._handle_roi(result.roi))
+        self._handle_signals(result)
+        self._handle_hrvalue(result.hr)
+
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    w = MainWindow()
+    app = QtWidgets.QApplication(sys.argv)
+    win = MainWindow()
     cam = camera.Camera()
     cam.start()
-    rppg = Rppg()
+    b, a = scipy.signal.iirfilter(2, [0.7, 1.8], fs=30, btype="band")
+    livefilter = yarppg.DigitalFilter(b, a)
+    processor = yarppg.FilteredProcessor(yarppg.Processor(), livefilter)
 
-    def update(frame: np.ndarray):
-        result = rppg.process_frame(frame)
-        w.on_result(result)
+    rppg = Rppg(processor=processor)
 
-    cam.frame_received.connect(update)
-    w.show()
+    cam.frame_received.connect(lambda f: win.on_result(rppg.process_frame(f)))
+
+    win.show()
     app.exec()
     cam.stop()
