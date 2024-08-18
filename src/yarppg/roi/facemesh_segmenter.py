@@ -1,6 +1,7 @@
 """Detect the lower face with MediaPipe's FaceMesh detector."""
 
 import time
+import warnings
 
 import mediapipe as mp
 import numpy as np
@@ -76,9 +77,11 @@ class FaceMeshDetector(RoiDetector):
         """Find face landmarks and create ROI around the lower face region."""
         rawimg = frame.copy()
         mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame)
-        results = self.landmarker.detect_for_video(
-            mp_image, int(time.perf_counter() * 1000)
-        )
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            results = self.landmarker.detect_for_video(
+                mp_image, int(time.perf_counter() * 1000)
+            )
 
         if len(results.face_landmarks) < 1:
             return RegionOfInterest(np.zeros_like(frame), baseimg=frame)
@@ -89,10 +92,11 @@ class FaceMeshDetector(RoiDetector):
         height, width = frame.shape[:2]
         landmarks = get_landmark_coords(results.face_landmarks[0], width, height)[:, :2]
         x, y, w, h = get_boundingbox_from_landmarks(landmarks[self._lower_face])
+        face_rect = get_boundingbox_from_landmarks(landmarks)
 
         mask = np.zeros_like(frame[..., 0], dtype=np.uint8)
         mask[y : y + h, x : x + w] = 1
-        return RegionOfInterest(mask, baseimg=rawimg)
+        return RegionOfInterest(mask, baseimg=rawimg, face_rect=face_rect)
 
     def draw_facemesh(
         self,

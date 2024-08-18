@@ -12,6 +12,8 @@ __all__ = [
     "get_video_fps",
     "HrCalculator",
     "PeakBasedHrCalculator",
+    "pixelate",
+    "pixelate_mask",
     "Processor",
     "RegionOfInterest",
     "RoiDetector",
@@ -23,5 +25,12 @@ from .digital_filter import DigitalFilter
 from .helpers import frames_from_video, get_video_fps
 from .hr_calculator import HrCalculator, PeakBasedHrCalculator
 from .processors import ChromProcessor, FilteredProcessor, Processor
-from .roi import FaceMeshDetector, RegionOfInterest, RoiDetector, SelfieDetector
+from .roi import (
+    FaceMeshDetector,
+    RegionOfInterest,
+    RoiDetector,
+    SelfieDetector,
+    pixelate,
+    pixelate_mask,
+)
 from .rppg_result import Color, RppgResult

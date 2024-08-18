@@ -16,13 +16,13 @@ class Rppg:
 
     def __init__(
         self,
-        roi_detector: roi.RoiDetector,
-        processor: processors.Processor,
-        hr_calc: hr_calculator.HrCalculator,
+        roi_detector: roi.RoiDetector | None = None,
+        processor: processors.Processor | None = None,
+        hr_calc: hr_calculator.HrCalculator | None = None,
     ):
-        self.roi_detector = roi_detector
-        self.processor = processor
-        self.hr_calculator = hr_calc
+        self.roi_detector = roi_detector or roi.FaceMeshDetector()
+        self.processor = processor or processors.Processor()
+        self.hr_calculator = hr_calc or hr_calculator.PeakBasedHrCalculator(30)
 
         self.history: list[RppgResult] = []
 
