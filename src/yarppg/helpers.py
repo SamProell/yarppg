@@ -41,3 +41,11 @@ def frames_from_video(filename: str) -> Iterator[np.ndarray]:
         if not ret:
             break
         yield frame
+
+
+def get_video_fps(filename: str) -> float:
+    """Find the frame rate of the given video file."""
+    cap = cv2.VideoCapture(filename)
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    cap.release()
+    return fps
