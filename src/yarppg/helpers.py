@@ -6,18 +6,8 @@ from typing import Iterator
 
 import cv2
 import numpy as np
-import pyqtgraph
 
 RESOURCE_DIR = pathlib.Path(__file__).parent / "_resources"
-
-
-def plain_image_item(data):
-    """Create a `pyqtgraph.ImageView` showing only the actual image."""
-    img_item = pyqtgraph.image(data)
-    img_item.ui.histogram.hide()
-    img_item.ui.roiBtn.hide()
-    img_item.ui.menuBtn.hide()
-    return img_item
 
 
 def get_cached_resource_path(filename: str, url: str, reload: bool = False):

@@ -2,5 +2,5 @@
 
 from .detector import RoiDetector
 from .facemesh_segmenter import FaceMeshDetector
-from .region_of_interest import RegionOfInterest, pixelate_mask
+from .region_of_interest import RegionOfInterest, pixelate, pixelate_mask
 from .selfie_segmenter import SelfieDetector
