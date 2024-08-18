@@ -19,6 +19,7 @@ class Color:
 
     @classmethod
     def null(cls):
+        """Create empty color with NaN values."""
         return cls(np.nan, np.nan, np.nan)
 
     def __array__(self):
@@ -26,6 +27,7 @@ class Color:
 
     @classmethod
     def from_array(cls, arr: np.ndarray):
+        """Convert numpy array to `Color` object."""
         if len(arr) in {3, 4} and arr.ndim == 1:
             return cls(*arr)
         raise ValueError(f"Cannot interpret {arr=!r}")
@@ -45,6 +47,7 @@ class RppgResult:
     roi: RegionOfInterest
     roi_mean: Color
     bg_mean: Color
+    hr: float = np.nan
 
     def __array__(self):
         return np.asarray([self.value])
@@ -61,3 +64,7 @@ class Processor:
             bg_mean = masked_average(frame, roi.bg_mask)
 
         return RppgResult(avg.g, roi, roi_mean=avg, bg_mean=bg_mean)
+
+    def reset(self):
+        """Reset internal state and intermediate values."""
+        pass  # no persistent values in base class

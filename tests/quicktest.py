@@ -24,6 +24,7 @@ detector = SelfieDetector()
 roi = detector.detect(frame)
 plt.imshow(roi.mask)
 # %%
+import src.yarppg.helpers
 from src.yarppg.processors.processor import Processor, RppgResult
 from src.yarppg.processors.chrom import ChromProcessor
 
@@ -39,11 +40,8 @@ processor = ChromProcessor()
 detector = FaceMeshDetector()
 results: list[RppgResult] = []
 old_results: list[float] = []
-cap = cv2.VideoCapture("video.mp4")
-while True:
-    ret, frame = cap.read()
-    if not ret:
-        break
+
+for frame in src.yarppg.helpers.frames_from_video("video.mp4"):
     roi = detector.detect(frame)
     results.append(processor.process(frame, roi))
     # print(results[-1].value)

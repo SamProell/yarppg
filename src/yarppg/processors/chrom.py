@@ -5,6 +5,8 @@
     60(10), 2878-2886. https://doi.org/10.1109/TBME.2013.2266196
 """
 
+from typing import Literal
+
 import numpy as np
 
 from ..roi.region_of_interest import RegionOfInterest
@@ -12,14 +14,16 @@ from .processor import Color, Processor, RppgResult
 
 
 class ChromProcessor(Processor):
-    """Implements Chrominance-based rPPG algorithm by de Haan & Jeanne (2013).
+    """Chrominance-based rPPG algorithm by de Haan & Jeanne (2013).
 
     Args:
         winsize: window size for moving average calculations. Defaults to 45.
         method: method to use. Can be 'xovery' or 'fixed'. Defaults to "xovery".
     """
 
-    def __init__(self, winsize=45, method="xovery"):
+    def __init__(
+        self, winsize: int = 45, method: Literal["fixed", "xovery"] = "xovery"
+    ):
         Processor.__init__(self)
 
         self.winsize = winsize
@@ -64,3 +68,9 @@ class ChromProcessor(Processor):
         ymean = np.mean(self._ys[-self.winsize :])
 
         return float(xmean / (ymean or 1) - 1)
+
+    def reset(self):
+        """Reset internal state and intermediate values."""
+        self._rgbs.clear()
+        self._xs.clear()
+        self._ys.clear()

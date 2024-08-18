@@ -1,7 +1,11 @@
 """Utility functions and helpers."""
+
 import pathlib
 import urllib.request
+from typing import Iterator
 
+import cv2
+import numpy as np
 import pyqtgraph
 
 RESOURCE_DIR = pathlib.Path(__file__).parent / "_resources"
@@ -27,3 +31,13 @@ def get_cached_resource_path(filename: str, url: str, reload: bool = False):
                 f"Something went wrong when getting {filename=:!r} from {url=:!r}."
             )
     return local_file
+
+
+def frames_from_video(filename: str) -> Iterator[np.ndarray]:
+    """Read and yield frames from a video file."""
+    cap = cv2.VideoCapture(filename)
+    while True:
+        ret, frame = cap.read()
+        if not ret:
+            break
+        yield frame
