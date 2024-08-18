@@ -6,7 +6,7 @@ import mediapipe as mp
 import numpy as np
 
 from ..helpers import get_cached_resource_path
-from .detector import ROIDetector
+from .detector import RoiDetector
 from .region_of_interest import RegionOfInterest
 
 MEDIAPIPE_MODELS_BASE = "https://storage.googleapis.com/mediapipe-models/"
@@ -19,7 +19,7 @@ def get_selfie_segmetner_modelfile():
     return get_cached_resource_path(task_filename, MEDIAPIPE_MODELS_BASE + SELFIE_TASK)
 
 
-class SelfieDetector(ROIDetector):
+class SelfieDetector(RoiDetector):
     """Face detector based on MediaPipe's selfie segmentation task.
 
     This method is very slow (150-200ms per frame) and will not properly work in

@@ -5,7 +5,7 @@ import numpy as np
 from .region_of_interest import RegionOfInterest
 
 
-class ROIDetector:
+class RoiDetector:
     """Base class for ROI detectors."""
 
     def detect(self, frame: np.ndarray) -> RegionOfInterest:

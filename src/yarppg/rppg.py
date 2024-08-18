@@ -16,7 +16,7 @@ class Rppg:
 
     def __init__(
         self,
-        roi_detector: roi.ROIDetector,
+        roi_detector: roi.RoiDetector,
         processor: processors.Processor,
         hr_calc: hr_calculator.HrCalculator,
     ):

@@ -10,7 +10,7 @@ from mediapipe.tasks.python.components.containers import (
 )
 
 from ..helpers import get_cached_resource_path
-from .detector import ROIDetector
+from .detector import RoiDetector
 from .region_of_interest import RegionOfInterest
 
 MEDIAPIPE_MODELS_BASE = "https://storage.googleapis.com/mediapipe-models/"
@@ -45,7 +45,7 @@ def get_boundingbox_from_landmarks(lms):
     return np.r_[xy, wh]
 
 
-class FaceMeshDetector(ROIDetector):
+class FaceMeshDetector(RoiDetector):
     """Face detector using MediaPipe's face landmarker.
 
     This detector is based on the face landmarker task from MediaPipe.
