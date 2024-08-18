@@ -1,4 +1,5 @@
 """Main entrypoint for yarppg GUI."""
+
 import sys
 
 import numpy as np

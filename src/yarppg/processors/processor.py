@@ -3,6 +3,7 @@
 import cv2
 import numpy as np
 
+from ..digital_filter import DigitalFilter
 from ..roi.region_of_interest import RegionOfInterest
 from ..rppg_result import Color, RppgResult
 
@@ -28,3 +29,24 @@ class Processor:
     def reset(self):
         """Reset internal state and intermediate values."""
         pass  # no persistent values in base class
+
+
+class FilteredProcessor(Processor):
+    """Processor with temporal filtering of the extracted signal."""
+
+    def __init__(self, processor: Processor, livefilter: DigitalFilter | None = None):
+        self.processor = processor
+        self.livefilter = livefilter
+
+    def process(self, frame: np.ndarray, roi: RegionOfInterest):
+        """Calculate processor output and apply digital filter."""
+        result = self.processor.process(frame, roi)
+        if self.livefilter is not None:
+            result.value = self.livefilter.process(result.value)
+        return result
+
+    def reset(self):
+        """Reset internal state and intermediate values."""
+        self.processor.reset()
+        if self.livefilter is not None:
+            self.livefilter.reset()
