@@ -46,6 +46,12 @@ def get_boundingbox_from_landmarks(lms):
 
 
 class FaceMeshDetector(ROIDetector):
+    """Face detector using MediaPipe's face landmarker.
+
+    This detector is based on the face landmarker task from MediaPipe.
+    <https://ai.google.dev/edge/mediapipe/solutions/vision/face_landmarker/python>
+    """
+
     _lower_face = [200, 431, 411, 340, 349, 120, 111, 187, 211]
 
     def __init__(self, draw_landmarks=False, **kwargs):
@@ -67,6 +73,7 @@ class FaceMeshDetector(ROIDetector):
         self.landmarker.close()
 
     def detect(self, frame: np.ndarray) -> RegionOfInterest:
+        """Find face landmarks and create ROI around the lower face region."""
         rawimg = frame.copy()
         mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame)
         results = self.landmarker.detect_for_video(
@@ -95,6 +102,7 @@ class FaceMeshDetector(ROIDetector):
         contour=False,
         irises=False,
     ):
+        """Draw the detected face landmarks on the image."""
         face_landmarks_proto = landmark_pb2.NormalizedLandmarkList()  # type: ignore
         face_landmarks_proto.landmark.extend(
             [

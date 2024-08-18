@@ -20,6 +20,15 @@ def get_selfie_segmetner_modelfile():
 
 
 class SelfieDetector(ROIDetector):
+    """Face detector based on MediaPipe's selfie segmentation task.
+
+    This method is very slow (150-200ms per frame) and will not properly work in
+    a real-time setting. `FaceMeshDetector` should be used instead.
+
+    More information on the selfie segmenter can be found here:
+    <https://ai.google.dev/edge/mediapipe/solutions/vision/image_segmenter#multiclass-model>
+    """
+
     def __init__(self, confidence=0.5, **kwargs):
         super().__init__(**kwargs)
         self.confidence = confidence
@@ -40,6 +49,7 @@ class SelfieDetector(ROIDetector):
         self.segmenter.close()
 
     def detect(self, frame: np.ndarray) -> RegionOfInterest:
+        """Identify face skin region and background in the given image."""
         rawimg = frame.copy()
         mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame)
 

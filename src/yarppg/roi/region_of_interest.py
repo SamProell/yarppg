@@ -7,6 +7,8 @@ import numpy as np
 
 @dataclass
 class RegionOfInterest:
+    """Container for defining the region of interest (and background) in an image."""
+
     mask: np.ndarray
     bg_mask: np.ndarray | None = None
     baseimg: np.ndarray | None = None
