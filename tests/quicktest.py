@@ -10,38 +10,35 @@ import pathlib
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
-from src.yarppg.roi.facemesh_segmenter import FaceMeshDetector
-from src.yarppg.roi.selfie_segmenter import SelfieDetector
+import yarppg
 
 # %%
 frame = cv2.imread("tests/face_example1.jpg")
-detector = FaceMeshDetector()
+detector = yarppg.FaceMeshDetector()
 roi = detector.detect(frame)
 # %%
 plt.imshow(roi.mask)
 # %%
-detector = SelfieDetector()
+detector = yarppg.SelfieDetector()
 roi = detector.detect(frame)
 plt.imshow(roi.mask)
 # %%
-import src.yarppg.helpers
-from src.yarppg.processors.processor import Processor, RppgResult
-from src.yarppg.processors.chrom import ChromProcessor
-
-from yarppg.rppg.roi.facemesh_detector import FaceMeshDetector as OldFaceMeshDetector
-from yarppg.rppg.processors.chrom import ChromProcessor as OldChromProcessor
-from yarppg.rppg.roi import RegionOfInterest as OldRegionOfInterest
+from yarppg_old.rppg.roi.facemesh_detector import (
+    FaceMeshDetector as OldFaceMeshDetector,
+)
+from yarppg_old.rppg.processors.chrom import ChromProcessor as OldChromProcessor
+from yarppg_old.rppg.roi import RegionOfInterest as OldRegionOfInterest
 
 old_detector = OldFaceMeshDetector()
 old_chrom = OldChromProcessor()
 
-# processor = Processor()
-processor = ChromProcessor()
-detector = FaceMeshDetector()
-results: list[RppgResult] = []
+# processor = yarppg.Processor()
+processor = yarppg.ChromProcessor()
+detector = yarppg.FaceMeshDetector()
+results: list[yarppg.RppgResult] = []
 old_results: list[float] = []
 
-for frame in src.yarppg.helpers.frames_from_video("video.mp4"):
+for frame in yarppg.frames_from_video("video.mp4"):
     roi = detector.detect(frame)
     results.append(processor.process(frame, roi))
     # print(results[-1].value)
@@ -58,7 +55,7 @@ from src.yarppg.digital_filter import DigitalFilter
 from src.yarppg.hr_calculator import PeakBasedHrCalculator
 from src.yarppg.processors import FilteredProcessor
 
-fs = src.yarppg.helpers.get_video_fps("video.mp4")
+fs = yarppg.get_video_fps("video.mp4")
 
 b, a = scipy.signal.iirfilter(2, [1.5], fs=fs, btype="low")
 livefilter = DigitalFilter(b, a, xi=-1)

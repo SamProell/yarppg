@@ -6,16 +6,7 @@ requires = ["setuptools"]
 authors = [{ name = "Samuel Pröll", email = "info@samproell.at" }]
 description = "Remote Photoplethysmography (rPPG) in Python"
 dynamic = ["version"]
-dependencies = [
-    "hydra-core",
-    "mediapipe",
-    "numpy",
-    "opencv_python",
-    "pandas",
-    "PyQt5",
-    "pyqtgraph",
-    "scipy",
-]
+dependencies = ["mediapipe", "numpy", "opencv-contrib-python", "scipy"]
 license = { file = "LICENSE" }
 name = "yarppg"
 readme = "README.md"
@@ -27,8 +18,7 @@ repository = "https://github.com/SamProell/yarppg"
 run-yarppg = "yarppg.main:main"
 
 [tool.setuptools.packages.find]
-where = ["."]
-include = ["yarppg*"]
+where = ["src"]
 
 [tool.setuptools.dynamic]
 version = { attr = "yarppg.__version__" }
