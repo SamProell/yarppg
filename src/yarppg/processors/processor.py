@@ -10,6 +10,8 @@ from ..rppg_result import Color, RppgResult
 
 def masked_average(frame: np.ndarray, mask: np.ndarray) -> Color:
     """Calculate average color of the masked region."""
+    if mask.sum() == 0:
+        return Color.null()
     r, g, b, a = cv2.mean(frame, mask)
     return Color(r, g, b, a)
 
@@ -41,7 +43,8 @@ class FilteredProcessor(Processor):
     def process(self, frame: np.ndarray, roi: RegionOfInterest):
         """Calculate processor output and apply digital filter."""
         result = self.processor.process(frame, roi)
-        if self.livefilter is not None:
+        if self.livefilter is not None and np.isfinite(result.value):
+            # only calculate filter update if not NaN
             result.value = self.livefilter.process(result.value)
         return result
 
