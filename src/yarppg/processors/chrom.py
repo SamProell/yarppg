@@ -10,7 +10,8 @@ from typing import Literal
 import numpy as np
 
 from ..roi.region_of_interest import RegionOfInterest
-from .processor import Color, Processor, RppgResult
+from ..rppg_result import Color, RppgResult
+from .processor import Processor
 
 
 class ChromProcessor(Processor):
