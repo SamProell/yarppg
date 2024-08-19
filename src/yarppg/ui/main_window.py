@@ -30,7 +30,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.history = deque(maxlen=150)
         self.setWindowTitle("yet another rPPG")
         self._init_ui()
-        self.fps = 30.0
+        self.fps = 30.0  # initial guess for FPS, will be adjusted based on actual time
         self.last_update = time.perf_counter()
 
     def _init_ui(self) -> None:
@@ -55,19 +55,27 @@ class MainWindow(QtWidgets.QMainWindow):
         layout.addWidget(self.hr_label, 1, 1)
 
     def _make_plots(self) -> pyqtgraph.GraphicsLayoutWidget:
+        # We create a 2-row layout with linked x-axes.
+        # The first plot shows the signal obtained through the processor.
+        # The second plot shows average R, G and B channels in the ROI.
         grid = pyqtgraph.GraphicsLayoutWidget()
-        self.main_plot: pyqtgraph.PlotItem = grid.addPlot(row=0, col=0)  # type: ignore
+        main_plot: pyqtgraph.PlotItem = grid.addPlot(row=0, col=0)  # type: ignore
         self.rgb_plot: pyqtgraph.PlotItem = grid.addPlot(row=1, col=0)  # type: ignore
-        self.rgb_plot.setXLink(self.main_plot.vb)  # type: ignore[attr-defined]
-        self.main_plot.hideAxis("bottom")
-        self.main_plot.hideAxis("left")
+        self.rgb_plot.setXLink(main_plot.vb)  # type: ignore[attr-defined]
+        main_plot.hideAxis("bottom")
+        main_plot.hideAxis("left")
         self.rgb_plot.hideAxis("left")
+        self.plots = [main_plot]
 
-        self.main_line = self.main_plot.plot(pen=pyqtgraph.mkPen("k", width=3))
-        self.rgb_lines = []
+        self.lines = [main_plot.plot(pen=pyqtgraph.mkPen("k", width=3))]
         for c in "rgb":
             pen = pyqtgraph.mkPen(c, width=1.5)
-            self.rgb_lines.append(utils.add_multiaxis_plot(self.rgb_plot, pen=pen))
+            line, plot = utils.add_multiaxis_plot(self.rgb_plot, pen=pen)
+            self.plots.append(plot)
+            self.lines.append(line)
+
+        for plot in self.plots:
+            plot.disableAutoRange()  # type: ignore
 
         return grid
 
@@ -87,9 +95,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.history.append((result.value, rgb.r, rgb.g, rgb.b))
         data = np.asarray(self.history)
 
-        self.main_line.setData(np.arange(len(data)), data[:, 0])
-        for i in range(3):
-            self.rgb_lines[i].setData(np.arange(len(data)), data[:, i + 1])
+        self.plots[0].setXRange(0, len(data))  # type: ignore
+        for i in range(4):
+            self.lines[i].setData(np.arange(len(data)), data[:, i])
+            self.plots[i].setYRange(*utils.get_autorange(data[:, i]))  # type: ignore
 
     def _handle_hrvalue(self, value: float) -> None:
         """Update user interface with the new HR value."""
@@ -109,6 +118,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.update_image(self._handle_roi(result.roi))
         self._handle_signals(result)
         self._handle_hrvalue(result.hr)
+
+    def keyPressEvent(self, e):  # noqa: N802
+        """Handle key presses. Closes the window on Q."""
+        if e.key() == ord("Q"):
+            self.close()
 
 
 if __name__ == "__main__":

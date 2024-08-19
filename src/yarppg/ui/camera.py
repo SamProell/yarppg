@@ -13,10 +13,18 @@ class Camera(QThread):
     the VideoCapture and emits them with a `new_frame` signal.
     Calling `stop` stops the loop and releases the camera.
 
+    It is very difficult to set camera properties through OpenCV. Setting
+    the `exposure` property may or may not work on your end. Range of required
+    values for exposure are also badly documented and not consistent.
+    See for example here:
+    <https://www.principiaprogramatica.com/2017/06/11/setting-manual-exposure-in-opencv/>
+    Also, settings might stay active even after closing the application.
+
     Args:
         video: ID of camera or video filename
         parent: parent object in Qt context
         delay_frames: delay next read until specified time passed. Defaults to NaN.
+        exposure: set fixed exposure instead of auto-exposure. Defaults to None.
     """
 
     frame_received = pyqtSignal(np.ndarray)
@@ -26,9 +34,13 @@ class Camera(QThread):
         video: int | str = 0,
         parent: QObject | None = None,
         delay_frames: float = np.nan,
+        exposure: float | None = None,
     ):
         QThread.__init__(self, parent=parent)
         self._cap = cv2.VideoCapture(video)
+        if exposure is not None:
+            self._cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)  # manual mode
+            self._cap.set(cv2.CAP_PROP_EXPOSURE, exposure)
         self._running = False
         self.delay_frames = delay_frames
 
