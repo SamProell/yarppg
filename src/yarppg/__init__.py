@@ -33,4 +33,5 @@ from .roi import (
     pixelate,
     pixelate_mask,
 )
+from .rppg import Rppg
 from .rppg_result import Color, RppgResult
