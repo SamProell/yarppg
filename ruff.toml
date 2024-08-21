@@ -1,3 +1,7 @@
+line-length = 88
+src = ["src"]
+
+[lint]
 select = ["E", "F", "PL", "N", "D", "ARG", "I"]
 ignore = [
     "D105",    # undocumented-magic-method,
@@ -5,8 +9,6 @@ ignore = [
     "PLR2004", # magic-value-comparison,
 ]
 ignore-init-module-imports = true
-line-length = 88
-src = ["src/yarppg"]
 exclude = [
     "__pypackages__",
     "_build",
@@ -32,12 +34,13 @@ exclude = [
     "node_modules",
     "venv",
 ]
-[per-file-ignores]
+
+[lint.per-file-ignores]
 "__init__.py" = ["F401"] # unused-import
 "tests/*.py" = ["D"]     # no docs needed in tests.
 
-[pydocstyle]
+[lint.pydocstyle]
 convention = "google"
 
-[pylint]
+[lint.pylint]
 max-args = 10
