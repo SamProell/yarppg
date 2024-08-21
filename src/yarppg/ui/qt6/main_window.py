@@ -7,18 +7,21 @@ from collections import deque
 import numpy as np
 import pyqtgraph
 import scipy.signal
-from PyQt6 import QtWidgets
+from PyQt6 import QtCore, QtWidgets
 
 import yarppg
-from yarppg.rppg import Rppg
-from yarppg.ui import camera, utils
+
+from . import camera, utils
 
 
 class MainWindow(QtWidgets.QMainWindow):
     """A simple window displaying the webcam feed and processed signals."""
 
     def __init__(
-        self, parent: QtWidgets.QWidget | None = None, blursize: int | None = None
+        self,
+        parent: QtWidgets.QWidget | None = None,
+        blursize: int | None = None,
+        mask_alpha: float = 0,
     ):
         super().__init__(parent=parent)
 
@@ -27,6 +30,8 @@ class MainWindow(QtWidgets.QMainWindow):
         )
 
         self.blursize = blursize
+        self.mask_alpha = mask_alpha
+
         self.history = deque(maxlen=150)
         self.setWindowTitle("yet another rPPG")
         self._init_ui()
@@ -47,12 +52,16 @@ class MainWindow(QtWidgets.QMainWindow):
         layout.addWidget(grid, 0, 1)
 
         self.fps_label = QtWidgets.QLabel("FPS:")
-        layout.addWidget(self.fps_label, 1, 0)
+        layout.addWidget(
+            self.fps_label, 1, 0, alignment=QtCore.Qt.AlignmentFlag.AlignBottom
+        )
         self.hr_label = QtWidgets.QLabel("HR:")
         font = self.hr_label.font()
-        font.setPointSize(32)
+        font.setPointSize(24)
         self.hr_label.setFont(font)
-        layout.addWidget(self.hr_label, 1, 1)
+        layout.addWidget(
+            self.hr_label, 1, 1, alignment=QtCore.Qt.AlignmentFlag.AlignCenter
+        )
 
     def _make_plots(self) -> pyqtgraph.GraphicsLayoutWidget:
         # We create a 2-row layout with linked x-axes.
@@ -87,6 +96,10 @@ class MainWindow(QtWidgets.QMainWindow):
         frame = roi.baseimg.copy()
         if self.blursize is not None and roi.face_rect is not None:
             yarppg.pixelate(frame, roi.face_rect, size=self.blursize)
+
+        frame = yarppg.roi.overlay_mask(
+            frame, roi.mask == 1, color=(98, 3, 252), alpha=self.mask_alpha
+        )
 
         return frame
 
@@ -134,7 +147,7 @@ if __name__ == "__main__":
     livefilter = yarppg.DigitalFilter(b, a)
     processor = yarppg.FilteredProcessor(yarppg.Processor(), livefilter)
 
-    rppg = Rppg(processor=processor)
+    rppg = yarppg.Rppg(processor=processor)
 
     cam.frame_received.connect(lambda f: win.on_result(rppg.process_frame(f)))
 
