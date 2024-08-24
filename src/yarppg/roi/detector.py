@@ -10,7 +10,7 @@ class RoiDetector:
 
     def detect(self, frame: np.ndarray) -> RegionOfInterest:
         """Find region of interest in the given frame."""
-        raise NotImplementedError("detect method needs to be overwritten.")
+        raise NotImplementedError("Detect method needs to be overwritten.")
 
     def __call__(self, frame: np.ndarray) -> RegionOfInterest:
         """Apply detector on the given frame."""

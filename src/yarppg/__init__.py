@@ -35,3 +35,4 @@ from .roi import (
 )
 from .rppg import Rppg
 from .rppg_result import Color, RppgResult
+from .settings import Settings

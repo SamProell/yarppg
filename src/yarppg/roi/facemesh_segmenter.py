@@ -38,10 +38,10 @@ def get_landmark_coords(
     return np.multiply(xyz, [width, height, width]).astype(int)
 
 
-def get_boundingbox_from_landmarks(lms):
+def get_boundingbox_from_coords(coords: np.ndarray) -> np.ndarray:
     """Calculate the bounding rectangle containing all landmarks."""
-    xy = np.min(lms, axis=0)
-    wh = np.subtract(np.max(lms, axis=0), xy)
+    xy = np.min(coords, axis=0)
+    wh = np.subtract(np.max(coords, axis=0), xy)
 
     return np.r_[xy, wh]
 
@@ -73,6 +73,14 @@ class FaceMeshDetector(RoiDetector):
     def __del__(self):
         self.landmarker.close()
 
+    def _process_landmarks(self, frame, results) -> tuple[np.ndarray, np.ndarray]:
+        height, width = frame.shape[:2]
+        coords = get_landmark_coords(results.face_landmarks[0], width, height)[:, :2]
+        face_rect = get_boundingbox_from_coords(coords)
+
+        mask = contour_to_mask((height, width), coords[self._lower_face])
+        return mask, face_rect
+
     def detect(self, frame: np.ndarray) -> RegionOfInterest:
         """Find face landmarks and create ROI around the lower face region."""
         rawimg = frame.copy()
@@ -89,12 +97,8 @@ class FaceMeshDetector(RoiDetector):
         if self.draw_landmarks:
             self.draw_facemesh(frame, results.face_landmarks[0], tesselate=True)
 
-        height, width = frame.shape[:2]
-        landmarks = get_landmark_coords(results.face_landmarks[0], width, height)[:, :2]
-        face_rect = get_boundingbox_from_landmarks(landmarks)
-
-        mask = contour_to_mask((height, width), landmarks[self._lower_face])
-        return RegionOfInterest(mask, baseimg=rawimg, face_rect=face_rect)
+        mask, face_rect = self._process_landmarks(frame, results)
+        return RegionOfInterest(mask, baseimg=rawimg, face_rect=tuple(face_rect))
 
     def draw_facemesh(
         self,

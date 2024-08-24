@@ -1,6 +1,5 @@
 """Provides a PyQt window for displaying rPPG processing in real-time."""
 
-import sys
 import time
 from collections import deque
 
@@ -10,8 +9,7 @@ import scipy.signal
 from PyQt6 import QtCore, QtWidgets
 
 import yarppg
-
-from . import camera, utils
+from yarppg.ui.qt6 import camera, utils
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -21,7 +19,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self,
         parent: QtWidgets.QWidget | None = None,
         blursize: int | None = None,
-        mask_alpha: float = 0,
+        roi_alpha: float = 0,
     ):
         super().__init__(parent=parent)
 
@@ -30,7 +28,7 @@ class MainWindow(QtWidgets.QMainWindow):
         )
 
         self.blursize = blursize
-        self.mask_alpha = mask_alpha
+        self.roi_alpha = roi_alpha
 
         self.history = deque(maxlen=150)
         self.setWindowTitle("yet another rPPG")
@@ -98,7 +96,7 @@ class MainWindow(QtWidgets.QMainWindow):
             yarppg.pixelate(frame, roi.face_rect, size=self.blursize)
 
         frame = yarppg.roi.overlay_mask(
-            frame, roi.mask == 1, color=(98, 3, 252), alpha=self.mask_alpha
+            frame, roi.mask == 1, color=(98, 3, 252), alpha=self.roi_alpha
         )
 
         return frame
@@ -138,19 +136,23 @@ class MainWindow(QtWidgets.QMainWindow):
             self.close()
 
 
-if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
-    win = MainWindow()
-    cam = camera.Camera()
+def launch_qt6_ui(rppg: yarppg.Rppg, config: yarppg.Settings) -> int:
+    """Launch a simple Qt6-based GUI visualizing rPPG results in real-time."""
+    app = QtWidgets.QApplication([])
+    win = MainWindow(blursize=config.blursize, roi_alpha=config.roi_alpha)
+    cam = camera.Camera(config.video, delay_frames=config.frame_delay)
+    cam.frame_received.connect(lambda f: win.on_result(rppg.process_frame(f)))
     cam.start()
+    win.show()
+    ret = app.exec()
+    cam.stop()
+    return ret
+
+
+if __name__ == "__main__":
     b, a = scipy.signal.iirfilter(2, [0.7, 1.8], fs=30, btype="band")
     livefilter = yarppg.DigitalFilter(b, a)
     processor = yarppg.FilteredProcessor(yarppg.Processor(), livefilter)
 
     rppg = yarppg.Rppg(processor=processor)
-
-    cam.frame_received.connect(lambda f: win.on_result(rppg.process_frame(f)))
-
-    win.show()
-    app.exec()
-    cam.stop()
+    launch_qt6_ui(rppg, yarppg.Settings())
