@@ -9,6 +9,7 @@ __all__ = [
     "FaceMeshDetector",
     "FilteredProcessor",
     "frames_from_video",
+    "get_config",
     "get_video_fps",
     "HrCalculator",
     "PeakBasedHrCalculator",
@@ -19,8 +20,11 @@ __all__ = [
     "RoiDetector",
     "RppgResult",
     "SelfieDetector",
+    "Settings",
+    "ui",
 ]
 
+from . import ui
 from .digital_filter import DigitalFilter
 from .helpers import frames_from_video, get_video_fps
 from .hr_calculator import HrCalculator, PeakBasedHrCalculator
@@ -35,4 +39,4 @@ from .roi import (
 )
 from .rppg import Rppg
 from .rppg_result import Color, RppgResult
-from .settings import Settings
+from .settings import Settings, get_config

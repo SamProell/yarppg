@@ -1,4 +1,5 @@
 """Provides the base container for regions of interests."""
+
 from dataclasses import dataclass
 
 import cv2
@@ -69,5 +70,7 @@ def overlay_mask(
         OpenCV image.
     """
     overlay = img.copy()
+    if mask.sum() == 0:
+        return img
     overlay[mask] = color
     return cv2.addWeighted(overlay, alpha, img, 1 - alpha, 0)

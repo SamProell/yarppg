@@ -1,8 +1,10 @@
 """Provides the RPPG orchestrator class."""
+
 import numpy as np
 
 from . import helpers, hr_calculator, processors, roi
 from .rppg_result import RppgResult
+from .settings import Settings
 
 
 class Rppg:
@@ -46,3 +48,8 @@ class Rppg:
         """Reset processor and history."""
         self.history.clear()
         self.processor.reset()
+
+    @classmethod
+    def from_settings(cls, settings: Settings) -> "Rppg":
+        """Instantiate rPPG orchestrator with the given settings."""
+        return cls()

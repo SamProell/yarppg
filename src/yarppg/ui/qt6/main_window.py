@@ -136,7 +136,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.close()
 
 
-def launch_qt6_ui(rppg: yarppg.Rppg, config: yarppg.Settings) -> int:
+def launch_window(rppg: yarppg.Rppg, config: yarppg.Settings) -> int:
     """Launch a simple Qt6-based GUI visualizing rPPG results in real-time."""
     app = QtWidgets.QApplication([])
     win = MainWindow(blursize=config.blursize, roi_alpha=config.roi_alpha)
@@ -155,4 +155,4 @@ if __name__ == "__main__":
     processor = yarppg.FilteredProcessor(yarppg.Processor(), livefilter)
 
     rppg = yarppg.Rppg(processor=processor)
-    launch_qt6_ui(rppg, yarppg.Settings())
+    launch_window(rppg, yarppg.Settings())
