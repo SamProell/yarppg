@@ -52,4 +52,5 @@ class Rppg:
     @classmethod
     def from_settings(cls, settings: Settings) -> "Rppg":
         """Instantiate rPPG orchestrator with the given settings."""
-        return cls()
+        detector = roi.detectors[settings.detector]()
+        return cls(detector)

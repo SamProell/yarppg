@@ -11,6 +11,7 @@ class Settings:
     frame_delay: float = float("nan")
     roi_alpha: float = 0.0
     ui: str = "qt6"
+    detector: str = "facemesh"
 
 
 def get_config(argv: list[str]) -> Settings:
