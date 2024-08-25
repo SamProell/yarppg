@@ -1,8 +1,9 @@
 """Provides the RPPG orchestrator class."""
 
 import numpy as np
+import scipy.signal
 
-from . import helpers, hr_calculator, processors, roi
+from . import digital_filter, helpers, hr_calculator, processors, roi
 from .rppg_result import RppgResult
 from .settings import Settings
 
@@ -53,4 +54,12 @@ class Rppg:
     def from_settings(cls, settings: Settings) -> "Rppg":
         """Instantiate rPPG orchestrator with the given settings."""
         detector = roi.detectors[settings.detector]()
-        return cls(detector)
+        processor = processors.algorithms[settings.algorithm]()
+        if settings.filter:
+            if settings.filter == "bandpass":
+                b, a = scipy.signal.iirfilter(2, [0.7, 1.8], fs=30, btype="band")
+                livefilter = digital_filter.DigitalFilter(b, a)
+            else:
+                livefilter = digital_filter.make_digital_filter(settings.filter)
+            processor = processors.FilteredProcessor(processor, livefilter)
+        return cls(detector, processor)

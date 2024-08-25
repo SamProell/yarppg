@@ -1,9 +1,33 @@
 """Provides tools for applying digital filters in a real-time application."""
 
+from dataclasses import dataclass
 from typing import Sequence
 
 import numpy as np
 import scipy.signal
+
+
+@dataclass
+class FilterConfig:
+    """Container for configuration of a digital filter.
+
+    This configuration allows creation of filters through `scipy.signal.iirfilter`.
+
+    Attributes:
+        fs: expected sampling rate of the signal.
+        f1: first cut-off frequency.
+        f2: seconds cut-off frequency. Required for bandpass filters. Defaults to None.
+        btype: type of the filter. low-, high-, or bandpass.
+        ftype: type of the filter design. Butterworth is good for most cases.
+        order: order of the filter.
+    """
+
+    fs: float
+    f1: float
+    f2: float | None = None
+    btype: str = "low"
+    ftype: str = "butter"
+    order: int = 2
 
 
 class DigitalFilter:
@@ -33,3 +57,20 @@ class DigitalFilter:
     def reset(self, xi: float = 0):
         """Reset filter state to initial value."""
         self.zi = scipy.signal.lfiltic(self.b, self.a, [xi], xi)
+
+
+def filtercoeffs_from_config(cfg: FilterConfig):
+    """Get coefficients (b, a) for filter with given settings."""
+    cutoff = [cfg.f1]
+    if cfg.f2:
+        cutoff.append(cfg.f2)
+    b, a = scipy.signal.iirfilter(
+        cfg.order, cutoff, btype=cfg.btype, ftype=cfg.ftype, fs=cfg.fs
+    )
+    return b, a
+
+
+def make_digital_filter(cfg: FilterConfig) -> DigitalFilter:
+    """Create live digital filter with given settings."""
+    b, a = filtercoeffs_from_config(cfg)
+    return DigitalFilter(b, a)
