@@ -11,6 +11,17 @@ license = { file = "LICENSE" }
 name = "yarppg"
 readme = "README.md"
 
+[project.optional-dependencies]
+dev = [
+    "mkdocs-autorefs",
+    "mkdocs-jupyter",
+    "mkdocs-material",
+    "mkdocs",
+    "mkdocstrings[python]",
+    "pyinstaller",
+    "pytest",
+]
+
 [project.urls]
 repository = "https://github.com/SamProell/yarppg"
 

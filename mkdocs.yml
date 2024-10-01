@@ -1,0 +1,30 @@
+site_name: yarPPG
+theme:
+    name: material
+    palette:
+        scheme: default
+extra_css:
+  - style.css
+nav:
+  - Home: index.md
+  - Reference:
+    - Overview: reference/index.md
+
+plugins:
+  - search
+  - autorefs
+  - mkdocstrings:
+      default_handler: python
+  - mkdocs-jupyter:
+      execute: true
+
+markdown_extensions:
+  - footnotes
+  - admonition
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
