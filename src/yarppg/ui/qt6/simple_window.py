@@ -1,5 +1,6 @@
 """Provides a PyQt window for displaying rPPG processing in real-time."""
 
+import dataclasses
 import time
 from collections import deque
 
@@ -12,7 +13,17 @@ import yarppg
 from yarppg.ui.qt6 import camera, utils
 
 
-class MainWindow(QtWidgets.QMainWindow):
+@dataclasses.dataclass
+class SimpleQt6WindowSettings(yarppg.settings.UiSettings):
+    """Settings for the simple Qt6 window."""
+
+    blursize: int | None = None
+    roi_alpha: float = 0.0
+    video: int | str = 0
+    frame_delay: float = float("nan")
+
+
+class SimpleQt6Window(QtWidgets.QMainWindow):
     """A simple window displaying the webcam feed and processed signals."""
 
     def __init__(
@@ -136,13 +147,15 @@ class MainWindow(QtWidgets.QMainWindow):
             self.close()
 
 
-def launch_window(rppg: yarppg.Rppg, config: yarppg.Settings) -> int:
+def launch_window(rppg: yarppg.Rppg, config: SimpleQt6WindowSettings) -> int:
     """Launch a simple Qt6-based GUI visualizing rPPG results in real-time."""
     app = QtWidgets.QApplication([])
-    win = MainWindow(blursize=config.blursize, roi_alpha=config.roi_alpha)
+    win = SimpleQt6Window(blursize=config.blursize, roi_alpha=config.roi_alpha)
+
     cam = camera.Camera(config.video, delay_frames=config.frame_delay)
-    cam.frame_received.connect(lambda f: win.on_result(rppg.process_frame(f)))
+    cam.frame_received.connect(lambda frame: win.on_result(rppg.process_frame(frame)))
     cam.start()
+
     win.show()
     ret = app.exec()
     cam.stop()
@@ -155,4 +168,4 @@ if __name__ == "__main__":
     processor = yarppg.FilteredProcessor(yarppg.Processor(), livefilter)
 
     rppg = yarppg.Rppg(processor=processor)
-    launch_window(rppg, yarppg.Settings())
+    launch_window(rppg, yarppg.settings.get_config(["ui=qt6_simple"]).ui)
