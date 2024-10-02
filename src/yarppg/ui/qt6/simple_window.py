@@ -124,8 +124,9 @@ class SimpleQt6Window(QtWidgets.QMainWindow):
 
     def _handle_hrvalue(self, value: float) -> None:
         """Update user interface with the new HR value."""
-        hr_bpm = self.fps * 60 / value
-        self.hr_label.setText(f"HR: {hr_bpm:.1f}")
+        if np.isfinite(value):
+            hr_bpm = self.fps * 60 / value
+            self.hr_label.setText(f"HR: {hr_bpm:.1f}")
 
     def _update_fps(self):
         now = time.perf_counter()

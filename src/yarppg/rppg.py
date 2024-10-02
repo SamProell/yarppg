@@ -1,5 +1,7 @@
 """Provides the RPPG orchestrator class."""
 
+import pathlib
+
 import numpy as np
 import scipy.signal
 
@@ -22,10 +24,11 @@ class Rppg:
         roi_detector: roi.RoiDetector | None = None,
         processor: processors.Processor | None = None,
         hr_calc: hr_calculator.HrCalculator | None = None,
+        fps: float = 30,
     ):
         self.roi_detector = roi_detector or roi.FaceMeshDetector()
         self.processor = processor or processors.Processor()
-        self.hr_calculator = hr_calc or hr_calculator.PeakBasedHrCalculator(30)
+        self.hr_calculator = hr_calc or hr_calculator.PeakBasedHrCalculator(fps)
 
         self.history: list[RppgResult] = []
 
@@ -38,7 +41,7 @@ class Rppg:
         self.history.append(result)
         return result
 
-    def process_video(self, filename: str) -> list[RppgResult]:
+    def process_video(self, filename: str | pathlib.Path) -> list[RppgResult]:
         """Convenience function to process an entire video file at once."""
         results = []
         for frame in helpers.frames_from_video(filename):

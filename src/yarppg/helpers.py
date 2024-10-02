@@ -23,9 +23,9 @@ def get_cached_resource_path(filename: str, url: str, reload: bool = False):
     return local_file
 
 
-def frames_from_video(filename: str) -> Iterator[np.ndarray]:
+def frames_from_video(filename: str | pathlib.Path) -> Iterator[np.ndarray]:
     """Read and yield frames from a video file."""
-    cap = cv2.VideoCapture(filename)
+    cap = cv2.VideoCapture(str(filename))
     while True:
         ret, frame = cap.read()
         if not ret:
@@ -33,9 +33,9 @@ def frames_from_video(filename: str) -> Iterator[np.ndarray]:
         yield frame
 
 
-def get_video_fps(filename: str) -> float:
+def get_video_fps(filename: str | pathlib.Path) -> float:
     """Find the frame rate of the given video file."""
-    cap = cv2.VideoCapture(filename)
+    cap = cv2.VideoCapture(str(filename))
     fps = cap.get(cv2.CAP_PROP_FPS)
     cap.release()
     return fps
