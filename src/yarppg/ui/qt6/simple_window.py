@@ -14,7 +14,7 @@ from yarppg.ui.qt6 import camera, utils
 
 
 @dataclasses.dataclass
-class SimpleQt6WindowSettings(yarppg.settings.UiSettings):
+class SimpleQt6WindowSettings(yarppg.UiSettings):
     """Settings for the simple Qt6 window."""
 
     blursize: int | None = None

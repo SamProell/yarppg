@@ -21,10 +21,9 @@ __all__ = [
     "RppgResult",
     "SelfieDetector",
     "Settings",
-    "ui",
+    "UiSettings",
 ]
 
-from . import ui
 from .digital_filter import DigitalFilter
 from .helpers import frames_from_video, get_video_fps
 from .hr_calculator import HrCalculator, PeakBasedHrCalculator
@@ -39,4 +38,4 @@ from .roi import (
 )
 from .rppg import Rppg
 from .rppg_result import Color, RppgResult
-from .settings import Settings, get_config
+from .settings import Settings, UiSettings, get_config

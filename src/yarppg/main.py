@@ -4,6 +4,7 @@ import hydra
 import omegaconf
 
 import yarppg
+import yarppg.ui
 
 
 @hydra.main(version_base=None, config_name="config")
