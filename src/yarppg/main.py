@@ -16,6 +16,11 @@ def main(cfg: omegaconf.DictConfig):
     yarppg.ui.launch_ui(rppg, config.ui)
 
 
-if __name__ == "__main__":
+def run_yarppg():
+    """Register structured configs and run the main function."""
     yarppg.settings.register_schemas()
     main()
+
+
+if __name__ == "__main__":
+    run_yarppg()

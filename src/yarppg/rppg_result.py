@@ -37,10 +37,15 @@ class RppgResult:
     """Container for rPPG computation results."""
 
     value: float
+    """Output value of the rPPG signal extractor."""
     roi: RegionOfInterest
+    """Region of interest identified in the current frame."""
     roi_mean: Color
+    """Mean color of the ROI."""
     bg_mean: Color
+    """Mean color of the background."""
     hr: float = np.nan
+    """Heart rate estimate in frames per beat."""
 
     def __array__(self):
         return np.asarray([self.value])

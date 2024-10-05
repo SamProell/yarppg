@@ -26,7 +26,7 @@ dev = [
 repository = "https://github.com/SamProell/yarppg"
 
 [project.scripts]
-run-yarppg = "yarppg.main:main"
+run-yarppg = "yarppg.main:run_yarppg"
 
 [tool.setuptools.packages.find]
 where = ["src"]

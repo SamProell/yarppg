@@ -30,15 +30,12 @@ class Rppg:
         self.processor = processor or processors.Processor()
         self.hr_calculator = hr_calc or hr_calculator.PeakBasedHrCalculator(fps)
 
-        self.history: list[RppgResult] = []
-
     def process_frame(self, frame: np.ndarray) -> RppgResult:
         """Process a single frame from video or live stream."""
         roi = self.roi_detector.detect(frame)
         result = self.processor.process(frame, roi)
         result.hr = self.hr_calculator.update(result)
 
-        self.history.append(result)
         return result
 
     def process_video(self, filename: str | pathlib.Path) -> list[RppgResult]:
@@ -49,8 +46,7 @@ class Rppg:
         return results
 
     def reset(self) -> None:
-        """Reset processor and history."""
-        self.history.clear()
+        """Reset internal elements."""
         self.processor.reset()
 
     @classmethod

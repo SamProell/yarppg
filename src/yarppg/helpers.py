@@ -6,6 +6,7 @@ from typing import Iterator
 
 import cv2
 import numpy as np
+from numpy.typing import ArrayLike
 
 RESOURCE_DIR = pathlib.Path(__file__).parent / "_resources"
 
@@ -39,3 +40,8 @@ def get_video_fps(filename: str | pathlib.Path) -> float:
     fps = cap.get(cv2.CAP_PROP_FPS)
     cap.release()
     return fps
+
+
+def bpm_from_frames_per_beat(hr: ArrayLike, fps: float) -> np.ndarray:
+    """Convert frames per beat to beats per minute (60 * fps / hr)."""
+    return 60 * fps / np.asarray(hr)

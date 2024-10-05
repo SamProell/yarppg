@@ -35,7 +35,7 @@ class PeakBasedHrCalculator(HrCalculator):
         self.last_hr = np.nan
 
     def update(self, data: RppgResult) -> float:
-        """Process the new data and update HR estimate."""
+        """Process the new data and update HR estimate in frames per beat."""
         self.frames_seen += 1
         self.values.append(data.value)
         if (
