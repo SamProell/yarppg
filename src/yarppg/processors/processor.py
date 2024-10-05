@@ -3,9 +3,8 @@
 import cv2
 import numpy as np
 
+from ..containers import Color, RegionOfInterest, RppgResult
 from ..digital_filter import DigitalFilter
-from ..roi.region_of_interest import RegionOfInterest
-from ..rppg_result import Color, RppgResult
 
 
 def masked_average(frame: np.ndarray, mask: np.ndarray) -> Color:

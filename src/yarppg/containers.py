@@ -4,7 +4,15 @@ from dataclasses import dataclass
 
 import numpy as np
 
-from .roi import RegionOfInterest
+
+@dataclass
+class RegionOfInterest:
+    """Container for defining the region of interest (and background) in an image."""
+
+    mask: np.ndarray
+    baseimg: np.ndarray
+    bg_mask: np.ndarray | None = None
+    face_rect: tuple[int, int, int, int] | None = None
 
 
 @dataclass

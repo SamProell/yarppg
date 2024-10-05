@@ -5,7 +5,7 @@ from collections import deque
 import numpy as np
 import scipy.signal
 
-from .rppg_result import RppgResult
+from .containers import RppgResult
 
 
 class HrCalculator:

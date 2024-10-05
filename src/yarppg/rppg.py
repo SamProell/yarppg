@@ -6,7 +6,7 @@ import numpy as np
 import scipy.signal
 
 from . import digital_filter, helpers, hr_calculator, processors, roi
-from .rppg_result import RppgResult
+from .containers import RppgResult
 from .settings import Settings
 
 

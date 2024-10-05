@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from .region_of_interest import RegionOfInterest
+from ..containers import RegionOfInterest
 
 
 class RoiDetector:

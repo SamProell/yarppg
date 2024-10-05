@@ -9,8 +9,7 @@ from typing import Literal
 
 import numpy as np
 
-from ..roi.region_of_interest import RegionOfInterest
-from ..rppg_result import Color, RppgResult
+from ..containers import Color, RegionOfInterest, RppgResult
 from .processor import Processor
 
 

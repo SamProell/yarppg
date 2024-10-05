@@ -5,9 +5,9 @@ import time
 import mediapipe as mp
 import numpy as np
 
+from ..containers import RegionOfInterest
 from ..helpers import get_cached_resource_path
 from .detector import RoiDetector
-from .region_of_interest import RegionOfInterest
 
 MEDIAPIPE_MODELS_BASE = "https://storage.googleapis.com/mediapipe-models/"
 SELFIE_TASK = "image_segmenter/selfie_multiclass_256x256/float32/latest/selfie_multiclass_256x256.tflite"  # noqa: E501

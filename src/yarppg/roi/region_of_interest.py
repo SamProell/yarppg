@@ -1,20 +1,8 @@
 """Provides the base container for regions of interests."""
 
-from dataclasses import dataclass
-
 import cv2
 import numpy as np
 from numpy.typing import ArrayLike
-
-
-@dataclass
-class RegionOfInterest:
-    """Container for defining the region of interest (and background) in an image."""
-
-    mask: np.ndarray
-    baseimg: np.ndarray
-    bg_mask: np.ndarray | None = None
-    face_rect: tuple[int, int, int, int] | None = None
 
 
 def pixelate(img: np.ndarray, xywh: tuple[int, int, int, int], size: int):

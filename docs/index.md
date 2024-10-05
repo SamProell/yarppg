@@ -15,7 +15,7 @@ color, originating from the pulsation of blood[^1].
 ## Installation and usage
 In order to run the yarPPG application, clone this repository and navigate
 to the downloaded folder. You can then install the folder into your Python
-environment of choice. This will install the `run-yarppg` command.
+environment. This will install the `run-yarppg` command.
 
 ```bash
 git clone https://github.com/SamProell/yarppg.git
