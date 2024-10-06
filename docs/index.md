@@ -24,6 +24,18 @@ pip install "."
 run-yarppg
 ```
 
+## User interfaces
+The default user interface is a simplistic window based on OpenCV. More elaborate
+user interfaces are available, but require additional dependencies.
+
+### Simple Qt6 window
+```bash
+pip install ".[qt6]"
+run-yarppg ui=qt6_simple
+```
+
+### More to come, you are welcome to contribute
+
 [^1]: W Verkruysse, L O Svaasand and J S Nelson. Remote plethysmographic
     imaging using ambient light. *Optics Express*. 2008;16(26):21434–21445.
     doi:[10.1364/oe.16.021434](https://doi.org/10.1364/oe.16.021434)

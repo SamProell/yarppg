@@ -5,6 +5,12 @@ import cv2
 
 import yarppg
 
+FONT_COLOR = (207, 117, 6)
+
+
+def _is_window_closed(name: str) -> bool:
+    return cv2.getWindowProperty(name, cv2.WND_PROP_VISIBLE) < 1
+
 
 @dataclasses.dataclass
 class SimplestOpenCvWindowSettings(yarppg.settings.UiSettings):
@@ -30,8 +36,12 @@ def launch_loop(rppg: yarppg.Rppg, config: SimplestOpenCvWindowSettings) -> int:
         img = yarppg.roi.overlay_mask(
             frame, result.roi.mask != 0, alpha=config.roi_alpha
         )
+        img = cv2.flip(img, 1)
+        text = f"{result.hr:.1f} (frames per beat)"
+        pos = (10, img.shape[0] - 10)
+        cv2.putText(img, text, pos, cv2.FONT_HERSHEY_COMPLEX, 0.8, color=FONT_COLOR)
+        cv2.imshow("yarPPG", cv2.cvtColor(img, cv2.COLOR_RGB2BGR))
         print(result.value, result.hr)
-        cv2.imshow("frame", cv2.cvtColor(cv2.flip(img, 1), cv2.COLOR_RGB2BGR))
-        if cv2.waitKey(1) == ord("q"):
+        if cv2.waitKey(1) == ord("q") or _is_window_closed("yarPPG"):
             break
     return 0

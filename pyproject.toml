@@ -4,21 +4,27 @@ requires = ["setuptools"]
 
 [project]
 authors = [{ name = "Samuel Pröll", email = "info@samproell.at" }]
-description = "Remote Photoplethysmography (rPPG) in Python"
+description = "Yet another implementation of remote Photoplethysmography in Python"
 dynamic = ["version"]
-dependencies = ["mediapipe", "numpy", "opencv-contrib-python", "scipy"]
+dependencies = [
+    "hydra-core",
+    "mediapipe",
+    "numpy",
+    "opencv-contrib-python",
+    "scipy",
+]
 license = { file = "LICENSE" }
 name = "yarppg"
 readme = "README.md"
 
 [project.optional-dependencies]
+qt6 = ["PyQt6", "pyqtgraph"]
 dev = [
     "mkdocs-autorefs",
     "mkdocs-jupyter",
     "mkdocs-material",
     "mkdocs",
     "mkdocstrings[python]",
-    "pyinstaller",
     "pytest",
 ]
 
