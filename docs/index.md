@@ -25,5 +25,5 @@ run-yarppg
 ```
 
 [^1]: W Verkruysse, L O Svaasand and J S Nelson. Remote plethysmographic
-      imaging using ambient light. *Optics Express*. 2008;16(26):21434–21445.
-      doi:[10.1364/oe.16.021434](https://doi.org/10.1364/oe.16.021434)
+    imaging using ambient light. *Optics Express*. 2008;16(26):21434–21445.
+    doi:[10.1364/oe.16.021434](https://doi.org/10.1364/oe.16.021434)

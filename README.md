@@ -6,12 +6,12 @@
 > decision making in general.
 
 > [!NOTE]
-> Update 2024: The latest rework of `yarppg` has only been tested with Python 3.10,
-> older versions may not work. `yarppg` now also uses hydra for the command line
+> Update 2024: The latest rework of `yarPPG` has only been tested with Python 3.10,
+> older versions may not work. `yarPPG` now also uses hydra for the command line
 > interface. See the [description](#command-line-options) further below.
 
 ## About
-`yarppg` is yet another implementation of remote photoplethysmography in
+`yarPPG` is yet another implementation of remote photoplethysmography in
 Python.  Remote photoplethysmography (rPPG) refers to the camera-based
 measurement of a (blood volume) pulse signal.  It works by detecting small
 changes in skin color, originating from the pulsation of blood [^1].
@@ -28,7 +28,7 @@ The current default implementation uses the bandpass-filtered green channel
 averaged across a custom ROI suggested by Li et al. [^2]. Other features of
 their algorithm are a work in progress.
 
-![Screenshot of the yarppg application](docs/images/yarppg-screenshot.png)
+![Screenshot of the yarPPG application](docs/images/yarppg-screenshot.png)
 
 ## Installation and usage
 In order to run this rPPG implementation, you first have to clone the
@@ -50,7 +50,7 @@ run-yarppg
 ```
 
 ### Command line options
-There are a number of options available, when running yarppg.
+There are a number of options available, when running yarPPG.
 
 ```yaml
 video: 0  # camera index or video filename.

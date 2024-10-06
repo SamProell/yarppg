@@ -1,4 +1,4 @@
-"""Main entrypoint for yarppg GUI."""
+"""Main entrypoint for yarPGG GUI."""
 
 import hydra
 import omegaconf

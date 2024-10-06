@@ -1,4 +1,4 @@
-"""Defines some containers passed between objects of the yarppg application."""
+"""Defines some containers passed between objects of the yarPPG application."""
 
 from dataclasses import dataclass
 

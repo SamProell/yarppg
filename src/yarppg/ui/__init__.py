@@ -1,4 +1,4 @@
-"""Provides user interfaces for yarppg."""
+"""Provides user interfaces for yarPPG."""
 
 import yarppg
 
