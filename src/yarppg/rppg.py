@@ -1,4 +1,27 @@
-"""Provides the RPPG orchestrator class."""
+"""Provides the Rppg orchestrator class.
+
+The orchestrator ties together the typical steps required in an rPPG pipeline:
+
+1. region of interest (ROI) identification ([yarppg.roi][])
+2. rPPG signal extraction ([yarppg.processors][])
+3. heart rate estimation ([yarppg.hr_calculator][])
+
+`Rppg`'s [`process_frame`][yarppg.Rppg.process_frame] method performs the three
+steps from above in order and produces an [yarppg.containers.RppgResult][] that
+holds the extracted rPPG signal value as well as the frame, ROI and some
+additional information.
+
+```python
+import yarppg
+
+default_settings = yarppg.Settings()
+rppg = yarppg.Rppg.from_settings(default_settings)
+
+result = rppg.process_frame(frame)  # input a (h x w x 3)-image array.
+print(result.hr)
+```
+
+"""
 
 import pathlib
 
@@ -11,7 +34,7 @@ from .settings import Settings
 
 
 class Rppg:
-    """Orchestrator for complete rPPG pipeline.
+    """Orchestrator for the complete rPPG pipeline.
 
     Args:
        roi_detector: detector for identifying the region of interest (and background).

@@ -23,6 +23,7 @@ dev = [
     "mkdocs-autorefs",
     "mkdocs-jupyter",
     "mkdocs-material",
+    "mkdocs-section-index",
     "mkdocs",
     "mkdocstrings[python]",
     "pytest",

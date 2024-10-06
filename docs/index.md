@@ -11,7 +11,6 @@ color, originating from the pulsation of blood[^1].
     provided program/code is not suitable to be used in a clinical setup
     or for any decision making in general.
 
-
 ## Installation and usage
 In order to run the yarPPG application, clone this repository and navigate
 to the downloaded folder. You can then install the folder into your Python
@@ -24,9 +23,33 @@ pip install "."
 run-yarppg
 ```
 
+## Core functionality
+Different from earlier versions of yarPPG, the core functionality for remote PPG
+signal extraction has been completely decoupled from the user interface.
+The `Rppg` class combines all required steps (roi identification, signal extraction,
+heart rate estimation) into one (stateful) function.
+
+```python
+import yarppg
+
+rppg = yarppg.Rppg()
+
+while running:
+    # frame = ...  # get an image array of shape h x w x 3
+    result = rppg.process_frame(frame)
+    print(f"Current rPPG signal value: {result.value} (HR: {result.hr})")
+```
+
+See [this guide] if you need more fine-grained control over the individual
+calculation steps.
+
+The `Rppg` class also comes with a method to process an entire video file
+at once. See more details [here].
+
 ## User interfaces
-The default user interface is a simplistic window based on OpenCV. More elaborate
-user interfaces are available, but require additional dependencies.
+The default user interface launched by the `run-yarppg` command is a simplistic
+window based on OpenCV.
+More elaborate user interfaces are available, but require additional dependencies.
 
 ### Simple Qt6 window
 ```bash

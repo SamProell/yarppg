@@ -6,17 +6,22 @@ theme:
 extra_css:
   - style.css
 nav:
-  - Home: index.md
-  - Reference:
-    - Overview: reference/index.md
+  - Getting started: index.md
+  - reference/rppg.md
+  - ROI detection:
+    - reference/roi/index.md
+    - reference/roi/facemesh_detector.md
+  - reference/processors.md
+  - reference/hr_calculator.md
 
 plugins:
   - search
+  - section-index
   - autorefs
   - mkdocstrings:
       default_handler: python
   - mkdocs-jupyter:
-      execute: true
+      execute: false
 
 markdown_extensions:
   - footnotes
