@@ -41,7 +41,7 @@ old_results: list[float] = []
 
 for frame in yarppg.frames_from_video("video.mp4"):
     roi = detector.detect(frame)
-    results.append(processor.process(frame, roi))
+    results.append(processor.process(roi))
     # print(results[-1].value)
     # old_roi = old_detector.detect(frame)
     old_results.append(old_chrom.calculate(OldRegionOfInterest(frame, roi.mask)))

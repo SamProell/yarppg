@@ -56,7 +56,7 @@ class Rppg:
     def process_frame(self, frame: np.ndarray) -> RppgResult:
         """Process a single frame from video or live stream."""
         roi = self.roi_detector.detect(frame)
-        result = self.processor.process(frame, roi)
+        result = self.processor.process(roi)
         result.hr = self.hr_calculator.update(result)
 
         return result

@@ -101,8 +101,9 @@ class SimpleQt6Window(QtWidgets.QMainWindow):
         """Update image plot item with new frame."""
         self.img_item.setImage(frame[:, ::-1])
 
-    def _handle_roi(self, roi: yarppg.RegionOfInterest) -> np.ndarray:
-        frame = roi.baseimg.copy()
+    def _handle_roi(
+        self, frame: np.ndarray, roi: yarppg.RegionOfInterest
+    ) -> np.ndarray:
         if self.blursize is not None and roi.face_rect is not None:
             yarppg.pixelate(frame, roi.face_rect, size=self.blursize)
 
@@ -135,10 +136,10 @@ class SimpleQt6Window(QtWidgets.QMainWindow):
         self.fps_label.setText(f"FPS: {self.fps:.1f}")
         self.last_update = now
 
-    def on_result(self, result: yarppg.RppgResult) -> None:
+    def on_result(self, result: yarppg.RppgResult, frame: np.ndarray) -> None:
         """Update user interface with the new rPPG results."""
         self._update_fps()
-        self.update_image(self._handle_roi(result.roi))
+        self.update_image(self._handle_roi(frame, result.roi))
         self._handle_signals(result)
         self._handle_hrvalue(result.hr)
 
@@ -154,7 +155,9 @@ def launch_window(rppg: yarppg.Rppg, config: SimpleQt6WindowSettings) -> int:
     win = SimpleQt6Window(blursize=config.blursize, roi_alpha=config.roi_alpha)
 
     cam = camera.Camera(config.video, delay_frames=config.frame_delay)
-    cam.frame_received.connect(lambda frame: win.on_result(rppg.process_frame(frame)))
+    cam.frame_received.connect(
+        lambda frame: win.on_result(rppg.process_frame(frame), frame)
+    )
     cam.start()
 
     win.show()

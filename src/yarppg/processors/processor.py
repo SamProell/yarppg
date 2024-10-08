@@ -18,12 +18,12 @@ def masked_average(frame: np.ndarray, mask: np.ndarray) -> Color:
 class Processor:
     """Default rPPG processor."""
 
-    def process(self, frame: np.ndarray, roi: RegionOfInterest):
+    def process(self, roi: RegionOfInterest):
         """Calculate average green channel in the roi area."""
-        avg = masked_average(frame, roi.mask)
+        avg = masked_average(roi.baseimg, roi.mask)
         bg_mean = Color.null()
         if roi.bg_mask is not None:
-            bg_mean = masked_average(frame, roi.bg_mask)
+            bg_mean = masked_average(roi.baseimg, roi.bg_mask)
 
         return RppgResult(avg.g, roi, roi_mean=avg, bg_mean=bg_mean)
 
@@ -39,9 +39,9 @@ class FilteredProcessor(Processor):
         self.processor = processor
         self.livefilter = livefilter
 
-    def process(self, frame: np.ndarray, roi: RegionOfInterest):
+    def process(self, roi: RegionOfInterest):
         """Calculate processor output and apply digital filter."""
-        result = self.processor.process(frame, roi)
+        result = self.processor.process(roi)
         if self.livefilter is not None and np.isfinite(result.value):
             # only calculate filter update if not NaN
             result.value = self.livefilter.process(result.value)

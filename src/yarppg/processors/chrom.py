@@ -33,9 +33,9 @@ class ChromProcessor(Processor):
         self._xs: list[float] = []
         self._ys: list[float] = []
 
-    def process(self, frame: np.ndarray, roi: RegionOfInterest) -> RppgResult:
+    def process(self, roi: RegionOfInterest) -> RppgResult:
         """Calculate pulse signal update according to Chrom algorithm."""
-        result = super().process(frame, roi)
+        result = super().process(roi)
         self._rgbs.append(result.roi_mean)
 
         if self.method == "fixed":

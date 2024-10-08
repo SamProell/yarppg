@@ -16,7 +16,7 @@ def test_masked_average(sim_roi: yarppg.RegionOfInterest):
 def test_process(sim_roi: yarppg.RegionOfInterest):
     proc = processor.Processor()
 
-    result = proc.process(sim_roi.baseimg, sim_roi)
+    result = proc.process(sim_roi)
 
     assert result.value == 2
     assert np.array_equal(result.roi_mean, (56.25, 2, 3, 0))

@@ -13,6 +13,7 @@ class RegionOfInterest:
     baseimg: np.ndarray
     bg_mask: np.ndarray | None = None
     face_rect: tuple[int, int, int, int] | None = None
+    """Bounding box of the detected face (x, y, w, h)."""
 
 
 @dataclass
