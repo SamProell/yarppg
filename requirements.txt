@@ -1,7 +1,0 @@
-mediapipe
-numpy
-opencv-contrib-python
-pandas
-PyQt6
-pyqtgraph
-scipy
