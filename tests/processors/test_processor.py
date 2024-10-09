@@ -9,8 +9,8 @@ def test_masked_average(sim_roi: yarppg.RegionOfInterest):
     bg_avg = processor.masked_average(sim_roi.baseimg, sim_roi.bg_mask)
     roi_avg = processor.masked_average(sim_roi.baseimg, sim_roi.mask)
 
-    assert np.array_equal(bg_avg, (4, 5, 6, 0))
-    assert np.array_equal(roi_avg, (56.25, 2, 3, 0))
+    assert np.array_equal(bg_avg, (4, 5, 6))
+    assert np.array_equal(roi_avg, (56.25, 2, 3))
 
 
 def test_process(sim_roi: yarppg.RegionOfInterest):
@@ -19,5 +19,5 @@ def test_process(sim_roi: yarppg.RegionOfInterest):
     result = proc.process(sim_roi)
 
     assert result.value == 2
-    assert np.array_equal(result.roi_mean, (56.25, 2, 3, 0))
-    assert np.array_equal(result.bg_mean, (4, 5, 6, 0))
+    assert np.array_equal(result.roi_mean, (56.25, 2, 3))
+    assert np.array_equal(result.bg_mean, (4, 5, 6))

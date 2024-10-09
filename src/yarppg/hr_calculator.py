@@ -5,15 +5,17 @@ from collections import deque
 import numpy as np
 import scipy.signal
 
-from .containers import RppgResult
-
 
 class HrCalculator:
     """Base class for heart rate calculation."""
 
-    def update(self, data: RppgResult) -> float:  # noqa: ARG002
+    def update(self, value: float) -> float:  # noqa: ARG002
         """Process the new data and update HR estimate."""
         return np.nan
+
+    def reset(self) -> None:
+        """Clear the the internal state."""
+        pass
 
 
 class PeakBasedHrCalculator(HrCalculator):
@@ -34,10 +36,10 @@ class PeakBasedHrCalculator(HrCalculator):
         self.frames_seen = 0
         self.last_hr = np.nan
 
-    def update(self, data: RppgResult) -> float:
+    def update(self, value: float) -> float:
         """Process the new data and update HR estimate in frames per beat."""
         self.frames_seen += 1
-        self.values.append(data.value)
+        self.values.append(value)
         if (
             len(self.values) < self.winsize
             or self.frames_seen % self.update_interval != 0
@@ -46,3 +48,9 @@ class PeakBasedHrCalculator(HrCalculator):
         peaks, _ = scipy.signal.find_peaks(self.values, distance=self.mindist)
         self.last_hr = np.diff(peaks).mean()
         return self.last_hr
+
+    def reset(self) -> None:
+        """Clear the internal buffer and intermediate values."""
+        self.frames_seen = 0
+        self.values.clear()
+        self.last_hr = np.nan

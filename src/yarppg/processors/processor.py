@@ -11,8 +11,8 @@ def masked_average(frame: np.ndarray, mask: np.ndarray) -> Color:
     """Calculate average color of the masked region."""
     if mask.sum() == 0:
         return Color.null()
-    r, g, b, a = cv2.mean(frame, mask)
-    return Color(r, g, b, a)
+    r, g, b, _ = cv2.mean(frame, mask)
+    return Color(r, g, b)
 
 
 class Processor:

@@ -3,6 +3,7 @@
 from dataclasses import dataclass
 
 import numpy as np
+import pandas as pd
 
 
 @dataclass
@@ -23,7 +24,6 @@ class Color:
     r: float
     g: float
     b: float
-    a: float = 1.0
 
     @classmethod
     def null(cls):
@@ -31,7 +31,7 @@ class Color:
         return cls(np.nan, np.nan, np.nan)
 
     def __array__(self):
-        return np.array([self.r, self.g, self.b, self.a])
+        return np.array([self.r, self.g, self.b])
 
     @classmethod
     def from_array(cls, arr: np.ndarray):
@@ -57,4 +57,11 @@ class RppgResult:
     """Heart rate estimate in frames per beat."""
 
     def __array__(self):
-        return np.asarray([self.value])
+        return np.r_[self.value, self.roi_mean, self.bg_mean]
+
+    def to_series(self):
+        """Extract the rPPG signal values into a Pandas series."""
+        return pd.Series(
+            np.array(self),
+            index=["value", "roi_r", "roi_g", "roi_b", "bg_r", "bg_g", "bg_b"],
+        )
