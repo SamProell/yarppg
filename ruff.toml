@@ -38,6 +38,7 @@ exclude = [
 [lint.per-file-ignores]
 "__init__.py" = ["F401"] # unused-import
 "tests/*.py" = ["D"]     # no docs needed in tests.
+"docs/*.py" = ["D"]
 
 [lint.pydocstyle]
 convention = "google"

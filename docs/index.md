@@ -40,7 +40,7 @@ while running:
     print(f"Current rPPG signal value: {result.value} (HR: {result.hr})")
 ```
 
-See [this guide] if you need more fine-grained control over the individual
+See [this guide](./deepdive.py) if you need more fine-grained control over the individual
 calculation steps.
 
 The `Rppg` class also comes with a method to process an entire video file

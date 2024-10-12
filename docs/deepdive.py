@@ -1,8 +1,8 @@
-"""A walk through the inner workings of yarPPG."""
 # %% [markdown]
-# # Fine-grained control of the rPPG components
-# This guide walks you through the (very simple) inner workings of the
-# [`Rppg.process_frame`][yarppg.rppg.Rppg.process_frame] method.
+# # Diving deeper into the rPPG components
+# This guide walks you through the inner workings of the
+# [`Rppg.process_frame`](/reference/rppg#yarppg.rppg.Rppg.process_frame)
+# method.
 # %%
 import matplotlib.patches
 import matplotlib.pyplot as plt
@@ -35,7 +35,7 @@ for frame in yarppg.frames_from_video(filename):
     results.append(rppg.process_frame(frame))
 plt.plot(np.array(results)[:, 0])
 # %% [markdown]
-# Under the hood, `rppg` calls
+# Under the hood, `rppg.process_frame` calls
 #
 # 1. a roi detector's `detect` method
 # 2. a signal extracor's (`yarppg.Processor`) `process`
@@ -55,6 +55,10 @@ plt.plot(np.array(results)[:, 0])
 # From Face Videos Under Realistic Situations”, Proceedings of the IEEE Conference
 # on Computer Vision and Pattern Recognition (CVPR), pp. 4264-4271, 2014
 # [doi:10.1109/CVPR.2014.543](https://doi.org/10.1109/CVPR.2014.543)
+#
+# We can visualize the ROI mask, which is > 0 for each pixel of the ROI.
+# Some segmenters, including the FaceMeshDetector, also return the bounding box
+# of the detected face. We mark the bounding box as a red rectangle below.
 # %%
 roi_detector = yarppg.FaceMeshDetector()
 
@@ -66,11 +70,12 @@ assert roi.face_rect is not None  # FaceMeshDetector also provides a bounding bo
 x, y, w, h = roi.face_rect
 rect = matplotlib.patches.Rectangle((x, y), w, h, edgecolor="r", facecolor="none")
 plt.gca().add_patch(rect)
+plt.axis("off")
 # %% [markdown]
 # ## Signal extraction
 # The default signal extractor (`yarppg.Processor`) simply calculates the average
 # green channel within the region of interest. This can already be enough to
-# estimate heart rate accurately, if there is no movement and lighting changes.
+# estimate heart rate accurately, if there is no movement and no lighting changes.
 #
 # The processor returns an `RppgResult` container, which includes some additional
 # information besides the extracted value.
@@ -98,13 +103,37 @@ hrcalc = yarppg.PeakBasedHrCalculator(
     fs=30, window_seconds=5, distance=0.6, update_interval=15
 )
 # %% [markdown]
-# We can see the internal buffer growing. Note that HR will be nan as long as the
-# window size is not reached.
-# To clear the buffer, we call hrcalc.reset()
+# We can see the internal buffer growing, when repeatedly calling `update`.
+# Note that HR will be nan as long as the buffer is smaller than the expected
+# window size.
+# To clear the buffer, we call `hrcalc.reset()`.
 # %%
 for res in results[:5]:
     hr = hrcalc.update(res.value)
-    print(len(hrcalc.values), hr)
+    print("Buffer lenght:", len(hrcalc.values), "HR:", hr)
 hrcalc.reset()
-print(len(hrcalc.values), "state cleared.")
+print("Buffer lenght:", len(hrcalc.values), "- state cleared.")
+# %%
+# ## Putting everything together
+# We can combine all of the above tools to build a fully customizable
+# and extendable rPPG processing loop (see the
+# [`yarppg.ui.simplest`][yarppg.ui.simplest] loop for an equivalent
+# implementation with a simplistic UI.)
+# %%
+# Clear the previous state.
+processor.reset()
+hrcalc.reset()
+
+results: list[yarppg.RppgResult] = []
+for i, frame in enumerate(yarppg.frames_from_video(filename)):
+    roi = roi_detector.detect(frame)
+    result = processor.process(roi)
+    result.hr = hrcalc.update(result.value)
+
+    results.append(result)
+    if i % 30 == 0:
+        print(f"{i=} {(roi.mask > 0).mean()=:.1%} {result.value=:.2f} {result.hr=:.2f}")
+
+plt.plot(np.array(results)[:, 0])
+
 # %%

@@ -7,6 +7,7 @@ extra_css:
   - style.css
 nav:
   - Getting started: index.md
+  - Deep dive: deepdive.py
   - reference/rppg.md
   - ROI detection:
     - reference/roi/index.md
@@ -21,6 +22,7 @@ plugins:
   - mkdocstrings:
       default_handler: python
   - mkdocs-jupyter:
+      ignore_h1_titles: True
       execute: false
 
 markdown_extensions:
