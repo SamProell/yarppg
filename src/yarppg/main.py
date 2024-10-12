@@ -19,7 +19,7 @@ def main(cfg: omegaconf.DictConfig):
 def run_yarppg():
     """Register structured configs and run the main function."""
     yarppg.settings.register_schemas()
-    main()
+    main()  # type: ignore
 
 
 if __name__ == "__main__":

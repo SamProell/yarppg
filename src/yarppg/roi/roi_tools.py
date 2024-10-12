@@ -50,7 +50,7 @@ def overlay_mask(
 
     Args:
         img: OpenCV-compatible image.
-        mask: boolean mask defining the pixels to be overlayed.
+        mask: boolean mask defining the pixels to be overlaid.
         color: base color of the overlay. Defaults to red.
         alpha: intensity of the overlay. 0 (empty) to 1 (solid). Defaults to 0.5.
 

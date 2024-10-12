@@ -13,7 +13,7 @@ from mediapipe.tasks.python.components.containers import (
 from ..containers import RegionOfInterest
 from ..helpers import get_cached_resource_path
 from .detector import RoiDetector
-from .region_of_interest import contour_to_mask
+from .roi_tools import contour_to_mask
 
 MEDIAPIPE_MODELS_BASE = "https://storage.googleapis.com/mediapipe-models/"
 LANDMARKER_TASK = "face_landmarker/face_landmarker/float16/latest/face_landmarker.task"

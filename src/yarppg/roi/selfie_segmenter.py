@@ -1,4 +1,4 @@
-"""Detect the lower face with MediaPipe's FaceMesh detector."""
+"""Detect the face skin region with MediaPipe's selfie segmentation."""
 
 import time
 
@@ -13,8 +13,8 @@ MEDIAPIPE_MODELS_BASE = "https://storage.googleapis.com/mediapipe-models/"
 SELFIE_TASK = "image_segmenter/selfie_multiclass_256x256/float32/latest/selfie_multiclass_256x256.tflite"  # noqa: E501
 
 
-def get_selfie_segmetner_modelfile():
-    """Get the filename of the FaceLandmarker - download file if necessary."""
+def get_selfie_segmenter_modelfile():
+    """Get the filename of the SelfieSegmenter - download file if necessary."""
     task_filename = "selfie_multiclass.tflite"
     return get_cached_resource_path(task_filename, MEDIAPIPE_MODELS_BASE + SELFIE_TASK)
 
@@ -33,9 +33,9 @@ class SelfieDetector(RoiDetector):
         super().__init__(**kwargs)
         self.confidence = confidence
 
-        modelpath = get_selfie_segmetner_modelfile()
+        modelpath = get_selfie_segmenter_modelfile()
         if modelpath is None:
-            raise FileNotFoundError("Could not find or download landmarker model file.")
+            raise FileNotFoundError("Could not find or download segmenter model file.")
 
         base_options = mp.tasks.BaseOptions(model_asset_path=modelpath)
         segmenter_options = mp.tasks.vision.ImageSegmenterOptions(

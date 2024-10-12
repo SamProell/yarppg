@@ -18,7 +18,7 @@ def masked_average(frame: np.ndarray, mask: np.ndarray) -> Color:
 class Processor:
     """Default rPPG processor."""
 
-    def process(self, roi: RegionOfInterest):
+    def process(self, roi: RegionOfInterest) -> RppgResult:
         """Calculate average green channel in the roi area."""
         avg = masked_average(roi.baseimg, roi.mask)
         bg_mean = Color.null()
@@ -27,7 +27,7 @@ class Processor:
 
         return RppgResult(avg.g, roi, roi_mean=avg, bg_mean=bg_mean)
 
-    def reset(self):
+    def reset(self) -> None:
         """Reset internal state and intermediate values."""
         pass  # no persistent values in base class
 
@@ -39,7 +39,7 @@ class FilteredProcessor(Processor):
         self.processor = processor
         self.livefilter = livefilter
 
-    def process(self, roi: RegionOfInterest):
+    def process(self, roi: RegionOfInterest) -> RppgResult:
         """Calculate processor output and apply digital filter."""
         result = self.processor.process(roi)
         if self.livefilter is not None and np.isfinite(result.value):
@@ -47,7 +47,7 @@ class FilteredProcessor(Processor):
             result.value = self.livefilter.process(result.value)
         return result
 
-    def reset(self):
+    def reset(self) -> None:
         """Reset internal state and intermediate values."""
         self.processor.reset()
         if self.livefilter is not None:

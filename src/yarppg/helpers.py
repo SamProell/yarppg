@@ -36,6 +36,8 @@ def frames_from_video(filename: str | pathlib.Path) -> Iterator[np.ndarray]:
 
 def get_video_fps(filename: str | pathlib.Path) -> float:
     """Find the frame rate of the given video file."""
+    if not pathlib.Path(filename).exists():
+        raise FileNotFoundError(f"{filename=!r} not found.")
     cap = cv2.VideoCapture(str(filename))
     fps = cap.get(cv2.CAP_PROP_FPS)
     cap.release()
