@@ -9,6 +9,10 @@
       
       
       
+        <link rel="prev" href="../deepdive/">
+      
+      
+        <link rel="next" href="../cli/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -16,7 +20,7 @@
     
     
       
-        <title>Offline processing - yarPPG</title>
+        <title>Video processing - yarPPG</title>
       
     
     
@@ -69,6 +73,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#setup" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -101,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Offline processing
+              Video processing
             
           </span>
         </div>
@@ -214,11 +223,114 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/rppg/" class="md-nav__link">
+      <a href="../deepdive/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    The rPPG orchestrator
+    Deep dive
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Video processing
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Video processing
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#processing-the-video" class="md-nav__link">
+    <span class="md-ellipsis">
+      Processing the video
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#handling-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      Handling results
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Command line interface
   </span>
   
 
@@ -241,7 +353,75 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../reference/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Reference
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/rppg/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    rPPG orchestrator
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_2" >
         
           
           
@@ -257,14 +437,14 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
             <span class="md-nav__icon md-icon"></span>
             ROI detection
           </label>
@@ -291,25 +471,18 @@
 
               
             
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
+              
+                
   
   
   
   
     <li class="md-nav__item">
-      <a href="../reference/processors/" class="md-nav__link">
+      <a href="../reference/roi/selfie_detector/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    rPPG processors
+    MediaPipe Selfie Segmenter
   </span>
   
 
@@ -317,9 +490,113 @@
     </li>
   
 
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
     
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
       
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../reference/processors/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Signal extraction
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            Signal extraction
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/processors/processor/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Basic processor
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/processors/chrom/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ChromProcessor
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
   
   
   
@@ -334,6 +611,98 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/ui/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    User interfaces
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/containers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Data containers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/settings/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Settings
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/helpers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Helper functions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -356,6 +725,41 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#processing-the-video" class="md-nav__link">
+    <span class="md-ellipsis">
+      Processing the video
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#handling-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      Handling results
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -369,7 +773,7 @@
                   
 
 
-  <h1>Offline processing</h1>
+  <h1>Video processing</h1>
 
 <script>
 (function (global, factory) {
@@ -806,43 +1210,29 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </style>
 <!-- End of mermaid configuration --><div class="jupyter-wrapper">
 <div class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=32d43cbe">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=91fe39c7">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-1">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="sd">"""Processing videos offline."""</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-1">"""Processing videos offline."""</div>
-</div>
-</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>yarPPG can now also be applied fully offline, without a user interface.
+To streamline such use cases, the <code>Rppg</code> orchestrator provides a helper
+function to process a video file in one line:
+<a href="/reference/rppg#yarppg.rppg.Rppg.process_video"><code>process_video</code></a>.</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=3f0f117d">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=95b4e2d0">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-2">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-1">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -857,7 +1247,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 
 <span class="kn">import</span> <span class="nn">yarppg</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-2">import matplotlib.pyplot as plt
+<div class="clipboard-copy-txt" id="cell-1">import matplotlib.pyplot as plt
 import numpy as np
 
 import yarppg</div>
@@ -866,13 +1256,112 @@ import yarppg</div>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=5b29a27e">
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=751a0d4a">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="setup">Setup<a class="anchor-link" href="#setup">¶</a></h2><p>For this demo, we set up a bandpass-filtered version of the default processor,
+which extracts the average green channel of the region of interest.
+We need to know the number of frames per second (FPS) of the video file, to
+properly set up the filter.
+<a href="/reference/helpers#yarppg.helpers.frames_from_video"><code>yarppg.get_video_fps</code></a>
+uses OpenCV to extract the FPS information from the video file.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=00c28f4d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-2">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s2">"../tests/testvideo_30fps.mp4"</span>
+
+<span class="n">fps</span> <span class="o">=</span> <span class="n">yarppg</span><span class="o">.</span><span class="n">get_video_fps</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<span class="n">filter_cfg</span> <span class="o">=</span> <span class="n">yarppg</span><span class="o">.</span><span class="n">digital_filter</span><span class="o">.</span><span class="n">FilterConfig</span><span class="p">(</span><span class="n">fps</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">btype</span><span class="o">=</span><span class="s2">"bandpass"</span><span class="p">)</span>
+<span class="n">livefilter</span> <span class="o">=</span> <span class="n">yarppg</span><span class="o">.</span><span class="n">digital_filter</span><span class="o">.</span><span class="n">make_digital_filter</span><span class="p">(</span><span class="n">filter_cfg</span><span class="p">)</span>
+<span class="n">processor</span> <span class="o">=</span> <span class="n">yarppg</span><span class="o">.</span><span class="n">FilteredProcessor</span><span class="p">(</span><span class="n">yarppg</span><span class="o">.</span><span class="n">Processor</span><span class="p">(),</span> <span class="n">livefilter</span><span class="o">=</span><span class="n">livefilter</span><span class="p">)</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-2">filename = "../tests/testvideo_30fps.mp4"
+
+fps = yarppg.get_video_fps(filename)
+filter_cfg = yarppg.digital_filter.FilterConfig(fps, 0.5, 1.5, btype="bandpass")
+livefilter = yarppg.digital_filter.make_digital_filter(filter_cfg)
+processor = yarppg.FilteredProcessor(yarppg.Processor(), livefilter=livefilter)</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">FileNotFoundError</span>                         Traceback (most recent call last)
+Cell <span class="ansi-green-intense-fg ansi-bold">In[2], line 3</span>
+<span class="ansi-green-fg">      1</span> filename <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">../tests/testvideo_30fps.mp4</span><span style="color: rgb(175,0,0)">"</span>
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 3</span> fps <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">yarppg</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">get_video_fps</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">filename</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">      4</span> filter_cfg <span style="color: rgb(98,98,98)">=</span> yarppg<span style="color: rgb(98,98,98)">.</span>digital_filter<span style="color: rgb(98,98,98)">.</span>FilterConfig(fps, <span style="color: rgb(98,98,98)">0.5</span>, <span style="color: rgb(98,98,98)">1.5</span>, btype<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">bandpass</span><span style="color: rgb(175,0,0)">"</span>)
+<span class="ansi-green-fg">      5</span> livefilter <span style="color: rgb(98,98,98)">=</span> yarppg<span style="color: rgb(98,98,98)">.</span>digital_filter<span style="color: rgb(98,98,98)">.</span>make_digital_filter(filter_cfg)
+
+File <span class="ansi-green-intense-fg ansi-bold">~\GitHub\yarppg\src\yarppg\helpers.py:40</span>, in <span class="ansi-cyan-fg">get_video_fps</span><span class="ansi-blue-intense-fg ansi-bold">(filename)</span>
+<span class="ansi-green-fg">     38</span> <span style="color: rgb(175,0,0)">"""Find the frame rate of the given video file."""</span>
+<span class="ansi-green-fg">     39</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> pathlib<span style="color: rgb(98,98,98)">.</span>Path(filename)<span style="color: rgb(98,98,98)">.</span>exists():
+<span class="ansi-green-intense-fg ansi-bold">---&gt; 40</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> <span class="ansi-bold" style="color: rgb(215,95,95)">FileNotFoundError</span>(<span style="color: rgb(175,0,0)">f</span><span style="color: rgb(175,0,0)">"</span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>filename<span class="ansi-bold" style="color: rgb(175,95,135)">=!r}</span><span style="color: rgb(175,0,0)"> not found.</span><span style="color: rgb(175,0,0)">"</span>)
+<span class="ansi-green-fg">     41</span> cap <span style="color: rgb(98,98,98)">=</span> cv2<span style="color: rgb(98,98,98)">.</span>VideoCapture(<span style="color: rgb(0,135,0)">str</span>(filename))
+<span class="ansi-green-fg">     42</span> fps <span style="color: rgb(98,98,98)">=</span> cap<span style="color: rgb(98,98,98)">.</span>get(cv2<span style="color: rgb(98,98,98)">.</span>CAP_PROP_FPS)
+
+<span class="ansi-red-intense-fg ansi-bold">FileNotFoundError</span>: filename='../tests/testvideo_30fps.mp4' not found.</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c18d3549">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Since the example video is quite short, we modify the behavior of the
+heart rate calculator, to produce an update with a window length of only
+four seconds.
+In practice, this will result in less accurate estimations, as outliers
+contribute more to the final result.
+Additionally, since the processors need a few seconds to adjust to the
+specific video content (lighting, colors, etc.), the provided estimates
+for this 10s video are of low quality.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=5545d8fa">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-3">
@@ -885,37 +1374,63 @@ import yarppg</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s2">"../tests/testvideo_30fps.mp4"</span>
-
-<span class="n">fps</span> <span class="o">=</span> <span class="n">yarppg</span><span class="o">.</span><span class="n">helpers</span><span class="o">.</span><span class="n">get_video_fps</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-<span class="n">filter_cfg</span> <span class="o">=</span> <span class="n">yarppg</span><span class="o">.</span><span class="n">digital_filter</span><span class="o">.</span><span class="n">FilterConfig</span><span class="p">(</span><span class="n">fps</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">btype</span><span class="o">=</span><span class="s2">"bandpass"</span><span class="p">)</span>
-<span class="n">livefilter</span> <span class="o">=</span> <span class="n">yarppg</span><span class="o">.</span><span class="n">digital_filter</span><span class="o">.</span><span class="n">make_digital_filter</span><span class="p">(</span><span class="n">filter_cfg</span><span class="p">)</span>
-<span class="n">processor</span> <span class="o">=</span> <span class="n">yarppg</span><span class="o">.</span><span class="n">FilteredProcessor</span><span class="p">(</span><span class="n">yarppg</span><span class="o">.</span><span class="n">Processor</span><span class="p">(),</span> <span class="n">livefilter</span><span class="o">=</span><span class="n">livefilter</span><span class="p">)</span>
-<span class="n">rppg</span> <span class="o">=</span> <span class="n">yarppg</span><span class="o">.</span><span class="n">Rppg</span><span class="p">(</span>
-    <span class="n">processor</span><span class="o">=</span><span class="n">processor</span><span class="p">,</span> <span class="n">hr_calc</span><span class="o">=</span><span class="n">yarppg</span><span class="o">.</span><span class="n">PeakBasedHrCalculator</span><span class="p">(</span><span class="n">fps</span><span class="p">,</span> <span class="n">window_seconds</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">rppg</span> <span class="o">=</span> <span class="n">yarppg</span><span class="o">.</span><span class="n">Rppg</span><span class="p">(</span>
+    <span class="n">processor</span><span class="o">=</span><span class="n">processor</span><span class="p">,</span>
+    <span class="n">hr_calc</span><span class="o">=</span><span class="n">yarppg</span><span class="o">.</span><span class="n">PeakBasedHrCalculator</span><span class="p">(</span><span class="n">fps</span><span class="p">,</span> <span class="n">window_seconds</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
 <span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-3">filename = "../tests/testvideo_30fps.mp4"
-
-fps = yarppg.helpers.get_video_fps(filename)
-filter_cfg = yarppg.digital_filter.FilterConfig(fps, 0.5, 1.5, btype="bandpass")
-livefilter = yarppg.digital_filter.make_digital_filter(filter_cfg)
-processor = yarppg.FilteredProcessor(yarppg.Processor(), livefilter=livefilter)
-rppg = yarppg.Rppg(
-    processor=processor, hr_calc=yarppg.PeakBasedHrCalculator(fps, window_seconds=4)
+<div class="clipboard-copy-txt" id="cell-3">rppg = yarppg.Rppg(
+    processor=processor,
+    hr_calc=yarppg.PeakBasedHrCalculator(fps, window_seconds=4),
 )</div>
 </div>
 </div>
 </div>
 </div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=08af4a68">
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">NameError</span>                                 Traceback (most recent call last)
+Cell <span class="ansi-green-intense-fg ansi-bold">In[3], line 2</span>
+<span class="ansi-green-fg">      1</span> rppg <span style="color: rgb(98,98,98)">=</span> yarppg<span style="color: rgb(98,98,98)">.</span>Rppg(
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 2</span>     processor<span style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">processor</span>,
+<span class="ansi-green-fg">      3</span>     hr_calc<span style="color: rgb(98,98,98)">=</span>yarppg<span style="color: rgb(98,98,98)">.</span>PeakBasedHrCalculator(fps, window_seconds<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">4</span>),
+<span class="ansi-green-fg">      4</span> )
+
+<span class="ansi-red-intense-fg ansi-bold">NameError</span>: name 'processor' is not defined</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=769ac4ee">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="processing-the-video">Processing the video<a class="anchor-link" href="#processing-the-video">¶</a></h2><p>Once setup, we can process the video in just one line. By default,
+<code>process_video</code> returns a list of <code>RppgResult</code> containers. Beware
+that these include the raw image data from all frames and ROI masks
+inside the <a href="/reference/containers#yarppg.containers.RegionOfInterst"><code>RegionOfInterest</code>
+container</a>.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=fcfdc809">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-4">
@@ -935,14 +1450,48 @@ rppg = yarppg.Rppg(
 </div>
 </div>
 </div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=ea232b1a">
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">NameError</span>                                 Traceback (most recent call last)
+Cell <span class="ansi-green-intense-fg ansi-bold">In[4], line 1</span>
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span> results <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">rppg</span><span style="color: rgb(98,98,98)">.</span>process_video(filename)
+
+<span class="ansi-red-intense-fg ansi-bold">NameError</span>: name 'rppg' is not defined</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=fef9ff11">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="handling-results">Handling results<a class="anchor-link" href="#handling-results">¶</a></h2><p><code>RppgResult</code> allows easy conversion to an array. Even the list of results can
+be converted neatly. This produces an Nx8 array with the following values for
+each frame:</p>
+<pre><code>value, roi_r, roi_g, roi_b, bg_r, bg_g, bg_b, hr
+</code></pre>
+<p>.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=295851f0">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-5">
@@ -956,39 +1505,34 @@ rppg = yarppg.Rppg(
 </clipboard-copy>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
-<span class="n">hrs</span> <span class="o">=</span> <span class="n">yarppg</span><span class="o">.</span><span class="n">bpm_from_frames_per_beat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">res</span><span class="o">.</span><span class="n">hr</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">results</span><span class="p">]),</span> <span class="n">fps</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">fps</span><span class="p">)</span> <span class="p">:])</span>
+<span class="n">hrs</span> <span class="o">=</span> <span class="n">yarppg</span><span class="o">.</span><span class="n">bpm_from_frames_per_beat</span><span class="p">(</span><span class="n">values</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">fps</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="mf">2.5</span> <span class="o">*</span> <span class="n">fps</span><span class="p">)</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">hrs</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="mf">2.5</span> <span class="o">*</span> <span class="n">fps</span><span class="p">)</span> <span class="p">:],</span> <span class="s2">"C2"</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-5">values = np.array(results)
-hrs = yarppg.bpm_from_frames_per_beat(np.array([res.hr for res in results]), fps)
-plt.plot(results[int(2 * fps) :])</div>
+hrs = yarppg.bpm_from_frames_per_beat(values[:, -1], fps)
+plt.plot(values[int(2.5 * fps) :, 0])
+plt.twinx().plot(hrs[int(2.5 * fps) :], "C2")</div>
 </div>
 </div>
 </div>
 </div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=a9376341">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-6"></div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">NameError</span>                                 Traceback (most recent call last)
+Cell <span class="ansi-green-intense-fg ansi-bold">In[5], line 1</span>
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span> values <span style="color: rgb(98,98,98)">=</span> np<span style="color: rgb(98,98,98)">.</span>array(<span class="ansi-yellow-bg">results</span>)
+<span class="ansi-green-fg">      2</span> hrs <span style="color: rgb(98,98,98)">=</span> yarppg<span style="color: rgb(98,98,98)">.</span>bpm_from_frames_per_beat(values[:, <span style="color: rgb(98,98,98)">-</span><span style="color: rgb(98,98,98)">1</span>], fps)
+<span class="ansi-green-fg">      3</span> plt<span style="color: rgb(98,98,98)">.</span>plot(values[<span style="color: rgb(0,135,0)">int</span>(<span style="color: rgb(98,98,98)">2.5</span> <span style="color: rgb(98,98,98)">*</span> fps) :, <span style="color: rgb(98,98,98)">0</span>])
+
+<span class="ansi-red-intense-fg ansi-bold">NameError</span>: name 'results' is not defined</pre>
 </div>
 </div>
 </div>
@@ -1044,7 +1588,7 @@ plt.plot(results[int(2 * fps) :])</div>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.expand"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.d6f25eb3.min.js"></script>

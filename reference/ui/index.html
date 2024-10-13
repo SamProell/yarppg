@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../rppg/">
+        <link rel="prev" href="../hr_calculator/">
       
       
-        <link rel="next" href="facemesh_detector/">
+        <link rel="next" href="../containers/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>ROI detection - yarPPG</title>
+        <title>User interfaces - yarPPG</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#roi-detectors" class="md-skip">
+        <a href="#user-interfaces" class="md-skip">
           Skip to content
         </a>
       
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              ROI detection
+              User interfaces
             
           </span>
         </div>
@@ -346,24 +346,24 @@
                 
   
   
-    
   
   
-  
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_2" >
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="./" class="md-nav__link md-nav__link--active">
+            <a href="../roi/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -374,13 +374,13 @@
             </a>
             
               
-              <label class="md-nav__link md-nav__link--active" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5_2">
             <span class="md-nav__icon md-icon"></span>
             ROI detection
@@ -394,7 +394,7 @@
   
   
     <li class="md-nav__item">
-      <a href="facemesh_detector/" class="md-nav__link">
+      <a href="../roi/facemesh_detector/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -415,7 +415,7 @@
   
   
     <li class="md-nav__item">
-      <a href="selfie_detector/" class="md-nav__link">
+      <a href="../roi/selfie_detector/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -557,10 +557,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../ui/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    User interfaces
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -569,6 +589,92 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#yarppg.ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      ui
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ui">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#yarppg.ui--available-uis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Available UIs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Available UIs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#yarppg.ui--simplest" class="md-nav__link">
+    <span class="md-ellipsis">
+      Simplest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#yarppg.ui--simple-qt6-window" class="md-nav__link">
+    <span class="md-ellipsis">
+      Simple Qt6 window
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#yarppg.ui--more-to-come" class="md-nav__link">
+    <span class="md-ellipsis">
+      More to come
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#yarppg.ui.launch_ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      launch_ui
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -671,9 +777,66 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#yarppg.roi" class="md-nav__link">
+  <a href="#yarppg.ui" class="md-nav__link">
     <span class="md-ellipsis">
-      roi
+      ui
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ui">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#yarppg.ui--available-uis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Available UIs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Available UIs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#yarppg.ui--simplest" class="md-nav__link">
+    <span class="md-ellipsis">
+      Simplest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#yarppg.ui--simple-qt6-window" class="md-nav__link">
+    <span class="md-ellipsis">
+      Simple Qt6 window
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#yarppg.ui--more-to-come" class="md-nav__link">
+    <span class="md-ellipsis">
+      More to come
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#yarppg.ui.launch_ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      launch_ui
     </span>
   </a>
   
@@ -694,29 +857,32 @@
                   
 
 
-<h1 id="roi-detectors">ROI detectors</h1>
+<h1 id="user-interfaces">User interfaces</h1>
 
 
 <div class="doc doc-object doc-module">
 
 
 
-<a id="yarppg.roi"></a>
+<a id="yarppg.ui"></a>
     <div class="doc doc-contents first">
 
-        <p>Utilities for ROI (region of interest) detection and manipulation.</p>
-<p>yarPPG comes with a number of ROI detectors, which find the face in the
-input frame and provide a mask with the relevant region(s). The following
-detectors are currently implemented:</p>
-<ul>
-<li><a class="autorefs autorefs-internal" href="facemesh_detector/#yarppg.roi.facemesh_segmenter.FaceMeshDetector"><code>FaceMeshDetector</code></a> (default) - uses MediaPipe's
-  FaceMesh landmarker.</li>
-<li><a class="autorefs autorefs-internal" href="selfie_detector/#yarppg.roi.selfie_segmenter.SelfieDetector"><code>SelfieDetector</code></a> - uses MediaPipe's SelfieSegmenter
-  solution. Selfie segmentation is slower than FaceMesh and may not work in a
-  real-time application.</li>
-</ul>
-<p>Detectors return a <a class="autorefs autorefs-internal" href="../containers/#yarppg.containers.RegionOfInterest"><code>RegionOfInterest</code></a> container
-that stores the original image, the ROI mask and an optional background mask.</p>
+        <p>Provides user interfaces for yarPPG.</p>
+<p>yarPPG comes with several user interfaces based on additional optional
+dependencies. Make sure to install the corresponding extras to use
+special UIs, instead of the OpenCV based <code>simplest</code> UI.</p>
+<h3 id="yarppg.ui--available-uis">Available UIs</h3>
+<h4 id="yarppg.ui--simplest">Simplest</h4>
+<p>This is a simple infinite loop, grabbing new frames from the camera and
+visualizing the results in an OpenCV window.</p>
+<p>No additional depencies are required for the default interface.</p>
+<h4 id="yarppg.ui--simple-qt6-window">Simple Qt6 window</h4>
+<p>A small GUI window highlighting the detected ROI and a trace of the extracted
+rPPG signal. Make sure to install extras with:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;.[qt6]&quot;</span>
+</span></code></pre></div></p>
+<h4 id="yarppg.ui--more-to-come">More to come</h4>
+<p>Feel free to contribute other user interfaces using any framework.</p>
 
 
 
@@ -729,6 +895,56 @@ that stores the original image, the ROI mask and an optional background mask.</p
 
 
 
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="yarppg.ui.launch_ui" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">launch_ui</span><span class="p">(</span><span class="n">rppg</span><span class="p">,</span> <span class="n">ui_settings</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Launch a user interface for the given configuration.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>src\yarppg\ui\__init__.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-29">29</a></span>
+<span class="normal"><a href="#__codelineno-0-30">30</a></span>
+<span class="normal"><a href="#__codelineno-0-31">31</a></span>
+<span class="normal"><a href="#__codelineno-0-32">32</a></span>
+<span class="normal"><a href="#__codelineno-0-33">33</a></span>
+<span class="normal"><a href="#__codelineno-0-34">34</a></span>
+<span class="normal"><a href="#__codelineno-0-35">35</a></span>
+<span class="normal"><a href="#__codelineno-0-36">36</a></span>
+<span class="normal"><a href="#__codelineno-0-37">37</a></span>
+<span class="normal"><a href="#__codelineno-0-38">38</a></span>
+<span class="normal"><a href="#__codelineno-0-39">39</a></span>
+<span class="normal"><a href="#__codelineno-0-40">40</a></span>
+<span class="normal"><a href="#__codelineno-0-41">41</a></span>
+<span class="normal"><a href="#__codelineno-0-42">42</a></span>
+<span class="normal"><a href="#__codelineno-0-43">43</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="k">def</span> <span class="nf">launch_ui</span><span class="p">(</span><span class="n">rppg</span><span class="p">:</span> <span class="n">yarppg</span><span class="o">.</span><span class="n">Rppg</span><span class="p">,</span> <span class="n">ui_settings</span><span class="p">:</span> <span class="n">yarppg</span><span class="o">.</span><span class="n">UiSettings</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Launch a user interface for the given configuration.&quot;&quot;&quot;</span>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a>    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">ui_settings</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;SimpleQt6WindowSettings&quot;</span><span class="p">:</span>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a>        <span class="kn">from</span> <span class="nn">yarppg.ui.qt6.simple_window</span> <span class="kn">import</span> <span class="n">SimpleQt6WindowSettings</span><span class="p">,</span> <span class="n">launch_window</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a>        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ui_settings</span><span class="p">,</span> <span class="n">SimpleQt6WindowSettings</span><span class="p">)</span>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a>        <span class="k">return</span> <span class="n">launch_window</span><span class="p">(</span><span class="n">rppg</span><span class="p">,</span> <span class="n">ui_settings</span><span class="p">)</span>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a>    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">ui_settings</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;SimplestOpenCvWindowSettings&quot;</span><span class="p">:</span>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a>        <span class="kn">from</span> <span class="nn">yarppg.ui.simplest</span> <span class="kn">import</span> <span class="n">SimplestOpenCvWindowSettings</span><span class="p">,</span> <span class="n">launch_loop</span>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a>        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ui_settings</span><span class="p">,</span> <span class="n">SimplestOpenCvWindowSettings</span><span class="p">)</span>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>        <span class="k">return</span> <span class="n">launch_loop</span><span class="p">(</span><span class="n">rppg</span><span class="p">,</span> <span class="n">ui_settings</span><span class="p">)</span>
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a>    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot understand the given </span><span class="si">{</span><span class="n">ui_settings</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
 
 
 

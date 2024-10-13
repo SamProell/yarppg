@@ -9,6 +9,10 @@
       
       
       
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../video_processing/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -16,7 +20,7 @@
     
     
       
-        <title>Profile processing - yarPPG</title>
+        <title>Deep dive - yarPPG</title>
       
     
     
@@ -69,6 +73,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#diving-deeper-into-the-rppg-components" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -101,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Profile processing
+              Deep dive
             
           </span>
         </div>
@@ -211,10 +220,30 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../deepdive/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Deep dive
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -223,6 +252,71 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#region-of-interest-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Region of interest detection
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#signal-extraction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signal extraction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#heart-rate-estimation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Heart rate estimation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#putting-everything-together" class="md-nav__link">
+    <span class="md-ellipsis">
+      Putting everything together
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -652,6 +746,61 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#region-of-interest-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Region of interest detection
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#signal-extraction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signal extraction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#heart-rate-estimation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Heart rate estimation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#putting-everything-together" class="md-nav__link">
+    <span class="md-ellipsis">
+      Putting everything together
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -665,8 +814,6 @@
                 
                   
 
-
-  <h1>Profile processing</h1>
 
 <script>
 (function (global, factory) {
@@ -1103,8 +1250,20 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </style>
 <!-- End of mermaid configuration --><div class="jupyter-wrapper">
 <div class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=ae71a79c">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f77902cf">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1 id="diving-deeper-into-the-rppg-components">Diving deeper into the rPPG components<a class="anchor-link" href="#diving-deeper-into-the-rppg-components">¶</a></h1><p>This guide walks you through the inner workings of the
+<a href="/reference/rppg#yarppg.rppg.Rppg.process_frame"><code>Rppg.process_frame</code></a>
+method.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a072ca78">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1122,9 +1281,23 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="sd">"""Profile the offline video processing."""</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.patches</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">yarppg</span>
+
+<span class="n">filename</span> <span class="o">=</span> <span class="s2">"../tests/testvideo_30fps.mp4"</span>
+<span class="n">fps</span> <span class="o">=</span> <span class="n">yarppg</span><span class="o">.</span><span class="n">helpers</span><span class="o">.</span><span class="n">get_video_fps</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-1">"""Profile the offline video processing."""</div>
+<div class="clipboard-copy-txt" id="cell-1">import matplotlib.patches
+import matplotlib.pyplot as plt
+import numpy as np
+
+import yarppg
+
+filename = "../tests/testvideo_30fps.mp4"
+fps = yarppg.helpers.get_video_fps(filename)</div>
 </div>
 </div>
 </div>
@@ -1133,17 +1306,52 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[1]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'Profile the offline video processing.'</pre>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">FileNotFoundError</span>                         Traceback (most recent call last)
+Cell <span class="ansi-green-intense-fg ansi-bold">In[1], line 8</span>
+<span class="ansi-green-fg">      5</span> <span class="ansi-bold" style="color: rgb(0,135,0)">import</span> <span class="ansi-bold" style="color: rgb(0,0,255)">yarppg</span>
+<span class="ansi-green-fg">      7</span> filename <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">../tests/testvideo_30fps.mp4</span><span style="color: rgb(175,0,0)">"</span>
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 8</span> fps <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">yarppg</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">helpers</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">get_video_fps</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">filename</span><span class="ansi-yellow-bg">)</span>
+
+File <span class="ansi-green-intense-fg ansi-bold">~\GitHub\yarppg\src\yarppg\helpers.py:40</span>, in <span class="ansi-cyan-fg">get_video_fps</span><span class="ansi-blue-intense-fg ansi-bold">(filename)</span>
+<span class="ansi-green-fg">     38</span> <span style="color: rgb(175,0,0)">"""Find the frame rate of the given video file."""</span>
+<span class="ansi-green-fg">     39</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> pathlib<span style="color: rgb(98,98,98)">.</span>Path(filename)<span style="color: rgb(98,98,98)">.</span>exists():
+<span class="ansi-green-intense-fg ansi-bold">---&gt; 40</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> <span class="ansi-bold" style="color: rgb(215,95,95)">FileNotFoundError</span>(<span style="color: rgb(175,0,0)">f</span><span style="color: rgb(175,0,0)">"</span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>filename<span class="ansi-bold" style="color: rgb(175,95,135)">=!r}</span><span style="color: rgb(175,0,0)"> not found.</span><span style="color: rgb(175,0,0)">"</span>)
+<span class="ansi-green-fg">     41</span> cap <span style="color: rgb(98,98,98)">=</span> cv2<span style="color: rgb(98,98,98)">.</span>VideoCapture(<span style="color: rgb(0,135,0)">str</span>(filename))
+<span class="ansi-green-fg">     42</span> fps <span style="color: rgb(98,98,98)">=</span> cap<span style="color: rgb(98,98,98)">.</span>get(cv2<span style="color: rgb(98,98,98)">.</span>CAP_PROP_FPS)
+
+<span class="ansi-red-intense-fg ansi-bold">FileNotFoundError</span>: filename='../tests/testvideo_30fps.mp4' not found.</pre>
 </div>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d6646ce6">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="overview">Overview<a class="anchor-link" href="#overview">¶</a></h2><p>Remote Photoplethysmography (rPPG) typically involves three steps:</p>
+<ul>
+<li>region of interest (ROI) identification</li>
+<li>signal extraction</li>
+<li>heart rate estimation</li>
+</ul>
+<p>The yarppg.Rppg class combines all these steps in a convenient manner.
+By default, <code>yarppg.Rppg()</code> will give you a simple processor, that
+finds the lower part of a face and extracts the average green channel
+within the region.</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=598d71bc">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=d60da6c9">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1161,18 +1369,28 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="ch">#! %load_ext cProfile</span>
-<span class="kn">import</span> <span class="nn">yarppg</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">rppg</span> <span class="o">=</span> <span class="n">yarppg</span><span class="o">.</span><span class="n">Rppg</span><span class="p">()</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-2">#! %load_ext cProfile
-import yarppg</div>
+<div class="clipboard-copy-txt" id="cell-2">rppg = yarppg.Rppg()</div>
 </div>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=42bb9f7c">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>If you are only interested in the results, you can do something like
+this:</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=ad227220">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a81b6839">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1190,27 +1408,15 @@ import yarppg</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s2">"../tests/testvideo_30fps.mp4"</span>
-
-<span class="n">fps</span> <span class="o">=</span> <span class="n">yarppg</span><span class="o">.</span><span class="n">helpers</span><span class="o">.</span><span class="n">get_video_fps</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-<span class="n">filter_cfg</span> <span class="o">=</span> <span class="n">yarppg</span><span class="o">.</span><span class="n">digital_filter</span><span class="o">.</span><span class="n">FilterConfig</span><span class="p">(</span><span class="n">fps</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">btype</span><span class="o">=</span><span class="s2">"bandpass"</span><span class="p">)</span>
-<span class="n">livefilter</span> <span class="o">=</span> <span class="n">yarppg</span><span class="o">.</span><span class="n">digital_filter</span><span class="o">.</span><span class="n">make_digital_filter</span><span class="p">(</span><span class="n">filter_cfg</span><span class="p">)</span>
-<span class="n">processor</span> <span class="o">=</span> <span class="n">yarppg</span><span class="o">.</span><span class="n">FilteredProcessor</span><span class="p">(</span><span class="n">yarppg</span><span class="o">.</span><span class="n">Processor</span><span class="p">(),</span> <span class="n">livefilter</span><span class="o">=</span><span class="n">livefilter</span><span class="p">)</span>
-<span class="n">rppg</span> <span class="o">=</span> <span class="n">yarppg</span><span class="o">.</span><span class="n">Rppg</span><span class="p">(</span>
-    <span class="n">processor</span><span class="o">=</span><span class="n">processor</span><span class="p">,</span>
-    <span class="n">hr_calc</span><span class="o">=</span><span class="n">yarppg</span><span class="o">.</span><span class="n">PeakBasedHrCalculator</span><span class="p">(</span><span class="n">fps</span><span class="p">,</span> <span class="n">window_seconds</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
-<span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">results</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">yarppg</span><span class="o">.</span><span class="n">RppgResult</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">yarppg</span><span class="o">.</span><span class="n">frames_from_video</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rppg</span><span class="o">.</span><span class="n">process_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">results</span><span class="p">)[:,</span> <span class="mi">0</span><span class="p">])</span>  <span class="c1"># plot rPPG signal</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-3">filename = "../tests/testvideo_30fps.mp4"
-
-fps = yarppg.helpers.get_video_fps(filename)
-filter_cfg = yarppg.digital_filter.FilterConfig(fps, 0.5, 1.5, btype="bandpass")
-livefilter = yarppg.digital_filter.make_digital_filter(filter_cfg)
-processor = yarppg.FilteredProcessor(yarppg.Processor(), livefilter=livefilter)
-rppg = yarppg.Rppg(
-    processor=processor,
-    hr_calc=yarppg.PeakBasedHrCalculator(fps, window_seconds=4),
-)</div>
+<div class="clipboard-copy-txt" id="cell-3">results: list[yarppg.RppgResult] = []
+for frame in yarppg.frames_from_video(filename):
+    results.append(rppg.process_frame(frame))
+plt.plot(np.array(results)[:, 0])  # plot rPPG signal</div>
 </div>
 </div>
 </div>
@@ -1224,28 +1430,52 @@ rppg = yarppg.Rppg(
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>
 <span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">FileNotFoundError</span>                         Traceback (most recent call last)
-Cell <span class="ansi-green-intense-fg ansi-bold">In[3], line 3</span>
-<span class="ansi-green-fg">      1</span> filename <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">../tests/testvideo_30fps.mp4</span><span style="color: rgb(175,0,0)">"</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 3</span> fps <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">yarppg</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">helpers</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">get_video_fps</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">filename</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">      4</span> filter_cfg <span style="color: rgb(98,98,98)">=</span> yarppg<span style="color: rgb(98,98,98)">.</span>digital_filter<span style="color: rgb(98,98,98)">.</span>FilterConfig(fps, <span style="color: rgb(98,98,98)">0.5</span>, <span style="color: rgb(98,98,98)">1.5</span>, btype<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">bandpass</span><span style="color: rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg">      5</span> livefilter <span style="color: rgb(98,98,98)">=</span> yarppg<span style="color: rgb(98,98,98)">.</span>digital_filter<span style="color: rgb(98,98,98)">.</span>make_digital_filter(filter_cfg)
+<span class="ansi-red-intense-fg ansi-bold">IndexError</span>                                Traceback (most recent call last)
+Cell <span class="ansi-green-intense-fg ansi-bold">In[3], line 4</span>
+<span class="ansi-green-fg">      2</span> <span class="ansi-bold" style="color: rgb(0,135,0)">for</span> frame <span class="ansi-bold" style="color: rgb(175,0,255)">in</span> yarppg<span style="color: rgb(98,98,98)">.</span>frames_from_video(filename):
+<span class="ansi-green-fg">      3</span>     results<span style="color: rgb(98,98,98)">.</span>append(rppg<span style="color: rgb(98,98,98)">.</span>process_frame(frame))
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 4</span> plt<span style="color: rgb(98,98,98)">.</span>plot(<span class="ansi-yellow-bg">np</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">array</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">results</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg">:</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">0</span><span class="ansi-yellow-bg">]</span>)  <span style="color: rgb(95,135,135)"># plot rPPG signal</span>
 
-File <span class="ansi-green-intense-fg ansi-bold">~\GitHub\yarppg\src\yarppg\helpers.py:40</span>, in <span class="ansi-cyan-fg">get_video_fps</span><span class="ansi-blue-intense-fg ansi-bold">(filename)</span>
-<span class="ansi-green-fg">     38</span> <span style="color: rgb(175,0,0)">"""Find the frame rate of the given video file."""</span>
-<span class="ansi-green-fg">     39</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> pathlib<span style="color: rgb(98,98,98)">.</span>Path(filename)<span style="color: rgb(98,98,98)">.</span>exists():
-<span class="ansi-green-intense-fg ansi-bold">---&gt; 40</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> <span class="ansi-bold" style="color: rgb(215,95,95)">FileNotFoundError</span>(<span style="color: rgb(175,0,0)">f</span><span style="color: rgb(175,0,0)">"</span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>filename<span class="ansi-bold" style="color: rgb(175,95,135)">=!r}</span><span style="color: rgb(175,0,0)"> not found.</span><span style="color: rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg">     41</span> cap <span style="color: rgb(98,98,98)">=</span> cv2<span style="color: rgb(98,98,98)">.</span>VideoCapture(<span style="color: rgb(0,135,0)">str</span>(filename))
-<span class="ansi-green-fg">     42</span> fps <span style="color: rgb(98,98,98)">=</span> cap<span style="color: rgb(98,98,98)">.</span>get(cv2<span style="color: rgb(98,98,98)">.</span>CAP_PROP_FPS)
-
-<span class="ansi-red-intense-fg ansi-bold">FileNotFoundError</span>: filename='../tests/testvideo_30fps.mp4' not found.</pre>
+<span class="ansi-red-intense-fg ansi-bold">IndexError</span>: too many indices for array: array is 1-dimensional, but 2 were indexed</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=0a03c1df">
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=269e8e98">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Under the hood, <code>rppg.process_frame</code> calls</p>
+<ol>
+<li>a roi detector's <code>detect</code> method</li>
+<li>a signal extracor's (<code>yarppg.Processor</code>) <code>process</code></li>
+<li>a <code>HrCalculator</code>s <code>update</code> method.</li>
+</ol>
+<p>Let's define each component separately.</p>
+<h2 id="region-of-interest-detection">Region of interest detection<a class="anchor-link" href="#region-of-interest-detection">¶</a></h2><p>yarPPG comes with several different implementations of ROI detectors.
+By default, we use an AI-based face landmarker provided through
+Google's
+<a href="https://ai.google.dev/edge/mediapipe/solutions/vision/face_landmarker/python">MediaPipe</a>.
+The <code>FaceMeshDetector</code> applies the face landmarker model and extracts the
+region of the lower face, as is done by Li et al. (2014).</p>
+<blockquote>
+<p>X. Li, J. Chen, G. Zhao, and M. Pietikainen, “Remote Heart Rate Measurement
+From Face Videos Under Realistic Situations”, Proceedings of the IEEE
+Conference on Computer Vision and Pattern Recognition (CVPR), pp. 4264-4271,
+2014 <a href="https://doi.org/10.1109/CVPR.2014.543">doi:10.1109/CVPR.2014.543</a></p>
+</blockquote>
+<p>We can visualize the ROI mask, which is &gt; 0 for each pixel of the ROI.
+Some segmenters, including the FaceMeshDetector, also return the bounding box
+of the detected face. We mark the bounding box as a red rectangle below.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=b8133907">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1263,9 +1493,340 @@ File <span class="ansi-green-intense-fg ansi-bold">~\GitHub\yarppg\src\yarppg\he
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="ch">#!%prun -D process_video.prof rppg.process_video(filename)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">roi_detector</span> <span class="o">=</span> <span class="n">yarppg</span><span class="o">.</span><span class="n">FaceMeshDetector</span><span class="p">()</span>
+
+<span class="n">frame</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">yarppg</span><span class="o">.</span><span class="n">frames_from_video</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+<span class="n">roi</span> <span class="o">=</span> <span class="n">roi_detector</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">roi</span><span class="o">.</span><span class="n">mask</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">"Greys_r"</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">)</span>
+
+<span class="k">assert</span> <span class="p">(</span>
+    <span class="n">roi</span><span class="o">.</span><span class="n">face_rect</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="p">)</span>  <span class="c1"># FaceMeshDetector also provides a bounding box.</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">roi</span><span class="o">.</span><span class="n">face_rect</span>
+<span class="n">rect</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">patches</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">(</span>
+    <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"r"</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s2">"none"</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">rect</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">"off"</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-4">#!%prun -D process_video.prof rppg.process_video(filename)</div>
+<div class="clipboard-copy-txt" id="cell-4">roi_detector = yarppg.FaceMeshDetector()
+
+frame = next(yarppg.frames_from_video(filename))
+roi = roi_detector.detect(frame)
+plt.imshow(roi.mask &gt; 0, cmap="Greys_r", aspect="auto")
+
+assert (
+    roi.face_rect is not None
+)  # FaceMeshDetector also provides a bounding box.
+x, y, w, h = roi.face_rect
+rect = matplotlib.patches.Rectangle(
+    (x, y), w, h, edgecolor="r", facecolor="none"
+)
+plt.gca().add_patch(rect)
+plt.axis("off")</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">StopIteration</span>                             Traceback (most recent call last)
+Cell <span class="ansi-green-intense-fg ansi-bold">In[4], line 3</span>
+<span class="ansi-green-fg">      1</span> roi_detector <span style="color: rgb(98,98,98)">=</span> yarppg<span style="color: rgb(98,98,98)">.</span>FaceMeshDetector()
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 3</span> frame <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">next</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">yarppg</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">frames_from_video</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">filename</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">      4</span> roi <span style="color: rgb(98,98,98)">=</span> roi_detector<span style="color: rgb(98,98,98)">.</span>detect(frame)
+<span class="ansi-green-fg">      5</span> plt<span style="color: rgb(98,98,98)">.</span>imshow(roi<span style="color: rgb(98,98,98)">.</span>mask <span style="color: rgb(98,98,98)">&gt;</span> <span style="color: rgb(98,98,98)">0</span>, cmap<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">Greys_r</span><span style="color: rgb(175,0,0)">"</span>, aspect<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">auto</span><span style="color: rgb(175,0,0)">"</span>)
+
+<span class="ansi-red-intense-fg ansi-bold">StopIteration</span>: </pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1b816f45">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="signal-extraction">Signal extraction<a class="anchor-link" href="#signal-extraction">¶</a></h2><p>The default signal extractor (<code>yarppg.Processor</code>) simply calculates the
+average green channel within the region of interest.
+This can already be enough to estimate heart rate accurately, if there is
+no movement and no lighting changes.</p>
+<p>The processor returns an <code>RppgResult</code> container, which includes some
+additional information besides the extracted value.
+For example, all processors return the mean color (R, G and B) of the ROI,
+regardless of the specific algorithm.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=b58ede07">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-5">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">processor</span> <span class="o">=</span> <span class="n">yarppg</span><span class="o">.</span><span class="n">Processor</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="n">roi</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">result</span><span class="o">.</span><span class="n">roi_mean</span><span class="o">.</span><span class="n">g</span><span class="p">)</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-5">processor = yarppg.Processor()
+result = processor.process(roi)
+print(result.value == result.roi_mean.g)</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">NameError</span>                                 Traceback (most recent call last)
+Cell <span class="ansi-green-intense-fg ansi-bold">In[5], line 2</span>
+<span class="ansi-green-fg">      1</span> processor <span style="color: rgb(98,98,98)">=</span> yarppg<span style="color: rgb(98,98,98)">.</span>Processor()
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 2</span> result <span style="color: rgb(98,98,98)">=</span> processor<span style="color: rgb(98,98,98)">.</span>process(<span class="ansi-yellow-bg">roi</span>)
+<span class="ansi-green-fg">      3</span> <span style="color: rgb(0,135,0)">print</span>(result<span style="color: rgb(98,98,98)">.</span>value <span style="color: rgb(98,98,98)">==</span> result<span style="color: rgb(98,98,98)">.</span>roi_mean<span style="color: rgb(98,98,98)">.</span>g)
+
+<span class="ansi-red-intense-fg ansi-bold">NameError</span>: name 'roi' is not defined</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0969456f">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="heart-rate-estimation">Heart rate estimation<a class="anchor-link" href="#heart-rate-estimation">¶</a></h2><p>In order to perform heart rate estimation, we need to look at the rPPG signal
+over time. The <code>yarppg.HrCalculator</code> keeps an internal buffer of recent
+signal values and periodically updates the heart rate estimate.
+The <code>PeakBasedHrCalculator</code> identifies peaks in the rPPG signal and
+calculates heart rate from the average distance of peaks within the buffer
+window.</p>
+<p>In your signal processing loop, you can call the <code>update</code> method in every
+iteration. The calculator will decide based on the <code>update_interval</code>
+attribute, whether to perform the calculation or to simply store the value
+in the buffer.
+Below, we set up the calculator to produce a new HR estimate with every 15th
+frame.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=18f8af7d">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">hrcalc</span> <span class="o">=</span> <span class="n">yarppg</span><span class="o">.</span><span class="n">PeakBasedHrCalculator</span><span class="p">(</span>
+    <span class="n">fs</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">window_seconds</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">update_interval</span><span class="o">=</span><span class="mi">15</span>
+<span class="p">)</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-6">hrcalc = yarppg.PeakBasedHrCalculator(
+    fs=30, window_seconds=5, distance=0.6, update_interval=15
+)</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=9a0312c0">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>We can see the internal buffer growing, when repeatedly calling <code>update</code>.
+Note that HR will be nan as long as the buffer is smaller than the expected
+window size.
+To clear the buffer, we call <code>hrcalc.reset()</code>.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=9605d7ab">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span>
+    <span class="n">hr</span> <span class="o">=</span> <span class="n">hrcalc</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Buffer lenght:"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">hrcalc</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> <span class="s2">"HR:"</span><span class="p">,</span> <span class="n">hr</span><span class="p">)</span>
+<span class="n">hrcalc</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Buffer lenght:"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">hrcalc</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> <span class="s2">"- state cleared."</span><span class="p">)</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-7">for res in results[:5]:
+    hr = hrcalc.update(res.value)
+    print("Buffer lenght:", len(hrcalc.values), "HR:", hr)
+hrcalc.reset()
+print("Buffer lenght:", len(hrcalc.values), "- state cleared.")</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Buffer lenght: 0 - state cleared.
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=afae325c">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="putting-everything-together">Putting everything together<a class="anchor-link" href="#putting-everything-together">¶</a></h2><p>We can combine all of the above tools to build a fully customizable
+and extendable rPPG processing loop (see the
+[<code>yarppg.ui.simplest</code>][yarppg.ui.simplest] loop for an equivalent
+implementation with a simplistic UI.)</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=3255f0c1">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-8">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Clear the previous state.</span>
+<span class="n">processor</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="n">hrcalc</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+
+<span class="n">results</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">yarppg</span><span class="o">.</span><span class="n">RppgResult</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">frame</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">yarppg</span><span class="o">.</span><span class="n">frames_from_video</span><span class="p">(</span><span class="n">filename</span><span class="p">)):</span>
+    <span class="n">roi</span> <span class="o">=</span> <span class="n">roi_detector</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="n">roi</span><span class="p">)</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">hr</span> <span class="o">=</span> <span class="n">hrcalc</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">30</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">i</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="p">(</span><span class="n">roi</span><span class="o">.</span><span class="n">mask</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">=:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">value</span><span class="si">=:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s2">" </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">hr</span><span class="si">=:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span>
+        <span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">results</span><span class="p">)[:,</span> <span class="mi">0</span><span class="p">])</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-8"># Clear the previous state.
+processor.reset()
+hrcalc.reset()
+
+results: list[yarppg.RppgResult] = []
+for i, frame in enumerate(yarppg.frames_from_video(filename)):
+    roi = roi_detector.detect(frame)
+    result = processor.process(roi)
+    result.hr = hrcalc.update(result.value)
+
+    results.append(result)
+    if i % 30 == 0:
+        print(
+            f"{i=} {(roi.mask &gt; 0).mean()=:.1%} {result.value=:.2f}"
+            f" {result.hr=:.2f}"
+        )
+
+plt.plot(np.array(results)[:, 0])</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">IndexError</span>                                Traceback (most recent call last)
+Cell <span class="ansi-green-intense-fg ansi-bold">In[8], line 18</span>
+<span class="ansi-green-fg">     12</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> i <span style="color: rgb(98,98,98)">%</span> <span style="color: rgb(98,98,98)">30</span> <span style="color: rgb(98,98,98)">==</span> <span style="color: rgb(98,98,98)">0</span>:
+<span class="ansi-green-fg">     13</span>         <span style="color: rgb(0,135,0)">print</span>(
+<span class="ansi-green-fg">     14</span>             <span style="color: rgb(175,0,0)">f</span><span style="color: rgb(175,0,0)">"</span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>i<span class="ansi-bold" style="color: rgb(175,95,135)">=}</span><span style="color: rgb(175,0,0)"> </span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>(roi<span style="color: rgb(98,98,98)">.</span>mask<span style="color: rgb(188,188,188)"> </span><span style="color: rgb(98,98,98)">&gt;</span><span style="color: rgb(188,188,188)"> </span><span style="color: rgb(98,98,98)">0</span>)<span style="color: rgb(98,98,98)">.</span>mean()<span class="ansi-bold" style="color: rgb(175,95,135)">=:</span><span style="color: rgb(175,0,0)">.1%</span><span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span style="color: rgb(175,0,0)"> </span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>result<span style="color: rgb(98,98,98)">.</span>value<span class="ansi-bold" style="color: rgb(175,95,135)">=:</span><span style="color: rgb(175,0,0)">.2f</span><span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span style="color: rgb(175,0,0)">"</span>
+<span class="ansi-green-fg">     15</span>             <span style="color: rgb(175,0,0)">f</span><span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)"> </span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>result<span style="color: rgb(98,98,98)">.</span>hr<span class="ansi-bold" style="color: rgb(175,95,135)">=:</span><span style="color: rgb(175,0,0)">.2f</span><span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span style="color: rgb(175,0,0)">"</span>
+<span class="ansi-green-fg">     16</span>         )
+<span class="ansi-green-intense-fg ansi-bold">---&gt; 18</span> plt<span style="color: rgb(98,98,98)">.</span>plot(<span class="ansi-yellow-bg">np</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">array</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">results</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg">:</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">0</span><span class="ansi-yellow-bg">]</span>)
+
+<span class="ansi-red-intense-fg ansi-bold">IndexError</span>: too many indices for array: array is 1-dimensional, but 2 were indexed</pre>
 </div>
 </div>
 </div>
