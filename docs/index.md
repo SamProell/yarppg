@@ -24,6 +24,8 @@ pip install "."
 run-yarppg
 ```
 
+![yarPPG Qt6-based simple user interface](images/yarppg-screenshot.png)
+
 ## Core functionality
 Different from earlier versions of yarPPG, the core functionality for remote PPG
 signal extraction has been completely decoupled from the user interface.
