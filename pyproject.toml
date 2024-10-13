@@ -1,0 +1,42 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools"]
+
+[project]
+authors = [{ name = "Samuel Pröll", email = "info@samproell.at" }]
+description = "Yet another implementation of remote Photoplethysmography in Python"
+dynamic = ["version"]
+dependencies = [
+    "hydra-core",
+    "mediapipe",
+    "numpy",
+    "opencv-contrib-python",
+    "scipy",
+]
+license = { file = "LICENSE" }
+name = "yarppg"
+readme = "README.md"
+
+[project.optional-dependencies]
+qt6 = ["PyQt6", "pyqtgraph"]
+dev = [
+    "mkdocs-autorefs",
+    "mkdocs-jupyter",
+    "mkdocs-material",
+    "mkdocs-section-index",
+    "mkdocs",
+    "mkdocstrings[python]",
+    "pytest",
+]
+
+[project.urls]
+repository = "https://github.com/SamProell/yarppg"
+
+[project.scripts]
+run-yarppg = "yarppg.main:run_yarppg"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.dynamic]
+version = { attr = "yarppg.__version__" }

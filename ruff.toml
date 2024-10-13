@@ -1,0 +1,47 @@
+line-length = 88
+src = ["src"]
+
+[lint]
+select = ["E", "F", "PL", "N", "D", "ARG", "I"]
+ignore = [
+    "D105",    # undocumented-magic-method,
+    "D107",    # undocumented-public-init
+    "PLR2004", # magic-value-comparison,
+]
+ignore-init-module-imports = true
+exclude = [
+    "__pypackages__",
+    "_build",
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git-rewrite",
+    ".git",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+
+[lint.per-file-ignores]
+"__init__.py" = ["F401"] # unused-import
+"tests/*.py" = ["D"]     # no docs needed in tests.
+"docs/*.py" = ["D"]
+
+[lint.pydocstyle]
+convention = "google"
+
+[lint.pylint]
+max-args = 10

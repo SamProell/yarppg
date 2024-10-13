@@ -1,0 +1,52 @@
+site_name: yarPPG
+theme:
+    name: material
+    palette:
+        scheme: default
+    features:
+      - navigation.expand
+extra_css:
+  - style.css
+nav:
+  - Getting started: index.md
+  - Deep dive: deepdive.py
+  - Video processing: video_processing.py
+  - cli.md
+  - Reference:
+    - reference/index.md
+    - reference/rppg.md
+    - ROI detection:
+      - reference/roi/index.md
+      - reference/roi/facemesh_detector.md
+      - reference/roi/selfie_detector.md
+    - Signal extraction:
+      - reference/processors/index.md
+      - reference/processors/processor.md
+      - reference/processors/chrom.md
+    - reference/hr_calculator.md
+    - User interfaces:
+      - reference/ui/index.md
+    - reference/containers.md
+    - reference/settings.md
+    - reference/helpers.md
+
+plugins:
+  - search
+  - section-index
+  - autorefs
+  - mkdocstrings:
+      default_handler: python
+  - mkdocs-jupyter:
+      ignore_h1_titles: True
+      execute: true
+
+markdown_extensions:
+  - footnotes
+  - admonition
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
