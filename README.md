@@ -10,6 +10,14 @@ color, originating from the pulsation of blood[^1].
   provided program/code is not suitable to be used in a clinical setup
   or for any decision making in general.
 
+> [!IMPORTANT]
+> **October 2024 Update** - yarPPG has seen a major overhaul. The rPPG
+> processing logic has been completely decoupled from the user interface
+> which now also allows offline processing. Not all features have yet
+> been ported to the new code base.
+>
+> Please submit an issue if you miss something from the old version!
+
 ## Installation and usage
 In order to run the yarPPG application, clone this repository and navigate
 to the downloaded folder. You can then install the folder into your Python
