@@ -1,8 +1,8 @@
-"""Chrominance-based rPPG method introduced by de Haan et al. [^1].
+"""Chrominance-based rPPG method introduced by de Haan & Jeanne (2013).
 
-[^1]: de Haan, G., & Jeanne, V. (2013). Robust Pulse Rate From
-    Chrominance-Based rPPG. IEEE Transactions on Biomedical Engineering,
-    60(10), 2878-2886. https://doi.org/10.1109/TBME.2013.2266196
+> de Haan, G., & Jeanne, V. (2013). Robust Pulse Rate From
+Chrominance-Based rPPG. IEEE Transactions on Biomedical Engineering,
+60(10), 2878-2886. <https://doi.org/10.1109/TBME.2013.2266196>
 """
 
 from typing import Literal

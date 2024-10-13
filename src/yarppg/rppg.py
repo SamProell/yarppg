@@ -36,10 +36,17 @@ from .settings import Settings
 class Rppg:
     """Orchestrator for the complete rPPG pipeline.
 
+    If unspecified the following default configuration is used:
+
+    - [`FaceMeshDetector`][yarppg.FaceMeshDetector] is used for ROI identification.
+    - The base [`Processor`][yarppg.Processor] extracts the average green value.
+    - A [`PeakBasedHrCalculator`][yarppg.PeakBasedHrCalculator] estimates HR
+
     Args:
        roi_detector: detector for identifying the region of interest (and background).
        processor: rPPG signal extraction algorithm.
        hr_calc: heart rate calculation algorithm.
+       fps: expected frames per second of the camera/video
     """
 
     def __init__(

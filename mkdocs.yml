@@ -8,12 +8,18 @@ extra_css:
 nav:
   - Getting started: index.md
   - Deep dive: deepdive.py
-  - reference/rppg.md
-  - ROI detection:
-    - reference/roi/index.md
-    - reference/roi/facemesh_detector.md
-  - reference/processors.md
-  - reference/hr_calculator.md
+  - Reference:
+    - reference/index.md
+    - reference/rppg.md
+    - ROI detection:
+      - reference/roi/index.md
+      - reference/roi/facemesh_detector.md
+      - reference/roi/selfie_detector.md
+    - Signal extraction:
+      - reference/processors/index.md
+      - reference/processors/processor.md
+    - reference/hr_calculator.md
+    - reference/containers.md
 
 plugins:
   - search

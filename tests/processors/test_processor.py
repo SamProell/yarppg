@@ -1,13 +1,14 @@
 import numpy as np
 
 import yarppg
+import yarppg.roi.roi_tools
 from yarppg.processors import processor
 
 
 def test_masked_average(sim_roi: yarppg.RegionOfInterest):
     assert sim_roi.bg_mask is not None
-    bg_avg = processor.masked_average(sim_roi.baseimg, sim_roi.bg_mask)
-    roi_avg = processor.masked_average(sim_roi.baseimg, sim_roi.mask)
+    bg_avg = yarppg.roi.roi_tools.masked_average(sim_roi.baseimg, sim_roi.bg_mask)
+    roi_avg = yarppg.roi.roi_tools.masked_average(sim_roi.baseimg, sim_roi.mask)
 
     assert np.array_equal(bg_avg, (4, 5, 6))
     assert np.array_equal(roi_avg, (56.25, 2, 3))

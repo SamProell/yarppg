@@ -5,14 +5,15 @@ Remote photo&shy;plethysmography (rPPG) refers to the camera-based measurement
 of a blood volume pulse signal. It works by detecting small changes in skin
 color, originating from the pulsation of blood[^1].
 
-!!! danger
+!!! warning
 
     This is just a hobby project. Intended for demo purposes only, the
     provided program/code is not suitable to be used in a clinical setup
     or for any decision making in general.
 
 ## Installation and usage
-In order to run the yarPPG application, clone this repository and navigate
+In order to run the yarPPG application, clone
+[the repository](https://github.com/SamProell/yarppg) and navigate
 to the downloaded folder. You can then install the folder into your Python
 environment. This will install the `run-yarppg` command.
 

@@ -1,3 +1,3 @@
-# The rPPG orchestrator
+# rPPG orchestrator
 
 ::: yarppg.rppg

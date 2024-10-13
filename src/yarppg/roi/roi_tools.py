@@ -4,6 +4,8 @@ import cv2
 import numpy as np
 from numpy.typing import ArrayLike
 
+from yarppg.containers import Color
+
 
 def pixelate(img: np.ndarray, xywh: tuple[int, int, int, int], size: int):
     """Blur a rectangular region with oversized pixels."""
@@ -62,3 +64,11 @@ def overlay_mask(
         return img
     overlay[mask] = color
     return cv2.addWeighted(overlay, alpha, img, 1 - alpha, 0)
+
+
+def masked_average(frame: np.ndarray, mask: np.ndarray) -> Color:
+    """Calculate average color of the masked region."""
+    if mask.sum() == 0:
+        return Color.null()
+    r, g, b, _ = cv2.mean(frame, mask)
+    return Color(r, g, b)

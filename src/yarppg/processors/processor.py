@@ -1,22 +1,14 @@
-"""Base processor for rPPG signal computation."""
+"""Provides base classes for rPPG signal computation."""
 
-import cv2
 import numpy as np
 
 from ..containers import Color, RegionOfInterest, RppgResult
 from ..digital_filter import DigitalFilter
-
-
-def masked_average(frame: np.ndarray, mask: np.ndarray) -> Color:
-    """Calculate average color of the masked region."""
-    if mask.sum() == 0:
-        return Color.null()
-    r, g, b, _ = cv2.mean(frame, mask)
-    return Color(r, g, b)
+from ..roi.roi_tools import masked_average
 
 
 class Processor:
-    """Default rPPG processor."""
+    """Base rPPG processor, extracting the average green channel from the ROI."""
 
     def process(self, roi: RegionOfInterest) -> RppgResult:
         """Calculate average green channel in the roi area."""
