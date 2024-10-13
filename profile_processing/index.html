@@ -1104,7 +1104,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <!-- End of mermaid configuration --><div class="jupyter-wrapper">
 <div class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
 <div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=ae71a79c">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=240efdb4">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1143,7 +1143,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=598d71bc">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=f184983f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1171,8 +1171,8 @@ import yarppg</div>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=ad227220">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=56a9f65e">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1190,7 +1190,7 @@ import yarppg</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s2">"../tests/testvideo_30fps.mp4"</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s2">"tests/testvideo_30fps.mp4"</span>
 
 <span class="n">fps</span> <span class="o">=</span> <span class="n">yarppg</span><span class="o">.</span><span class="n">helpers</span><span class="o">.</span><span class="n">get_video_fps</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 <span class="n">filter_cfg</span> <span class="o">=</span> <span class="n">yarppg</span><span class="o">.</span><span class="n">digital_filter</span><span class="o">.</span><span class="n">FilterConfig</span><span class="p">(</span><span class="n">fps</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">btype</span><span class="o">=</span><span class="s2">"bandpass"</span><span class="p">)</span>
@@ -1201,7 +1201,7 @@ import yarppg</div>
     <span class="n">hr_calc</span><span class="o">=</span><span class="n">yarppg</span><span class="o">.</span><span class="n">PeakBasedHrCalculator</span><span class="p">(</span><span class="n">fps</span><span class="p">,</span> <span class="n">window_seconds</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
 <span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-3">filename = "../tests/testvideo_30fps.mp4"
+<div class="clipboard-copy-txt" id="cell-3">filename = "tests/testvideo_30fps.mp4"
 
 fps = yarppg.helpers.get_video_fps(filename)
 filter_cfg = yarppg.digital_filter.FilterConfig(fps, 0.5, 1.5, btype="bandpass")
@@ -1215,37 +1215,9 @@ rppg = yarppg.Rppg(
 </div>
 </div>
 </div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>
-<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">FileNotFoundError</span>                         Traceback (most recent call last)
-Cell <span class="ansi-green-intense-fg ansi-bold">In[3], line 3</span>
-<span class="ansi-green-fg">      1</span> filename <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">../tests/testvideo_30fps.mp4</span><span style="color: rgb(175,0,0)">"</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 3</span> fps <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">yarppg</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">helpers</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">get_video_fps</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">filename</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">      4</span> filter_cfg <span style="color: rgb(98,98,98)">=</span> yarppg<span style="color: rgb(98,98,98)">.</span>digital_filter<span style="color: rgb(98,98,98)">.</span>FilterConfig(fps, <span style="color: rgb(98,98,98)">0.5</span>, <span style="color: rgb(98,98,98)">1.5</span>, btype<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">bandpass</span><span style="color: rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg">      5</span> livefilter <span style="color: rgb(98,98,98)">=</span> yarppg<span style="color: rgb(98,98,98)">.</span>digital_filter<span style="color: rgb(98,98,98)">.</span>make_digital_filter(filter_cfg)
-
-File <span class="ansi-green-intense-fg ansi-bold">~\GitHub\yarppg\src\yarppg\helpers.py:40</span>, in <span class="ansi-cyan-fg">get_video_fps</span><span class="ansi-blue-intense-fg ansi-bold">(filename)</span>
-<span class="ansi-green-fg">     38</span> <span style="color: rgb(175,0,0)">"""Find the frame rate of the given video file."""</span>
-<span class="ansi-green-fg">     39</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> pathlib<span style="color: rgb(98,98,98)">.</span>Path(filename)<span style="color: rgb(98,98,98)">.</span>exists():
-<span class="ansi-green-intense-fg ansi-bold">---&gt; 40</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> <span class="ansi-bold" style="color: rgb(215,95,95)">FileNotFoundError</span>(<span style="color: rgb(175,0,0)">f</span><span style="color: rgb(175,0,0)">"</span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>filename<span class="ansi-bold" style="color: rgb(175,95,135)">=!r}</span><span style="color: rgb(175,0,0)"> not found.</span><span style="color: rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg">     41</span> cap <span style="color: rgb(98,98,98)">=</span> cv2<span style="color: rgb(98,98,98)">.</span>VideoCapture(<span style="color: rgb(0,135,0)">str</span>(filename))
-<span class="ansi-green-fg">     42</span> fps <span style="color: rgb(98,98,98)">=</span> cap<span style="color: rgb(98,98,98)">.</span>get(cv2<span style="color: rgb(98,98,98)">.</span>CAP_PROP_FPS)
-
-<span class="ansi-red-intense-fg ansi-bold">FileNotFoundError</span>: filename='../tests/testvideo_30fps.mp4' not found.</pre>
-</div>
-</div>
-</div>
-</div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=0a03c1df">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=5fae8d54">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
