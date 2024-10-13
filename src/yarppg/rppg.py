@@ -24,8 +24,10 @@ print(result.hr)
 """
 
 import pathlib
+from typing import Literal, overload
 
 import numpy as np
+import pandas as pd
 import scipy.signal
 
 from . import digital_filter, helpers, hr_calculator, processors, roi
@@ -68,11 +70,27 @@ class Rppg:
 
         return result
 
-    def process_video(self, filename: str | pathlib.Path) -> list[RppgResult]:
+    @overload
+    def process_video(self, filename: ..., as_dataframe: Literal[True]) -> pd.DataFrame:
+        ...
+
+    @overload
+    def process_video(
+        self, filename: ..., as_dataframe: Literal[False] = ...
+    ) -> list[RppgResult]:
+        ...
+
+    def process_video(self, filename: str | pathlib.Path, as_dataframe=False):
         """Convenience function to process an entire video file at once."""
         results = []
         for frame in helpers.frames_from_video(filename):
-            results.append(self.process_frame(frame))
+            result = self.process_frame(frame)
+            if as_dataframe:
+                results.append(result.to_series())
+            else:
+                results.append(result)
+        if as_dataframe:
+            return pd.concat(results).T
         return results
 
     def reset(self) -> None:

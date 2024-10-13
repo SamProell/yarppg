@@ -43,7 +43,15 @@ class Color:
 
 @dataclass
 class RppgResult:
-    """Container for rPPG computation results."""
+    """Container for rPPG computation results.
+
+    Calling `np.array` on this container will return a 8-element vector containing
+    the rPPG signal value, RGB values of the ROI, RGB values of the background (or nans)
+    and the HR. `to_series` produces a clearer representation of the values with named
+    indices.
+
+    Note that both `__array__` and `to_series` ignore the `roi` attribute.
+    """
 
     value: float
     """Output value of the rPPG signal extractor."""
@@ -57,11 +65,11 @@ class RppgResult:
     """Heart rate estimate in frames per beat."""
 
     def __array__(self):
-        return np.r_[self.value, self.roi_mean, self.bg_mean]
+        return np.r_[self.value, self.roi_mean, self.bg_mean, self.hr]
 
     def to_series(self):
         """Extract the rPPG signal values into a Pandas series."""
         return pd.Series(
             np.array(self),
-            index=["value", "roi_r", "roi_g", "roi_b", "bg_r", "bg_g", "bg_b"],
+            index=["value", "roi_r", "roi_g", "roi_b", "bg_r", "bg_g", "bg_b", "hr"],
         )

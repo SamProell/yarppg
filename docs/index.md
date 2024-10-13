@@ -43,9 +43,8 @@ while running:
 
 See [this guide](./deepdive.py) if you need more fine-grained control over the individual
 calculation steps.
-
 The `Rppg` class also comes with a method to process an entire video file
-at once. See more details [here].
+at once. See more details [here](./video_processing.py).
 
 ## User interfaces
 The default user interface launched by the `run-yarppg` command is a simplistic
@@ -58,7 +57,8 @@ pip install ".[qt6]"
 run-yarppg ui=qt6_simple
 ```
 
-### More to come, you are welcome to contribute
+### More to come
+You are welcome to contribute
 
 [^1]: W Verkruysse, L O Svaasand and J S Nelson. Remote plethysmographic
     imaging using ambient light. *Optics Express*. 2008;16(26):21434–21445.

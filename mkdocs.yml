@@ -3,11 +3,14 @@ theme:
     name: material
     palette:
         scheme: default
+    features:
+      - navigation.expand
 extra_css:
   - style.css
 nav:
   - Getting started: index.md
   - Deep dive: deepdive.py
+  - Video processing: video_processing.py
   - Reference:
     - reference/index.md
     - reference/rppg.md
@@ -18,8 +21,10 @@ nav:
     - Signal extraction:
       - reference/processors/index.md
       - reference/processors/processor.md
+      - reference/processors/chrom.md
     - reference/hr_calculator.md
     - reference/containers.md
+    - reference/helpers.md
 
 plugins:
   - search
