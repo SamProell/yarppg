@@ -18,7 +18,7 @@ import yarppg
 # [`yarppg.get_video_fps`](/reference/helpers#yarppg.helpers.frames_from_video)
 # uses OpenCV to extract the FPS information from the video file.
 # %%
-filename = "../tests/testvideo_30fps.mp4"
+filename = "tests/testvideo_30fps.mp4"
 
 fps = yarppg.get_video_fps(filename)
 filter_cfg = yarppg.digital_filter.FilterConfig(fps, 0.5, 1.5, btype="bandpass")

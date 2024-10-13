@@ -29,6 +29,7 @@ class HydraSettings:
         default_factory=lambda: hydra.conf.HydraConf(
             output_subdir=None,
             run=hydra.conf.RunDir("."),
+            help=hydra.conf.HelpConf(app_name="run-yarppg"),
             overrides=hydra.conf.OverridesConf(
                 # hydra=["job_logging=null", "hydra_logging=null"]
             ),

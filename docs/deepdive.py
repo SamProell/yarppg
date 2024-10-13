@@ -10,7 +10,7 @@ import numpy as np
 
 import yarppg
 
-filename = "../tests/testvideo_30fps.mp4"
+filename = "tests/testvideo_30fps.mp4"
 fps = yarppg.helpers.get_video_fps(filename)
 # %% [markdown]
 # ## Overview

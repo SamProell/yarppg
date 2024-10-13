@@ -11,6 +11,7 @@ nav:
   - Getting started: index.md
   - Deep dive: deepdive.py
   - Video processing: video_processing.py
+  - cli.md
   - Reference:
     - reference/index.md
     - reference/rppg.md
@@ -23,7 +24,10 @@ nav:
       - reference/processors/processor.md
       - reference/processors/chrom.md
     - reference/hr_calculator.md
+    - User interfaces:
+      - reference/ui/index.md
     - reference/containers.md
+    - reference/settings.md
     - reference/helpers.md
 
 plugins:
@@ -34,7 +38,7 @@ plugins:
       default_handler: python
   - mkdocs-jupyter:
       ignore_h1_titles: True
-      execute: false
+      execute: true
 
 markdown_extensions:
   - footnotes

@@ -1,4 +1,27 @@
-"""Provides user interfaces for yarPPG."""
+"""Provides user interfaces for yarPPG.
+
+yarPPG comes with several user interfaces based on additional optional
+dependencies. Make sure to install the corresponding extras to use
+special UIs, instead of the OpenCV based `simplest` UI.
+
+## Available UIs
+### Simplest
+This is a simple infinite loop, grabbing new frames from the camera and
+visualizing the results in an OpenCV window.
+
+No additional depencies are required for the default interface.
+
+
+### Simple Qt6 window
+A small GUI window highlighting the detected ROI and a trace of the extracted
+rPPG signal. Make sure to install extras with:
+```bash
+pip install ".[qt6]"
+```
+
+### More to come
+Feel free to contribute other user interfaces using any framework.
+"""
 
 import yarppg
 

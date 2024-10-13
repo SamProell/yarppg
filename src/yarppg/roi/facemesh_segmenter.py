@@ -1,4 +1,17 @@
-"""Detect the lower face with MediaPipe's FaceMesh detector."""
+"""Detect the lower face with MediaPipe's FaceMesh detector.
+
+This detector is based on the [face landmarker task from
+MediaPipe](https://ai.google.dev/edge/mediapipe/solutions/vision/face_landmarker/python).
+The face landmarker provides locations of more than 450 facial landmarks.
+From these, we can define a region for the lower face, as is done for example
+by Li et al. (2014)[^1].
+
+[^1]: X. Li, J. Chen, G. Zhao, and M. Pietikainen, “Remote Heart Rate
+    Measurement From Face Videos Under Realistic Situations”, Proceedings of
+    the IEEE Conference on Computer Vision and Pattern Recognition (CVPR),
+    pp. 4264-4271, 2014
+    [doi:10.1109/CVPR.2014.543](https://doi.org/10.1109/CVPR.2014.543)
+"""
 
 import time
 import warnings
@@ -48,11 +61,7 @@ def get_boundingbox_from_coords(coords: np.ndarray) -> np.ndarray:
 
 
 class FaceMeshDetector(RoiDetector):
-    """Face detector using MediaPipe's face landmarker.
-
-    This detector is based on the face landmarker task from MediaPipe.
-    <https://ai.google.dev/edge/mediapipe/solutions/vision/face_landmarker/python>
-    """
+    """Face detector using MediaPipe's face landmarker."""
 
     _lower_face = [200, 431, 411, 340, 349, 120, 111, 187, 211]
 
