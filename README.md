@@ -1,4 +1,4 @@
-# Welcome to the yarPPG documentation
+# yarPPG
 *yarPPG* is **y**et **a**nother implementation of **r**emote
 **P**hoto**P**lethysmo**G**raphy.
 Remote photo&shy;plethysmography (rPPG) refers to the camera-based measurement
@@ -17,6 +17,9 @@ color, originating from the pulsation of blood[^1].
 > been ported to the new code base.
 >
 > Please submit an issue if you miss something from the old version!
+
+## Documentation
+The documentation pages are here: <https://samproell.github.io/yarppg/>
 
 ## Installation and usage
 In order to run the yarPPG application, clone this repository and navigate
