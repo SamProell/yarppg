@@ -52,11 +52,11 @@ while running:
     print(f"Current rPPG signal value: {result.value} (HR: {result.hr})")
 ```
 
-See [this guide] if you need more fine-grained control over the individual
-calculation steps.
+See [this guide](https://samproell.github.io/yarppg/deepdive/) if you need more
+fine-grained control over the individual calculation steps.
 
 The `Rppg` class also comes with a method to process an entire video file
-at once. See more details [here].
+at once. See more details [here](https://samproell.github.io/yarppg/video_processing/).
 
 ## User interfaces
 The default user interface launched by the `run-yarppg` command is a simplistic
