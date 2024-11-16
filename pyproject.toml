@@ -11,6 +11,7 @@ dependencies = [
     "mediapipe",
     "numpy",
     "opencv-contrib-python",
+    "pandas",
     "scipy",
 ]
 license = { file = "LICENSE" }
