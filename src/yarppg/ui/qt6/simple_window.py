@@ -26,6 +26,8 @@ class SimpleQt6WindowSettings(yarppg.UiSettings):
 class SimpleQt6Window(QtWidgets.QMainWindow):
     """A simple window displaying the webcam feed and processed signals."""
 
+    new_image = QtCore.pyqtSignal(np.ndarray)
+
     def __init__(
         self,
         parent: QtWidgets.QWidget | None = None,
@@ -45,7 +47,9 @@ class SimpleQt6Window(QtWidgets.QMainWindow):
         self.setWindowTitle("yet another rPPG")
         self._init_ui()
         self.fps = 30.0  # initial guess for FPS, will be adjusted based on actual time
+        self.dts = deque(maxlen=30)
         self.last_update = time.perf_counter()
+        self.new_image.connect(self.update_image)
 
     def _init_ui(self) -> None:
         child = QtWidgets.QWidget()
@@ -53,9 +57,11 @@ class SimpleQt6Window(QtWidgets.QMainWindow):
         child.setLayout(layout)
         self.setCentralWidget(child)
 
-        self.img_item = utils.plain_image_item(np.random.randn(10, 20))
-        self.img_item.setMinimumSize(640, 480)
-        layout.addWidget(self.img_item, 0, 0)
+        graph = pyqtgraph.GraphicsLayoutWidget()
+        layout.addWidget(graph, 0, 0)
+        self.img_item = pyqtgraph.ImageItem(axisOrder="row-major")
+        vb = graph.addViewBox(col=0, row=0, invertX=True, invertY=True, lockAspect=True)  # type: ignore
+        vb.addItem(self.img_item)
 
         grid = self._make_plots()
         layout.addWidget(grid, 0, 1)
@@ -132,14 +138,15 @@ class SimpleQt6Window(QtWidgets.QMainWindow):
     def _update_fps(self):
         now = time.perf_counter()
         dt = now - self.last_update
-        self.fps = self.fps * 0.9 + 0.1 / dt
+        self.dts.append(dt)
+        self.fps = 1 / np.mean(self.dts)
         self.fps_label.setText(f"FPS: {self.fps:.1f}")
         self.last_update = now
 
     def on_result(self, result: yarppg.RppgResult, frame: np.ndarray) -> None:
         """Update user interface with the new rPPG results."""
         self._update_fps()
-        self.update_image(self._handle_roi(frame, result.roi))
+        self.new_image.emit(self._handle_roi(frame, result.roi))
         self._handle_signals(result)
         self._handle_hrvalue(result.hr)
 
