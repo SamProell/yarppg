@@ -102,7 +102,7 @@ class SimpleQt6Window(QtWidgets.QMainWindow):
 
     def update_image(self, frame: np.ndarray) -> None:
         """Update image plot item with new frame."""
-        self.img_item.setImage(frame[:, ::-1])
+        self.img_item.setImage(frame)
 
     def _handle_roi(
         self, frame: np.ndarray, roi: yarppg.RegionOfInterest
