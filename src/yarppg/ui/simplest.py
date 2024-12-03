@@ -27,6 +27,7 @@ def launch_loop(rppg: yarppg.Rppg, config: SimplestOpenCvWindowSettings) -> int:
         print(f"Could not open {config.video=!r}")
         return -1
 
+    tracker = yarppg.FpsTracker()
     while True:
         ret, frame = cam.read()
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -37,7 +38,9 @@ def launch_loop(rppg: yarppg.Rppg, config: SimplestOpenCvWindowSettings) -> int:
             frame, result.roi.mask != 0, alpha=config.roi_alpha
         )
         img = cv2.flip(img, 1)
-        text = f"{result.hr:.1f} (frames per beat)"
+        tracker.tick()
+        result.hr = 60 * tracker.fps / result.hr
+        text = f"{result.hr:.1f} (bpm)"
         pos = (10, img.shape[0] - 10)
         cv2.putText(img, text, pos, cv2.FONT_HERSHEY_COMPLEX, 0.8, color=FONT_COLOR)
         cv2.imshow("yarPPG", cv2.cvtColor(img, cv2.COLOR_RGB2BGR))

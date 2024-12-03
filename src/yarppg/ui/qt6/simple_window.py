@@ -1,7 +1,6 @@
 """Provides a PyQt window for displaying rPPG processing in real-time."""
 
 import dataclasses
-import time
 from collections import deque
 
 import numpy as np
@@ -46,9 +45,7 @@ class SimpleQt6Window(QtWidgets.QMainWindow):
         self.history = deque(maxlen=150)
         self.setWindowTitle("yet another rPPG")
         self._init_ui()
-        self.fps = 30.0  # initial guess for FPS, will be adjusted based on actual time
-        self.dts = deque(maxlen=30)
-        self.last_update = time.perf_counter()
+        self.tracker = yarppg.FpsTracker()
         self.new_image.connect(self.update_image)
 
     def _init_ui(self) -> None:
@@ -105,7 +102,7 @@ class SimpleQt6Window(QtWidgets.QMainWindow):
 
     def update_image(self, frame: np.ndarray) -> None:
         """Update image plot item with new frame."""
-        self.img_item.setImage(frame[:, ::-1])
+        self.img_item.setImage(frame)
 
     def _handle_roi(
         self, frame: np.ndarray, roi: yarppg.RegionOfInterest
@@ -132,16 +129,12 @@ class SimpleQt6Window(QtWidgets.QMainWindow):
     def _handle_hrvalue(self, value: float) -> None:
         """Update user interface with the new HR value."""
         if np.isfinite(value):
-            hr_bpm = self.fps * 60 / value
+            hr_bpm = self.tracker.fps * 60 / value
             self.hr_label.setText(f"HR: {hr_bpm:.1f}")
 
     def _update_fps(self):
-        now = time.perf_counter()
-        dt = now - self.last_update
-        self.dts.append(dt)
-        self.fps = 1 / np.mean(self.dts)
-        self.fps_label.setText(f"FPS: {self.fps:.1f}")
-        self.last_update = now
+        self.tracker.tick()
+        self.fps_label.setText(f"FPS: {self.tracker.fps:.1f}")
 
     def on_result(self, result: yarppg.RppgResult, frame: np.ndarray) -> None:
         """Update user interface with the new rPPG results."""
